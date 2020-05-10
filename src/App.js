@@ -1,13 +1,9 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import Auth from './Components/Auth/Auth';
 import styles from './App.module.scss';
 
 function App() {
-  return (
-    <Container>
-      <div className={styles.Main}></div>
-    </Container>
-  );
+  return <Auth />;
 }
 
 export default App;
