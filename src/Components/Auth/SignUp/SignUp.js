@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { logIn } from '../../../Store/Actions/actions';
 import validate from '../../../Validation/Validation';
+import Backend from '../../../Backend/Backend';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import './SignUp.scss';
 
 export default function SignUp(props) {
+  const dispatch = useDispatch();
   const [inputs, setInputs] = useState({
     username: {
       label: 'Username',
@@ -66,7 +70,24 @@ export default function SignUp(props) {
       }
       if (!inputs[name].valid) isEntireFormValid = false;
     }
-    console.log(isEntireFormValid);
+    if (isEntireFormValid) {
+      const sendObj = {
+        username: inputs.username.value,
+        password: inputs.password.value,
+        email: inputs.email.value,
+      };
+      Backend.postSignUp({ ...sendObj })
+        .then((res) => {
+          const username = res.data.username;
+          const authToken = res.headers['auth-token'];
+          dispatch(logIn(username, authToken));
+          localStorage.setItem('token', authToken);
+          localStorage.setItem('username', username);
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    }
   };
 
   const inputChangeHandler = (e) => {
@@ -85,7 +106,6 @@ export default function SignUp(props) {
     });
   };
 
-  console.log(inputs.username.emptyMessage);
   return (
     <Container>
       <Form onSubmit={submitHandler}>

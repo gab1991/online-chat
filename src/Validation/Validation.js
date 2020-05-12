@@ -2,6 +2,7 @@ const regexList = {
   username: /^[a-zA-Z0-9]+$/,
   password: /^(?=.*\d).{4,15}$/,
   email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  username_email: /^[a-zA-Z0-9]+$/,
 };
 
 function validate(name, value) {
