@@ -1,0 +1,23 @@
+@import '../../../Configs/Variables.scss';
+
+$component-background-clr: theme-color('background');
+
+.SignUp {
+  min-height: 100vh;
+  background-color: $component-background-clr;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+form {
+  margin: 0 1.5rem;
+  width: 100%;
+  h1 {
+    text-align: center;
+  }
+}
+
+.ButtonContainer {
+  display: flex;
+  justify-content: center;
+}

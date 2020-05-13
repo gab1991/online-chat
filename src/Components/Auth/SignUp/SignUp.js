@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../../Store/Actions/actions';
+import Input from '../../UI/Inputs/Input/Input';
+import Button from '../../UI/Buttons/Button/Button';
 import validate from '../../../Validation/Validation';
 import Backend from '../../../Backend/Backend';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import './SignUp.scss';
+import styles from './SignUp.module.scss';
 
 export default function SignUp(props) {
   const dispatch = useDispatch();
@@ -107,35 +108,35 @@ export default function SignUp(props) {
   };
 
   return (
-    <Container>
-      <Form onSubmit={submitHandler}>
-        <h1 className="text-center">SignUp</h1>
+    <div className={`${styles.SignUp}`}>
+      <form onSubmit={submitHandler}>
+        <h1>SignUp</h1>
         {Object.keys(inputs).map((name) => {
           const input = inputs[name];
           return (
-            <Form.Group key={input.label}>
-              <Form.Label>{input.label}</Form.Label>
-              <Form.Control
-                type={input.type}
-                placeholder={input.placeholder}
-                data-name={name}
-                onChange={inputChangeHandler}
-                isInvalid={
-                  (!input.valid && input.value.length !== 0) ||
-                  input.emptyMessage
-                }></Form.Control>
-              <Form.Control.Feedback type="invalid">
-                {input.emptyMessage || input.invalidMessage}
-              </Form.Control.Feedback>
-            </Form.Group>
+            <Input
+              key={name}
+              name={name}
+              label={input.label}
+              type={input.type}
+              placeholder={input.placeholder}
+              value={input.value}
+              onChange={inputChangeHandler}
+              inValid={!input.valid && input.value.length > 0}
+              inValidMessage={input.invalidMessage}
+            />
           );
         })}
-        <Form.Group className="text-center">
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form.Group>
-      </Form>
-    </Container>
+        <div className={styles.ButtonContainer}>
+          <Button txtContent={'Submit'} />
+        </div>
+      </form>
+    </div>
   );
 }
+// label: 'Username',
+// type: 'text',
+// placeholder: 'Enter Your Username',
+// value: '',
+// valid: false,
+// invalidMessage: 'Only numbers and letters allowed',

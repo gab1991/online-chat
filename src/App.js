@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, connect } from 'react-redux';
 import { logIn } from './Store/Actions/actions';
 import Auth from './Components/Auth/Auth';
+import Chats from './Components/Chats/Chats';
+import UserSettings from './Components/UserSettings/UserSettings';
 import styles from './App.module.scss';
 
 function App(props) {
@@ -17,10 +19,10 @@ function App(props) {
   }, []);
 
   return (
-    <>
-      {isLogged && <div>is logged</div>}
-      {!isLogged && <Auth />}
-    </>
+    <div className={styles.App}>
+      {/* {isLogged && <UserSettings />} */}
+      {isLogged && <Auth />}
+    </div>
   );
 }
 

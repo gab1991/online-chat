@@ -1,1 +1,11 @@
-@import '~bootstrap/scss/bootstrap';
+@import './Configs/Variables.scss';
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  font-family: $ff-main;
+}

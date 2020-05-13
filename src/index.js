@@ -5,7 +5,6 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from './Store/Reducers/ReducerCombined';
 import App from './App';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 const reduxDevTools =
   process.env.NODE_ENV === 'development'
