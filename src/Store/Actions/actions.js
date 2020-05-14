@@ -14,4 +14,13 @@ const logOut = () => {
   };
 };
 
-export { logIn, logOut };
+const updateProfile = (obj) => {
+  return {
+    type: 'UPDATE_PROFILE',
+    payload: {
+      ...obj,
+    },
+  };
+};
+
+export { logIn, logOut, updateProfile };

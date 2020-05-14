@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux';
 import loginReducer from './loginReducer';
+import profileReducer from './profileReducer';
 
 const appReducer = combineReducers({
   logged: loginReducer,
-  // profile: profileReducer,
+  profile: profileReducer,
   // showAuth: showHideAuth,
   // showErr: showHideErr,
   // showInfo: showHideInfo,

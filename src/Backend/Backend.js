@@ -1,4 +1,5 @@
 import axios_base from 'axios';
+
 const axios = axios_base.create({
   baseURL: 'http://localhost:8000',
   timeout: 4000,
@@ -40,19 +41,26 @@ const Backend = {
         .catch((err) => reject(err));
     });
   },
-};
+  uploadAvatar: (formData) => {
+    const token = formData.get('token');
 
-// return new Promise((resolve, reject) => {
-//   fetch(url, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(obj),
-//   })
-//     .then(handleErrors)
-//     .then((data) => resolve(data))
-//     .catch((err) => reject(err));
-// });
+    return new Promise((resolve, reject) => {
+      axios({
+        url: `/api/img_upload/avatar`,
+        headers: {
+          'content-type': 'multipart/form-data',
+          authorization: `Bearer ${token}`,
+        },
+        method: 'POST',
+        data: formData,
+      })
+        .then((res) => {
+          console.log(res);
+          resolve(res);
+        })
+        .catch((err) => reject(err));
+    });
+  },
+};
 
 export default Backend;

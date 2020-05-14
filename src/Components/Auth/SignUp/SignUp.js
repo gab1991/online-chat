@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../../Store/Actions/actions';
+import FadingLinesSpinner from '../../UI/SvgSpinners/FadingLInesSpinner/FadingLines';
 import Input from '../../UI/Inputs/Input/Input';
 import Button from '../../UI/Buttons/Button/Button';
 import validate from '../../../Validation/Validation';
@@ -44,6 +45,7 @@ export default function SignUp(props) {
       invalidMessage: 'Passwords must match',
     },
   });
+  const [sending, setSending] = useState(true);
 
   const checkValidity = (name, value) => {
     if (value.length === 0) return false;
@@ -65,7 +67,7 @@ export default function SignUp(props) {
       if (inputs[name].value.length === 0) {
         setInputs((prevState) => {
           const updState = { ...prevState };
-          updState[name].emptyMessage = 'Please fill this field';
+          updState[name].errMessage = 'Please fill this field';
           return updState;
         });
       }
@@ -77,8 +79,11 @@ export default function SignUp(props) {
         password: inputs.password.value,
         email: inputs.email.value,
       };
+      setSending(true);
       Backend.postSignUp({ ...sendObj })
         .then((res) => {
+          setSending(false);
+
           const username = res.data.username;
           const authToken = res.headers['auth-token'];
           dispatch(logIn(username, authToken));
@@ -86,7 +91,18 @@ export default function SignUp(props) {
           localStorage.setItem('username', username);
         })
         .catch((err) => {
-          console.log(err.response);
+          setSending(false);
+
+          const errMessage = err.response.data.err_message;
+          const errInput = err.response.data.field;
+          if (errInput && errMessage) {
+            setInputs((prevState) => {
+              const updState = { ...prevState };
+              updState[errInput].errMessage = errMessage;
+              updState[errInput].valid = false;
+              return updState;
+            });
+          }
         });
     }
   };
@@ -99,7 +115,8 @@ export default function SignUp(props) {
     setInputs((prevState) => {
       const updState = { ...prevState };
       updState[inputName].value = currentValue;
-      updState[inputName].emptyMessage = null;
+      updState[inputName].errMessage = null;
+      updState[inputName].errMessage = null;
       isValid
         ? (updState[inputName].valid = true)
         : (updState[inputName].valid = false);
@@ -122,21 +139,25 @@ export default function SignUp(props) {
               placeholder={input.placeholder}
               value={input.value}
               onChange={inputChangeHandler}
-              inValid={!input.valid && input.value.length > 0}
-              inValidMessage={input.invalidMessage}
+              inValid={
+                input.errMessage || (!input.valid && input.value.length > 0)
+              }
+              inValidMessage={input.errMessage || input.invalidMessage}
             />
           );
         })}
         <div className={styles.ButtonContainer}>
-          <Button txtContent={'Submit'} />
+          {sending ? (
+            <div className={styles.SpinnerContainer}>
+              <FadingLinesSpinner
+                style={{ position: 'absolute', top: '0', left: '0' }}
+              />
+            </div>
+          ) : (
+            <Button txtContent={'Submit'} />
+          )}
         </div>
       </form>
     </div>
   );
 }
-// label: 'Username',
-// type: 'text',
-// placeholder: 'Enter Your Username',
-// value: '',
-// valid: false,
-// invalidMessage: 'Only numbers and letters allowed',

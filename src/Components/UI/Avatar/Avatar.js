@@ -11,14 +11,15 @@ function randColor() {
 }
 
 export default function Avatar(props) {
-  const { text, size = 50 } = props;
+  const { text, size = 50, imgSrc } = props;
   const name = text.slice(0, 2);
 
   return (
     <div
       className={`${styles.Avatar}`}
       style={{ backgroundColor: `${randColor()}`, width: size, height: size }}>
-      <span className={styles.Username}>{name}</span>
+      {imgSrc && <img src={imgSrc}></img>}
+      {!imgSrc && <span className={styles.Username}>{name}</span>}
     </div>
   );
 }

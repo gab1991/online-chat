@@ -20,8 +20,8 @@ function App(props) {
 
   return (
     <div className={styles.App}>
-      {/* {isLogged && <UserSettings />} */}
-      {isLogged && <Auth />}
+      {isLogged && <UserSettings />}
+      {/* {isLogged && <Auth />} */}
     </div>
   );
 }

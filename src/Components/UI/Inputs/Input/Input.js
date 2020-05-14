@@ -15,6 +15,7 @@ export default function Input(props) {
     inValidMessage,
     autoComplete = 'on',
   } = props;
+  console.log(inValidMessage);
 
   return (
     <div className={styles.InputContainer}>
@@ -43,7 +44,7 @@ Input.propTypes = {
   disabled: PropTypes.bool,
   name: PropTypes.string,
   onChange: PropTypes.func,
-  inValid: PropTypes.bool,
+  inValid: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   inValidMessage: PropTypes.string,
   autoComplete: PropTypes.string,
 };

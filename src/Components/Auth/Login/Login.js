@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { logIn } from '../../../Store/Actions/actions';
 import { useDispatch } from 'react-redux';
 import Backend from '../../../Backend/Backend';
+import Input from '../../UI/Inputs/Input/Input';
+import Button from '../../UI/Buttons/Button/Button';
 import validate from '../../../Validation/Validation';
-
-import './Login.scss';
+import FadingLinesSpinner from '../../UI/SvgSpinners/FadingLInesSpinner/FadingLines';
+import styles from '../Login/Login.module.scss';
 
 export default function Login(props) {
   const dispatch = useDispatch();
@@ -21,13 +22,15 @@ export default function Login(props) {
     password: {
       label: 'Password',
       type: 'password',
-      placeholder: 'Enter email password',
+      placeholder: 'Enter email',
       value: '',
       valid: false,
       invalidMessage:
         'Password must contain 4 to 15 chars including at least one number',
     },
   });
+  const [sending, setSending] = useState(false);
+
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -36,7 +39,7 @@ export default function Login(props) {
       if (inputs[name].value.length === 0) {
         setInputs((prevState) => {
           const updState = { ...prevState };
-          updState[name].wrongMessage = 'Please fill this field';
+          updState[name].errMessage = 'Please fill this field';
           return updState;
         });
       }
@@ -48,8 +51,12 @@ export default function Login(props) {
         username_email: inputs.username_email.value,
         password: inputs.password.value,
       };
+
+      setSending(true);
       Backend.postLogin({ ...sendObj })
         .then((res) => {
+          setSending(false);
+
           const username = res.data.username;
           const authToken = res.headers['auth-token'];
           dispatch(logIn(username, authToken));
@@ -57,20 +64,22 @@ export default function Login(props) {
           localStorage.setItem('username', username);
         })
         .catch((err) => {
-          let wrongInput = err.response.data.field;
-          let errMessage;
-          if (wrongInput === 'username_email') errMessage = 'No such user';
-          if (wrongInput === 'password') errMessage = 'Wrong password';
+          setSending(false);
 
-          setInputs((prevState) => {
-            const updinputs = { ...prevState };
-            updinputs[wrongInput].wrongMessage = errMessage;
-            return updinputs;
-          });
+          const errMessage = err.response.data.err_message;
+          const errInput = err.response.data.field;
+
+          if (errInput && errMessage) {
+            setInputs((prevState) => {
+              const updState = { ...prevState };
+              updState[errInput].errMessage = errMessage;
+              updState[errInput].valid = false;
+              return updState;
+            });
+          }
         });
     }
   };
-
   const checkValidity = (name, value) => {
     if (value.length === 0) return false;
     return validate(name, value);
@@ -84,7 +93,7 @@ export default function Login(props) {
     setInputs((prevState) => {
       const updState = { ...prevState };
       updState[inputName].value = currentValue;
-      updState[inputName].wrongMessage = null;
+      updState[inputName].errMessage = null;
       isValid
         ? (updState[inputName].valid = true)
         : (updState[inputName].valid = false);
@@ -93,35 +102,39 @@ export default function Login(props) {
   };
 
   return (
-    <Container>
-      <Form onSubmit={submitHandler}>
-        <h1 className="text-center">Login</h1>
+    <div className={`${styles.Login}`}>
+      <form onSubmit={submitHandler}>
+        <h1>Login</h1>
         {Object.keys(inputs).map((name) => {
           const input = inputs[name];
           return (
-            <Form.Group key={input.label}>
-              <Form.Label>{input.label}</Form.Label>
-              <Form.Control
-                type={input.type}
-                placeholder={input.placeholder}
-                data-name={name}
-                onChange={inputChangeHandler}
-                isInvalid={
-                  (!input.valid && input.value.length !== 0) ||
-                  input.wrongMessage
-                }></Form.Control>
-              <Form.Control.Feedback type="invalid">
-                {input.wrongMessage || input.invalidMessage}
-              </Form.Control.Feedback>
-            </Form.Group>
+            <Input
+              key={name}
+              name={name}
+              label={input.label}
+              type={input.type}
+              placeholder={input.placeholder}
+              value={input.value}
+              onChange={inputChangeHandler}
+              inValid={
+                input.errMessage || (!input.valid && input.value.length > 0)
+              }
+              inValidMessage={input.errMessage || input.invalidMessage}
+            />
           );
         })}
-        <Form.Group controlId="submit-btn" className="text-center">
-          <Button variant="primary" type="submit">
-            Go
-          </Button>
-        </Form.Group>
-      </Form>
-    </Container>
+        <div className={styles.ButtonContainer}>
+          {sending ? (
+            <div className={styles.SpinnerContainer}>
+              <FadingLinesSpinner
+                style={{ position: 'absolute', top: '0', left: '0' }}
+              />
+            </div>
+          ) : (
+            <Button txtContent={'Submit'} />
+          )}
+        </div>
+      </form>
+    </div>
   );
 }
