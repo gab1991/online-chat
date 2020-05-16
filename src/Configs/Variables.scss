@@ -1,18 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
 
-$ff-main: 'Oswald', sans-serif;
+$ff-main: 'Open Sans', sans-serif;
+$font-color-main : whitesmoke;
 $theme-colors: (
-  'primary': (
-    'basic': #845ec2,
+  'alpha': (
+    'basic': #222831,
   ),
-  'accent': (
-    'basic': #00c9a7,
+  'beta': (
+    'basic': #404352,
   ),
-  'foreground': (
-    'basic': #c493ff,
+  'gamma': (
+    'basic': #645f74,
   ),
-  'background': (
-    'basic': #fefedf,
+  'delta': (
+    'basic': #8d7c95,
+  ),
+  'epsilon': (
+    'basic': #ba9ab4,
+  ),
+  'zeta': (
+    'basic': #e9b9d1,
   ),
 );
 

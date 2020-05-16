@@ -1,0 +1,32 @@
+@import '../../Configs/Variables.scss';
+$chat-background: whitesmoke;
+
+.Chat {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: $chat-background;
+}
+
+.Avatar {
+  margin-left: 11px;
+}
+
+.MessagePreview {
+  flex: 1;
+  margin-left: 20px;
+  width: 0px;
+
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.TimeSection {
+  margin-right: 22px;
+  width: 61px;
+  text-align: center;
+  font-size: 0.875rem;
+}

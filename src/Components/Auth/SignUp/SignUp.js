@@ -45,7 +45,7 @@ export default function SignUp(props) {
       invalidMessage: 'Passwords must match',
     },
   });
-  const [sending, setSending] = useState(true);
+  const [sending, setSending] = useState(false);
 
   const checkValidity = (name, value) => {
     if (value.length === 0) return false;

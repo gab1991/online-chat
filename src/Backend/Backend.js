@@ -61,6 +61,22 @@ const Backend = {
         .catch((err) => reject(err));
     });
   },
+  getProfile: (token) => {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: `/api/profiles`,
+        method: 'GET',
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => {
+          console.log(res);
+          resolve(res);
+        })
+        .catch((err) => reject(err));
+    });
+  },
 };
 
 export default Backend;

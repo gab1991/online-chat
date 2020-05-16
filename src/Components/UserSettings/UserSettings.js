@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Avatar from '../UI/Avatar/Avatar';
 import styles from './UserSettings.module.scss';
-import FileUploadForm from '../UI/Forms/FileUploadForm/FileUploadForm';
+import AvatarUploadForm from '../UI/Forms/AvatarUploadForm/AvatarUploadForm';
 
 function UserSettings(props) {
   const { avatarPath } = props.profile;
@@ -11,7 +11,7 @@ function UserSettings(props) {
   return (
     <div>
       <Avatar text={'bam'} size={150} imgSrc={avatarPath} />
-      <FileUploadForm />
+      <AvatarUploadForm />
     </div>
   );
 }
