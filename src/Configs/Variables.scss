@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
 
 $ff-main: 'Open Sans', sans-serif;
-$font-color-main : whitesmoke;
+$font-color-main: whitesmoke;
 $theme-colors: (
   'alpha': (
     'basic': #222831,
@@ -50,5 +50,13 @@ $breakpoints: (
     tablet: map-get($breakpoints, 'tablet');
     mobile: map-get($breakpoints, 'mobile');
     desktop: map-get($breakpoints, 'desktop');
+  }
+  palette : {
+    alpha: theme-color('alpha');
+    beta: theme-color('beta');
+    gamma: theme-color('gamma');
+    delta: theme-color('delta');
+    epsilon: theme-color('epsilon');
+    zeta: theme-color('zeta');
   }
 }

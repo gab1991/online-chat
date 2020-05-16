@@ -36,10 +36,12 @@ $svg-rect-side: 2rem;
   align-items: center;
 
   .HamburgerSvg {
+    cursor: pointer;
     height: $svg-rect-side;
     width: $svg-rect-side;
   }
   .LookUpSvg {
+    cursor: pointer;
     margin-left: auto;
     height: $svg-rect-side;
     width: $svg-rect-side;
