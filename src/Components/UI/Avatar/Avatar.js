@@ -52,7 +52,7 @@ const palette = [
 export default function Avatar(props) {
   const { text, size = 50, imgSrc, className } = props;
   const name = text.slice(0, 2);
-  const randColor = randomizePalette(palette, 8);
+  const randColor = randomizePalette(palette, 10);
 
   return (
     <div

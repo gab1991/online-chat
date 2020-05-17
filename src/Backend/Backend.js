@@ -1,4 +1,5 @@
 import axios_base from 'axios';
+import { getToken } from '../Store/store';
 
 const axios = axios_base.create({
   baseURL: 'http://localhost:8000',
@@ -71,7 +72,21 @@ const Backend = {
         },
       })
         .then((res) => {
-          console.log(res);
+          resolve(res);
+        })
+        .catch((err) => reject(err));
+    });
+  },
+  findProfiles: (searchStr) => {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: `/api/profiles/findProfiles/${searchStr}`,
+        method: 'GET',
+        headers: {
+          authorization: `Bearer ${getToken()}`,
+        },
+      })
+        .then((res) => {
           resolve(res);
         })
         .catch((err) => reject(err));

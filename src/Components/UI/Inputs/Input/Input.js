@@ -8,6 +8,7 @@ export default function Input(props) {
     label,
     value,
     placeholder,
+    className,
     disabled,
     name,
     onChange,
@@ -15,7 +16,6 @@ export default function Input(props) {
     inValidMessage,
     autoComplete = 'on',
   } = props;
-  console.log(inValidMessage);
 
   return (
     <div className={styles.InputContainer}>
@@ -26,7 +26,7 @@ export default function Input(props) {
         placeholder={placeholder}
         className={`${styles.Input} 
         ${inValid && styles.Invalid}
-        `}
+        ${className}`}
         onChange={onChange}
         data-name={name}
         autoComplete={autoComplete}
@@ -47,4 +47,5 @@ Input.propTypes = {
   inValid: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   inValidMessage: PropTypes.string,
   autoComplete: PropTypes.string,
+  className: PropTypes.string,
 };
