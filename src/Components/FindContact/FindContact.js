@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Contact from '../Contact/Contact';
 import { debounce } from '../../Utils/Utils';
 import Backend from '../../Backend/Backend';
@@ -11,10 +12,12 @@ export default function FindContact(props) {
   const [contacts, setContacts] = useState([]);
 
   const findProfiles = (searchStr) => {
-    Backend.findProfiles(searchStr).then((res) => {
-      const profiles = res.data;
-      setContacts(profiles);
-    });
+    Backend.findProfiles(searchStr)
+      .then((res) => {
+        const profiles = res.data;
+        setContacts(profiles);
+      })
+      .catch((err) => setContacts([]));
   };
 
   const delayedSearch = useCallback(debounce(findProfiles, 400));
@@ -37,11 +40,16 @@ export default function FindContact(props) {
           <LookUpIcon className={styles.LookUpSvg} />
         </div>
       </div>
-      <div className={styles.ChatsContainer}>
+      <TransitionGroup className={styles.ChatsContainer} component={'div'}>
         {contacts.map((contact) => (
-          <Contact {...contact} key={contact.username} />
+          <CSSTransition
+            key={contact.username}
+            timeout={1000}
+            classNames={'list-transition'}>
+            <Contact {...contact} />
+          </CSSTransition>
         ))}
-      </div>
+      </TransitionGroup>
     </div>
   );
 }

@@ -80,7 +80,7 @@ const Backend = {
   findProfiles: (searchStr) => {
     return new Promise((resolve, reject) => {
       axios({
-        url: `/api/profiles/findProfiles/${searchStr}`,
+        url: `/api/profiles/findProfiles?search=${searchStr}`,
         method: 'GET',
         headers: {
           authorization: `Bearer ${getToken()}`,
