@@ -5,7 +5,7 @@ import Backend from '../../../Backend/Backend';
 import Input from '../../UI/Inputs/Input/Input';
 import Button from '../../UI/Buttons/Button/Button';
 import validate from '../../../Validation/Validation';
-import FadingLinesSpinner from '../../UI/SvgSpinners/FadingLInesSpinner/FadingLines';
+import FadingLinesSpinner from '../../UI/SvgSpinners/FadingLines';
 import styles from '../Login/Login.module.scss';
 
 export default function Login(props) {

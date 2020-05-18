@@ -11,7 +11,6 @@ const store = createStore(rootReducer, reduxDevTools);
 
 const getToken = () => {
   const state = store.getState();
-  console.log(state.logged.token);
   return state.logged.token;
 };
 

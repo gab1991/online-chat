@@ -6,12 +6,14 @@ import styles from './Contact.module.scss';
 export default function Contact(props) {
   const {
     username,
+    id,
     displayed_name: displayedName,
     avatar_path: avatarPath,
+    onClick,
   } = props;
 
   return (
-    <div className={styles.Contact}>
+    <div className={styles.Contact} onClick={onClick}>
       <Avatar
         text={displayedName || username}
         size={75}
@@ -30,4 +32,5 @@ Contact.propTypes = {
   username: PropTypes.string,
   displayedName: PropTypes.string,
   avatarPath: PropTypes.string,
+  onLCick: PropTypes.func,
 };

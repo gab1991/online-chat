@@ -3,6 +3,7 @@ $chat-background: whitesmoke;
 $contact-box-shadow-color: theme-color('delta');
 
 .Contact {
+  cursor: pointer;
   width: 100%;
   display: flex;
   align-items: center;

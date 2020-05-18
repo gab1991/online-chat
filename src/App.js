@@ -5,14 +5,16 @@ import { logIn, updateProfile } from './Store/Actions/actions';
 import Backend from '../src/Backend/Backend';
 import Messages from '../src/Components/Messages/Messages';
 import FindContact from '../src/Components/FindContact/FindContact';
+import ChatRoom from './Components/ChatRoom/ChatRoom';
 import Auth from './Components/Auth/Auth';
 import UserSettings from './Components/UserSettings/UserSettings';
 import styles from './App.module.scss';
-import { test } from './Backend/Socket';
 
 function App(props) {
   const dispatch = useDispatch();
   const { isLogged } = props;
+
+  useEffect(() => {}, []);
 
   useEffect(() => {
     const token = localStorage.token;
@@ -25,17 +27,12 @@ function App(props) {
     }
   }, []);
 
-  test();
-
   return (
     <div className={styles.App}>
       <Switch>
-        <Route path="/messages">
-          <Messages />
-        </Route>
-        <Route path="/findContact">
-          <FindContact />
-        </Route>
+        <Route path="/messages" component={Messages} />
+        <Route path="/findContact" component={FindContact} />
+        <Route path="/chats/:chatId?" component={ChatRoom}></Route>
         <Route path="/">
           {isLogged && <UserSettings />}
           {/* {isLogged && <Auth />} */}

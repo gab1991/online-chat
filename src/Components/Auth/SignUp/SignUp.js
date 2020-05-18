@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../../Store/Actions/actions';
-import FadingLinesSpinner from '../../UI/SvgSpinners/FadingLInesSpinner/FadingLines';
+import FadingLinesSpinner from '../../UI/SvgSpinners/FadingLines';
 import Input from '../../UI/Inputs/Input/Input';
 import Button from '../../UI/Buttons/Button/Button';
 import validate from '../../../Validation/Validation';
