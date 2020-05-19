@@ -32,10 +32,10 @@ function App(props) {
       <Switch>
         <Route path="/messages" component={Messages} />
         <Route path="/findContact" component={FindContact} />
-        <Route path="/chats/:chatId?" component={ChatRoom}></Route>
+        <Route path="/chats/:chatID?" component={ChatRoom}></Route>
         <Route path="/">
           {isLogged && <UserSettings />}
-          {/* {isLogged && <Auth />} */}
+          {!isLogged && <Auth />}
         </Route>
       </Switch>
     </div>

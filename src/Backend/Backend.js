@@ -92,6 +92,21 @@ const Backend = {
         .catch((err) => reject(err));
     });
   },
+  conversationEnter: (user_id, contactName) => {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: `/api/conversation/conversationEnter/${user_id}/${contactName}`,
+        method: 'GET',
+        headers: {
+          authorization: `Bearer ${getToken()}`,
+        },
+      })
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => reject(err));
+    });
+  },
 };
 
 export default Backend;

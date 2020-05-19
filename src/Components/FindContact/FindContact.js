@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -6,6 +6,7 @@ import Contact from '../Contact/Contact';
 import { debounce } from '../../Utils/Utils';
 import Backend from '../../Backend/Backend';
 import Socket from '../../Backend/Socket';
+import { socket } from '../../Backend/Socket';
 import BackArrowIcon from '../UI/SvgIcons/BackArrow';
 import CircularSpinner from '../UI/SvgSpinners/Circular';
 import Input from '../UI/Inputs/Input/Input';
@@ -16,6 +17,10 @@ function FindContact(props) {
   const { user_id } = props;
   const [contacts, setContacts] = useState([]);
   const [typing, showTyping] = useState(false);
+
+  useEffect(() => {
+    socket.on('got into room', () => console.log('got message'));
+  }, []);
 
   const findProfiles = (searchStr) => {
     Backend.findProfiles(searchStr)
@@ -39,14 +44,26 @@ function FindContact(props) {
   };
 
   const enterChat = (contactName) => {
-    Socket.enterChat(user_id, contactName);
+    Backend.conversationEnter(user_id, contactName).then((res) => {
+      console.log(res.data);
+      if (res.data.conversation_id) {
+        props.history.push(`/chats/${res.data.conversation_id}`);
+      }
+    });
+  };
+
+  const goBackHandler = () => {
+    props.history.goBack();
   };
 
   return (
     <div className={styles.FindContact}>
       <div className={styles.Header}>
         <div className={styles.HeaderContent}>
-          <BackArrowIcon className={styles.BackArrowSvg} />
+          <BackArrowIcon
+            className={styles.BackArrowSvg}
+            onClick={goBackHandler}
+          />
           <Input
             type={'text'}
             className={styles.SearchInput}
