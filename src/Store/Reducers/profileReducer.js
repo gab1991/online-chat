@@ -1,5 +1,5 @@
 const initial = {
-  avatarPath: localStorage.getItem('avatarPath'),
+  avatar_path: localStorage.getItem('avatar_path'),
 };
 
 const profileReducer = (state = initial, action) => {
@@ -7,7 +7,7 @@ const profileReducer = (state = initial, action) => {
     case 'UPDATE_PROFILE':
       const updObj = action.payload;
       if (updObj.avatarPath && updObj.avatarPath !== state.avatarPath) {
-        localStorage.setItem('avatarPath', updObj.avatarPath);
+        localStorage.setItem('avatar_path', updObj.avatarPath);
       }
       return { ...state, ...action.payload };
     default:

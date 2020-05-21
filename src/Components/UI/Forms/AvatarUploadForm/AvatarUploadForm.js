@@ -29,7 +29,7 @@ function FileUploadForm(props) {
         const avatarPath = res.data.avatar_path;
         setShowAvatarEditor(false);
         if (avatarPath) {
-          dispatch(updateProfile({ avatarPath: avatarPath }));
+          dispatch(updateProfile({ avatar_path: avatarPath }));
         }
       });
     }, 'image/jpeg');

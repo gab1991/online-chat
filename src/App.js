@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { logIn, updateProfile } from './Store/Actions/actions';
+import { logIn, updateProfile, fillChats } from './Store/Actions/actions';
 import Socket from './Backend/Socket';
 import PropTypes, { object, bool } from 'prop-types';
 import Backend from '../src/Backend/Backend';
@@ -15,6 +15,7 @@ import styles from './App.module.scss';
 function App(props) {
   const dispatch = useDispatch();
   const { isLogged, conversations } = props;
+  console.log(conversations);
 
   useEffect(() => {
     Socket.subscribeToConversations(conversations);
@@ -26,7 +27,17 @@ function App(props) {
     if (token && username) {
       dispatch(logIn(username, token));
       Backend.getProfile(token).then((res) => {
-        dispatch(updateProfile(res.data));
+        const profile = {
+          avatar_path: res.data.avatar_path,
+          id: res.data.id,
+          username: res.data.username,
+          displayed_name: res.data.displayed_name,
+        };
+        const conversations = {
+          ...res.data.conversations,
+        };
+        dispatch(updateProfile(profile));
+        dispatch(fillChats(conversations));
       });
     }
   }, []);
@@ -50,12 +61,12 @@ function App(props) {
 function mapStateToProps(state) {
   return {
     isLogged: state.logged,
-    conversations: state.profile.conversations,
+    conversations: state.chats,
   };
 }
 
 export default connect(mapStateToProps)(App);
 App.propTypes = {
   isLogged: PropTypes.oneOfType([object, bool]),
-  conversations: PropTypes.array,
+  conversations: PropTypes.object,
 };

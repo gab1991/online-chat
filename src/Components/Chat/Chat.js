@@ -13,7 +13,7 @@ export default function Chat(props) {
     text: privateContact.displayed_name || privateContact.username,
     imgSrc: privateContact.avatar_path,
   };
-  console.log(props);
+
   return (
     <div className={styles.Chat} onClick={onClick}>
       <Avatar {...privateAvatarProps} size={75} className={styles.Avatar} />

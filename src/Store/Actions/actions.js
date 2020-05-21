@@ -23,4 +23,22 @@ const updateProfile = (obj) => {
   };
 };
 
-export { logIn, logOut, updateProfile };
+const fillChats = (obj) => {
+  return {
+    type: 'FILL_CHATS',
+    payload: {
+      ...obj,
+    },
+  };
+};
+
+const addMessage = (obj) => {
+  return {
+    type: 'ADD_MESSAGE',
+    payload: {
+      ...obj,
+    },
+  };
+};
+
+export { logIn, logOut, updateProfile, fillChats, addMessage };

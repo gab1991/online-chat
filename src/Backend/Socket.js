@@ -1,17 +1,21 @@
 import io from 'socket.io-client';
+import { addMessage } from '../Store/Actions/actions';
+import { store } from '../Store/store';
+
 const socket = io('http://localhost:8000');
 
 socket.on('connect', () => {
   console.log('client side connected');
-  sockets.subscribeToConversations([]);
+  sockets.subscribeToConversations({});
 });
 
 socket.on('passMsgToConversation', (data) => {
   console.log(data);
+  store.dispatch(addMessage(data));
 });
 
 const sockets = {
-  subscribeToConversations: (arrConversations = []) => {
+  subscribeToConversations: (arrConversations = {}) => {
     socket.emit('subscribeToConversations', arrConversations);
   },
   enterChat: (user_id, chatID) => {

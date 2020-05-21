@@ -59,7 +59,10 @@ function ChatRoom(props) {
 }
 
 function mapStateToProps(state) {
-  return { user_id: state.profile.id };
+  return {
+    user_id: state.profile.id,
+    // conversation ;
+  };
 }
 
 export default connect(mapStateToProps)(ChatRoom);

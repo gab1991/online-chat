@@ -26,13 +26,16 @@ function Messages(props) {
       </div>
       <div className={styles.ChatsContainer}>
         {conversations &&
-          conversations.map((conversation) => (
-            <Chat
-              key={conversation.id}
-              {...conversation}
-              onClick={() => enterChat(conversation.id)}
-            />
-          ))}
+          Object.keys(conversations).map((key) => {
+            const conversation = conversations[key];
+            return (
+              <Chat
+                key={conversation.id}
+                {...conversation}
+                onClick={() => enterChat(conversation.id)}
+              />
+            );
+          })}
       </div>
     </div>
   );
@@ -40,12 +43,12 @@ function Messages(props) {
 
 function mapStateToProps(state) {
   return {
-    conversations: state.profile.conversations,
+    conversations: state.chats,
   };
 }
 
 export default connect(mapStateToProps)(Messages);
 
 Messages.propTypes = {
-  conversations: PropTypes.array,
+  conversations: PropTypes.object,
 };
