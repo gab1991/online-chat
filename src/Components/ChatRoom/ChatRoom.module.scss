@@ -5,6 +5,8 @@ $header-color-middle: theme-color('delta');
 $header-color-bottom: theme-color('epsilon');
 $chat-section-background: theme-color('background');
 $svg-rect-side: 2rem;
+$typing-area-box-shadow-color: theme-color('gamma');
+
 @mixin chat-container-font {
   color: theme-color('gamma');
   font-weight: 600;
@@ -66,8 +68,12 @@ $svg-rect-side: 2rem;
 
 .MessageArea {
   flex: 1;
-  height: 50px;
-  background-color: lightcoral;
+  background-color: #ccc;
+}
+
+.TypeArea {
+  height: 80px;
+  box-shadow: 0px -3px 5px 0px $typing-area-box-shadow-color;
 }
 
 .ChatsContainer {

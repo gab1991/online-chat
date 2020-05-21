@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { logIn, updateProfile } from './Store/Actions/actions';
+import Socket from './Backend/Socket';
+import PropTypes, { object, bool } from 'prop-types';
 import Backend from '../src/Backend/Backend';
 import Messages from '../src/Components/Messages/Messages';
 import FindContact from '../src/Components/FindContact/FindContact';
@@ -12,9 +14,11 @@ import styles from './App.module.scss';
 
 function App(props) {
   const dispatch = useDispatch();
-  const { isLogged } = props;
+  const { isLogged, conversations } = props;
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    Socket.subscribeToConversations(conversations);
+  }, [conversations]);
 
   useEffect(() => {
     const token = localStorage.token;
@@ -36,6 +40,7 @@ function App(props) {
         <Route path="/">
           {isLogged && <UserSettings />}
           {!isLogged && <Auth />}
+          {/* <Auth /> */}
         </Route>
       </Switch>
     </div>
@@ -45,7 +50,12 @@ function App(props) {
 function mapStateToProps(state) {
   return {
     isLogged: state.logged,
+    conversations: state.profile.conversations,
   };
 }
 
 export default connect(mapStateToProps)(App);
+App.propTypes = {
+  isLogged: PropTypes.oneOfType([object, bool]),
+  conversations: PropTypes.array,
+};

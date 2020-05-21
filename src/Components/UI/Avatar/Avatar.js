@@ -63,12 +63,14 @@ export default function Avatar(props) {
         width: size,
         height: size,
       }}>
-      <Elipse className={styles.ElipseSvg} strokeclr={randColor} />
       {imgSrc && <img src={imgSrc} alt={text}></img>}
       {!imgSrc && (
-        <span className={styles.Username} style={{ color: randColor }}>
-          {name}
-        </span>
+        <>
+          <Elipse className={styles.ElipseSvg} strokeclr={randColor} />
+          <span className={styles.Username} style={{ color: randColor }}>
+            {name}
+          </span>
+        </>
       )}
     </div>
   );

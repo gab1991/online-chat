@@ -28,8 +28,6 @@ function ChatRoom(props) {
     props.history.goBack();
   };
 
-  console.log(inputValue);
-
   const inputChangeHandler = (e) => {
     setInputValue(e.target.value);
   };
@@ -48,8 +46,14 @@ function ChatRoom(props) {
         </div>
       </div>
       <div className={styles.MessageArea}></div>
-      <Input onChange={inputChangeHandler} />
-      <button onClick={sendHandler}>send</button>
+      <div className={styles.TypeArea}>
+        <Input
+          onChange={inputChangeHandler}
+          placeholder={'Type a message'}
+          type={'text'}
+        />
+        <button onClick={sendHandler}>send</button>
+      </div>
     </div>
   );
 }
@@ -60,5 +64,5 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps)(ChatRoom);
 ChatRoom.propTypes = {
-  user_id: PropTypes.string,
+  user_id: PropTypes.number,
 };
