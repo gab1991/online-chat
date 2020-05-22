@@ -2,21 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Socket from '../../Backend/Socket';
-import { socket } from '../../Backend/Socket';
+import Message from '../Message/Message';
 import Input from '../UI/Inputs/Input/Input';
 import BackArrowIcon from '../UI/SvgIcons/BackArrow';
 import styles from './ChatRoom.module.scss';
 
 function ChatRoom(props) {
   const { chatID } = props.match.params;
-  const { user_id } = props;
+  const { user_id, chats } = props;
   const [inputValue, setInputValue] = useState();
-  console.log(chatID, user_id);
-
-  useEffect(() => {
-    socket.on('entered', (data) => console.log(data));
-    socket.on('message', (data) => console.log(`Server message ${data}`));
-  }, []);
+  const messages = chats[chatID] ? chats[chatID].messages : [];
 
   useEffect(() => {
     if (user_id && chatID) {
@@ -45,7 +40,11 @@ function ChatRoom(props) {
           />
         </div>
       </div>
-      <div className={styles.MessageArea}></div>
+      <div className={styles.MessageArea}>
+        {messages.map((msg) => (
+          <Message {...msg} />
+        ))}
+      </div>
       <div className={styles.TypeArea}>
         <Input
           onChange={inputChangeHandler}
@@ -61,7 +60,7 @@ function ChatRoom(props) {
 function mapStateToProps(state) {
   return {
     user_id: state.profile.id,
-    // conversation ;
+    chats: state.chats,
   };
 }
 
