@@ -7,11 +7,8 @@ const chatReducer = (state = {}, action) => {
       const updChats = {
         ...state,
       };
-      // updChats[msg.chatID].messages = [].push({
-      //   user_id: msg.user_id,
-      //   txt: msg.txt,
-      // });
-      return state;
+      updChats[msg.conversation_id].messages.push(msg);
+      return updChats;
     default:
       return state;
   }

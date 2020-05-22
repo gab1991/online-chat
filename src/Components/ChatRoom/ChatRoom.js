@@ -42,7 +42,7 @@ function ChatRoom(props) {
       </div>
       <div className={styles.MessageArea}>
         {messages.map((msg) => (
-          <Message {...msg} />
+          <Message {...msg} key={msg.id} />
         ))}
       </div>
       <div className={styles.TypeArea}>

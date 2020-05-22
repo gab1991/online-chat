@@ -1,29 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import styles from './Message.module.scss';
 
-export default function Message(props) {
-  const { message } = props;
+function Message(props) {
+  const { message, sender_id, user_id, created_at } = props;
+  const side = user_id === sender_id ? 'right' : 'left';
+  const date = new Date(created_at);
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  hours = hours > 9 ? hours : `0${hours}`;
+  minutes = minutes > 9 ? minutes : `0${minutes}`;
+
   console.log(props);
   return (
     <div className={styles.Message}>
-      <div className={styles.MessageContainer}>
-        {/* <p>{message}</p> */}
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro impedit
-          inventore dolores tempora quo, enim iure dolore dolorum? Minima magnam
-          dignissimos totam architecto. Illo temporibus soluta, veniam velit
-          dolorum excepturi. Ex quidem dolor reiciendis quae laboriosam ducimus
-          magni quam animi ipsam corrupti eos, labore fugit. Reprehenderit
-          itaque saepe voluptate aut voluptatibus nemo in nisi, tempora
-          excepturi similique nesciunt quaerat a. Iure eius natus et fuga,
-          quisquam fugit pariatur commodi quidem, culpa dolorem dolores labore
-          nobis sunt. Rem, modi ea eveniet labore obcaecati sed necessitatibus,
-          eius quo inventore quam, dolores deleniti.
-        </p>
+      <div
+        className={`${styles.MessageContainer} 
+        ${side === 'right' ? styles.RightSide : styles.LeftSide}
+        `}>
+        <p>{message}</p>
+        <span>{`${hours}:${minutes}`}</span>
       </div>
     </div>
   );
 }
 
-Message.propTypes = {};
+function mapStateToProps(state) {
+  return {
+    user_id: state.profile.id,
+  };
+}
+
+export default connect(mapStateToProps)(Message);
+
+Message.propTypes = {
+  message: PropTypes.string,
+  sender_id: PropTypes.number,
+  user_id: PropTypes.number,
+  created_at: PropTypes.string,
+};
