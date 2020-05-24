@@ -35,7 +35,7 @@ function FindContact(props) {
       });
   };
 
-  const delayedSearch = useCallback(debounce(findProfiles, 600));
+  const delayedSearch = useCallback(debounce(findProfiles, 1000));
 
   const onChangeHandler = (e) => {
     showTyping(true);

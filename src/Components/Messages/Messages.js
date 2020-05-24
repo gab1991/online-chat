@@ -8,7 +8,6 @@ import styles from '../Messages/Messages.module.scss';
 
 function Messages(props) {
   const { conversations } = props;
-  console.log(props);
 
   const enterChat = (conversationID) => {
     console.log('here');

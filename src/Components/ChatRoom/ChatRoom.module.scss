@@ -4,8 +4,10 @@ $header-color-top: theme-color('gamma');
 $header-color-middle: theme-color('delta');
 $header-color-bottom: theme-color('epsilon');
 $chat-section-background: theme-color('background');
-$svg-rect-side: 2rem;
-$typing-area-box-shadow-color: theme-color('gamma');
+$svg-arrow-side: 1.5rem;
+$svg-lookUp-side: 2rem;
+$typing-area-separator-color: theme-color('epsilon');
+$svg-icon-color: theme-color('gamma');
 
 @mixin chat-container-font {
   color: theme-color('gamma');
@@ -13,7 +15,7 @@ $typing-area-box-shadow-color: theme-color('gamma');
 }
 
 .ChatRoom {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -31,49 +33,95 @@ $typing-area-box-shadow-color: theme-color('gamma');
   align-items: center;
 }
 
+.TransitionContainer {
+  overflow: hidden;
+  position: relative;
+}
+
+.Avatar {
+  // // background-color: lightsalmon;
+  // circle {
+  //   stroke: lightsalmon;
+  // }
+  // span {
+  //   color: lightsalmon;
+  // }
+}
+
 .HeaderContent {
   color: $font-color-main;
   width: 100%;
   display: flex;
   align-items: center;
+  margin: 0 30px;
 
-  .SearchInput {
-  }
   .BackArrowSvg {
     cursor: pointer;
-    margin-right: 20px;
-    height: $svg-rect-side;
-    width: $svg-rect-side;
+    margin-right: 24px;
+    height: $svg-arrow-side;
+    width: $svg-arrow-side;
   }
-  .CircularSpinnerSvg {
-    margin-left: 20px;
-    height: $svg-rect-side;
-    width: $svg-rect-side;
+  .AvatarName {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    h3 {
+      display: inline-block;
+      margin-left: 16px;
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
   }
+
   .LookUpSvg {
     cursor: pointer;
-    margin-left: 20px;
-    height: $svg-rect-side;
-    width: $svg-rect-side;
+    margin-left: auto;
+    height: $svg-lookUp-side;
+    width: $svg-lookUp-side;
   }
-  margin: 0 2rem;
 
-  h3 {
-    display: inline-block;
-    margin-left: 2.5rem;
-    font-weight: 600;
-    font-size: 1.25rem;
+  .SearchResultToggler {
+    display: flex;
+    .ArrowHeadSvg {
+      height: 2rem;
+      width: 2rem;
+    }
+    .ArrowHeadSvgReversed {
+      transform: rotate(180deg);
+    }
   }
 }
 
 .MessageArea {
   flex: 1;
-  // background-color: #ccc;
+  overflow: auto;
 }
 
 .TypeArea {
+  margin: 0;
   height: 80px;
-  box-shadow: 0px -3px 5px 0px $typing-area-box-shadow-color;
+
+  .TypeAreaSeparator {
+    height: 2px;
+    background-color: $typing-area-separator-color;
+  }
+
+  .InputContainer {
+    margin-top: 17px;
+    display: flex;
+    align-items: center;
+
+    .Input {
+      margin-left: 10px;
+      font-size: 1.2rem;
+    }
+    .SvgIcon {
+      color: $svg-icon-color;
+      height: 35px;
+      width: auto;
+      margin-right: 26px;
+    }
+  }
 }
 
 .ChatsContainer {

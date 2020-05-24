@@ -15,31 +15,26 @@ import styles from './App.module.scss';
 function App(props) {
   const dispatch = useDispatch();
   const { isLogged, conversations } = props;
-  console.log(conversations);
 
   useEffect(() => {
     Socket.subscribeToConversations(conversations);
   }, [conversations]);
 
   useEffect(() => {
-    const token = localStorage.token;
-    const username = localStorage.username;
-    if (token && username) {
-      dispatch(logIn(username, token));
-      Backend.getProfile(token).then((res) => {
-        const profile = {
-          avatar_path: res.data.avatar_path,
-          id: res.data.id,
-          username: res.data.username,
-          displayed_name: res.data.displayed_name,
-        };
-        const conversations = {
-          ...res.data.conversations,
-        };
-        dispatch(updateProfile(profile));
-        dispatch(fillChats(conversations));
-      });
-    }
+    //   Backend.getProfile(token).then((res) => {
+    //     const profile = {
+    //       avatar_path: res.data.avatar_path,
+    //       id: res.data.id,
+    //       username: res.data.username,
+    //       displayed_name: res.data.displayed_name,
+    //     };
+    //     const conversations = {
+    //       ...res.data.conversations,
+    //     };
+    //     dispatch(updateProfile(profile));
+    //     dispatch(fillChats(conversations));
+    //   });
+    // }
   }, []);
 
   return (

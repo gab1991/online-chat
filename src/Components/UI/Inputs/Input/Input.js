@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import KeyBoardIcon from '../../SvgIcons/Keyboard';
 import styles from './Input.module.scss';
 
 export default function Input(props) {
@@ -32,6 +33,9 @@ export default function Input(props) {
         autoComplete={autoComplete}
       />
       {inValid && <div className={styles.InValidMessage}>{inValidMessage}</div>}
+      {/* <div className={styles.SvgWrapper}> */}
+      {/* {<KeyBoardIcon className={styles.svgicon} />} */}
+      {/* </div> */}
     </div>
   );
 }

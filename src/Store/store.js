@@ -14,4 +14,6 @@ const getToken = () => {
   return state.logged.token;
 };
 
-export { store, getToken };
+const dispatch = store.dispatch;
+
+export { store, getToken, dispatch };

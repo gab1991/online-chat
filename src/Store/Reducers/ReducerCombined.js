@@ -7,11 +7,6 @@ const appReducer = combineReducers({
   logged: loginReducer,
   profile: profileReducer,
   chats: chatReducer,
-  // showAuth: showHideAuth,
-  // showErr: showHideErr,
-  // showInfo: showHideInfo,
-  // showCornNotifier: showHideCornerNotifier,
-  // dataCache: dataCache,
 });
 
 const rootReducer = (state, action) => {

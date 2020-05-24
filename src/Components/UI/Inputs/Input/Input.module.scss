@@ -8,6 +8,8 @@ $wrong-input-color: #ff6f91;
 
 .InputContainer {
   position: relative;
+  display: flex;
+  align-items: center;
   width: 100%;
 }
 
@@ -40,3 +42,11 @@ $wrong-input-color: #ff6f91;
   font-size: 0.8rem;
   color: $wrong-input-color;
 }
+
+// .SvgWrapper {
+//   .svgicon {
+//     height: 25px;
+//     width: 45px;
+//     margin-right: 36px;
+//   }
+// }

@@ -5,6 +5,7 @@ $header-color-middle: theme-color('delta');
 $header-color-bottom: theme-color('epsilon');
 $chat-section-background: theme-color('delta');
 $svg-rect-side: 2rem;
+
 @mixin chat-container-font {
   color: theme-color('gamma');
   font-weight: 600;

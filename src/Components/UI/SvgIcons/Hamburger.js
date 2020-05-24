@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 function Hamburger(props) {
-  console.log(props);
   return (
     <svg
       width={'100%'}

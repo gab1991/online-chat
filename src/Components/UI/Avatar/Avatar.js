@@ -50,7 +50,7 @@ const palette = [
 ];
 
 export default function Avatar(props) {
-  const { text, size = 50, imgSrc, className } = props;
+  const { text, size = 50, imgSrc, className, color } = props;
   const name = text.slice(0, 2);
   const randColor = randomizePalette(palette, 10);
 
@@ -66,8 +66,10 @@ export default function Avatar(props) {
       {imgSrc && <img src={imgSrc} alt={text}></img>}
       {!imgSrc && (
         <>
-          <Elipse className={styles.ElipseSvg} strokeclr={randColor} />
-          <span className={styles.Username} style={{ color: randColor }}>
+          <Elipse className={styles.ElipseSvg} strokeclr={color || randColor} />
+          <span
+            className={styles.Username}
+            style={{ color: color || randColor }}>
             {name}
           </span>
         </>

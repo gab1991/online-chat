@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import styles from './Message.module.scss';
 
 function Message(props) {
-  const { message, sender_id, user_id, created_at } = props;
+  const { message, sender_id, user_id, created_at, refCb, onClick } = props;
   const side = user_id === sender_id ? 'right' : 'left';
   const date = new Date(created_at);
   let hours = date.getHours();
@@ -12,9 +12,8 @@ function Message(props) {
   hours = hours > 9 ? hours : `0${hours}`;
   minutes = minutes > 9 ? minutes : `0${minutes}`;
 
-  console.log(props);
   return (
-    <div className={styles.Message}>
+    <div className={styles.Message} ref={(el) => refCb(el)} onClick={onClick}>
       <div
         className={`${styles.MessageContainer} 
         ${side === 'right' ? styles.RightSide : styles.LeftSide}
