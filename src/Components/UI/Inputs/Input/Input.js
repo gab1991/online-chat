@@ -6,6 +6,7 @@ import styles from './Input.module.scss';
 export default function Input(props) {
   const {
     type,
+    inputRef,
     label,
     value,
     placeholder,
@@ -22,6 +23,7 @@ export default function Input(props) {
     <div className={styles.InputContainer}>
       {label && <label>{label}</label>}
       <input
+        ref={inputRef}
         type={type}
         value={value}
         placeholder={placeholder}

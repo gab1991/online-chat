@@ -5,6 +5,7 @@ $right-side-msg-background: theme-color('gamma');
 $right-side-msg-font-color: $font-color-main;
 $left-side-msg-background: theme-color('background');
 $left-side-msg-font-color: theme-color('gamma');
+$msg-background-focused: theme-color('beta');
 
 .Message {
   display: flex;
@@ -49,5 +50,9 @@ $left-side-msg-font-color: theme-color('gamma');
     margin-left: 0.5rem;
     border-radius: 15px 15px 15px 0px;
     margin-right: auto;
+  }
+  &.Focused {
+    background-color: $msg-background-focused;
+    color: $font-color-main;
   }
 }

@@ -13,6 +13,7 @@ import KeyBoardIcon from '../UI/SvgIcons/Keyboard';
 import LookUpIcon from '../UI/SvgIcons/LookUp';
 import ArrowHeadSvg from '../UI/SvgIcons/ArrowHead';
 import Avatar from '../UI/Avatar/Avatar';
+import EscIcon from '../UI/SvgIcons/Esc';
 import Message from '../Message/Message';
 import Input from '../UI/Inputs/Input/Input';
 import BackArrowIcon from '../UI/SvgIcons/BackArrow';
@@ -26,30 +27,40 @@ function ChatRoom(props) {
   const messages = chatData ? chatData.messages : [];
   const type = chatData && chatData.type;
   const convPartner = chatData && chatData.participants[0];
-  const [inputValue, setInputValue] = useState();
-  const [searchInputValue, setSearchInputValue] = useState();
+  const [inputValue, setInputValue] = useState('');
   const [matchedMsgs, setMatchedMsgs] = useState([]);
-  const [selectedMatchedMsg, setSelectedMatchedMsg] = useState();
-  const [showSearch, setShowSearch] = useState(true);
+  const [selectedMatchedMsg, setSelectedMatchedMsg] = useState({
+    index: 1,
+    msgId: null,
+  });
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchInputValue, setSearchInputValue] = useState('');
   const msgArea = useRef();
   const messageRefs = useRef({});
 
-  console.log(selectedMatchedMsg);
-
   useEffect(() => {
-    if (selectedMatchedMsg) {
-      handleClick(selectedMatchedMsg);
-      console.log('focusing');
+    if (selectedMatchedMsg.msgId) {
+      focusOnMsg(selectedMatchedMsg.msgId);
     }
-  }, [selectedMatchedMsg]);
+  }, [selectedMatchedMsg.msgId]);
 
   useEffect(() => {
-    if (matchedMsgs.length) setSelectedMatchedMsg(matchedMsgs[0].id);
+    if (matchedMsgs.length) {
+      setSelectedMatchedMsg((prev) => {
+        const updState = { ...prev };
+        updState.msgId = matchedMsgs[0].id;
+        return updState;
+      });
+    }
   }, [matchedMsgs.length]);
 
   useEffect(() => {
     msgArea.current.scrollTop = msgArea.current.scrollHeight;
   }, [messages.length]);
+
+  useEffect(() => {
+    delayedSearch(searchInputValue);
+  }, [searchInputValue]);
 
   const goBackHandler = () => {
     props.history.goBack();
@@ -73,24 +84,57 @@ function ChatRoom(props) {
     const resullt = messages.filter((message) => {
       return message.message.toLowerCase().includes(searchStr.toLowerCase());
     });
-    console.log(resullt);
-    setMatchedMsgs(resullt);
+    setMatchedMsgs(resullt.reverse());
     return resullt;
   };
+
   const delayedSearch = useCallback(debounce(findMessage, 1000));
 
   const SeacrhinputChangeHandler = (e) => {
-    setSearchInputValue(e.target.value);
     const searchStr = e.target.value;
-    delayedSearch(searchStr);
+    setSearchInputValue(searchStr);
   };
 
-  const handleClick = (id) => {
-    const el = messageRefs.current[id];
-    el.scrollIntoView({
+  const focusOnMsg = (id) => {
+    const msgEl = messageRefs.current[id];
+
+    msgEl.scrollIntoView({
       behavior: 'smooth',
       block: 'center',
     });
+  };
+
+  const handleSearchList = (e) => {
+    const direction = e.currentTarget.getAttribute('data-direction');
+    switch (direction) {
+      case 'down':
+        if (selectedMatchedMsg.index <= 1) return;
+        setSelectedMatchedMsg((prev) => {
+          const upd = { ...prev };
+          upd.index--;
+          upd.msgId = matchedMsgs[prev.index - 2].id;
+          return upd;
+        });
+        break;
+      case 'up':
+        if (selectedMatchedMsg.index >= matchedMsgs.length) return;
+        setSelectedMatchedMsg((prev) => {
+          const upd = { ...prev };
+          upd.index++;
+          upd.msgId = matchedMsgs[prev.index++].id;
+          return upd;
+        });
+        break;
+      default:
+    }
+  };
+
+  const clearSearchInput = () => {
+    setSearchInputValue('');
+  };
+
+  const hideSearch = () => {
+    setShowSearch(false);
   };
 
   const privateChatAvatarProps = {
@@ -107,21 +151,25 @@ function ChatRoom(props) {
     <div className={styles.ChatRoom}>
       <div className={styles.Header}>
         <div className={styles.HeaderContent}>
-          <div className={styles.BackArrowSvg} onClick={goBackHandler}>
+          <div
+            className={styles.BackArrowSvg}
+            onClick={showSearch ? hideSearch : goBackHandler}>
             <BackArrowIcon className={styles.BackArrowSvg} />
           </div>
           {!showSearch && (
-            <div className={styles.AvatarName}>
-              <Avatar {...privateChatAvatarProps} className={styles.Avatar} />
-              <h3>
-                {type === 'private'
-                  ? convPartner.displayed_name || convPartner.username
-                  : ''}
-              </h3>
-              <div className={styles.LookUpSvg} onClick={toggleSearchInMsgs}>
-                <LookUpIcon className={styles.LookUpSvg} />
+            <>
+              <div className={styles.AvatarName}>
+                <Avatar {...privateChatAvatarProps} className={styles.Avatar} />
+                <h3>
+                  {type === 'private'
+                    ? convPartner.displayed_name || convPartner.username
+                    : ''}
+                </h3>
+                <div className={styles.LookUpSvg} onClick={toggleSearchInMsgs}>
+                  <LookUpIcon className={styles.LookUpSvg} />
+                </div>
               </div>
-            </div>
+            </>
           )}
           {showSearch && (
             <>
@@ -129,22 +177,13 @@ function ChatRoom(props) {
                 onChange={SeacrhinputChangeHandler}
                 placeholder={'Seacrh message'}
                 type={'text'}
+                value={searchInputValue}
                 className={styles.Input}
               />
-              <div className={styles.SearchResultToggler}>
-                <div className={styles.ArrowHeadSvg}>
-                  <ArrowHeadSvg className={styles.ArrowHeadSvg} />
-                </div>
-                <p>
-                  {selectedMatchedMsg}of{matchedMsgs.length}
-                </p>
-                <div
-                  className={styles.ArrowHeadSvg}
-                  onClick={() => {
-                    setSelectedMatchedMsg((prev) => prev + 1);
-                  }}>
-                  <ArrowHeadSvg className={styles.ArrowHeadSvgReversed} />
-                </div>
+              <div
+                className={styles.EscIconContainer}
+                onClick={clearSearchInput}>
+                <EscIcon className={styles.EscIconSvg} />
               </div>
             </>
           )}
@@ -155,25 +194,55 @@ function ChatRoom(props) {
           <Message
             {...msg}
             key={msg.id}
-            refCb={(el) => {
-              return (messageRefs.current[msg.id] = el);
+            focused={selectedMatchedMsg.msgId === msg.id ? true : false}
+            refCb={(msgId) => {
+              return (messageRefs.current[msg.id] = msgId);
             }}
-            onClick={() => handleClick(msg.id)}
           />
         ))}
       </div>
       <form className={styles.TypeArea} onSubmit={submitHandler}>
         <div className={styles.TypeAreaSeparator}></div>
-        <div className={styles.InputContainer}>
-          <Input
-            onChange={inputChangeHandler}
-            placeholder={'Type a message'}
-            value={inputValue}
-            type={'text'}
-            className={styles.Input}
-          />
-          <KeyBoardIcon className={styles.SvgIcon} />
-        </div>
+        {showSearch && (
+          <div className={styles.SearchResultToggler}>
+            {matchedMsgs.length > 0 && (
+              <>
+                <p>
+                  {selectedMatchedMsg.index}
+                  {` of `}
+                  {matchedMsgs.length}
+                </p>
+                <div className={styles.ArrowsContainer}>
+                  <div
+                    className={styles.ArrowSvgContainer}
+                    data-direction={'down'}
+                    onClick={handleSearchList}>
+                    <ArrowHeadSvg />
+                  </div>
+                  <div
+                    className={styles.ArrowSvgContainer}
+                    onClick={handleSearchList}
+                    data-direction={'up'}>
+                    <ArrowHeadSvg className={styles.ArrowHeadSvgReversed} />
+                  </div>
+                </div>
+              </>
+            )}
+            {!matchedMsgs.length && <p>No results</p>}
+          </div>
+        )}
+        {!showSearch && (
+          <div className={styles.InputContainer}>
+            <Input
+              onChange={inputChangeHandler}
+              placeholder={'Type a message'}
+              value={inputValue}
+              type={'text'}
+              className={styles.Input}
+            />
+            <KeyBoardIcon className={styles.SvgIcon} />
+          </div>
+        )}
       </form>
     </div>
   );

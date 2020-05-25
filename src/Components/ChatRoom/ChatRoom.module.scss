@@ -1,5 +1,6 @@
 @import '../../Configs/Variables';
 
+$header-context-margin: 24px;
 $header-color-top: theme-color('gamma');
 $header-color-middle: theme-color('delta');
 $header-color-bottom: theme-color('epsilon');
@@ -38,22 +39,12 @@ $svg-icon-color: theme-color('gamma');
   position: relative;
 }
 
-.Avatar {
-  // // background-color: lightsalmon;
-  // circle {
-  //   stroke: lightsalmon;
-  // }
-  // span {
-  //   color: lightsalmon;
-  // }
-}
-
 .HeaderContent {
   color: $font-color-main;
   width: 100%;
   display: flex;
   align-items: center;
-  margin: 0 30px;
+  margin: 0 $header-context-margin;
 
   .BackArrowSvg {
     cursor: pointer;
@@ -61,6 +52,7 @@ $svg-icon-color: theme-color('gamma');
     height: $svg-arrow-side;
     width: $svg-arrow-side;
   }
+
   .AvatarName {
     display: flex;
     width: 100%;
@@ -73,22 +65,28 @@ $svg-icon-color: theme-color('gamma');
     }
   }
 
+  .Input {
+    &::placeholder {
+      color: $font-color-main;
+      opacity: 0.5;
+    }
+  }
+  .EscIconContainer {
+    width: 2rem;
+    height: 2rem;
+    position: relative;
+    margin-left: 12px;
+    svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
   .LookUpSvg {
     cursor: pointer;
     margin-left: auto;
     height: $svg-lookUp-side;
     width: $svg-lookUp-side;
-  }
-
-  .SearchResultToggler {
-    display: flex;
-    .ArrowHeadSvg {
-      height: 2rem;
-      width: 2rem;
-    }
-    .ArrowHeadSvgReversed {
-      transform: rotate(180deg);
-    }
   }
 }
 
@@ -105,6 +103,34 @@ $svg-icon-color: theme-color('gamma');
     height: 2px;
     background-color: $typing-area-separator-color;
   }
+  .SearchResultToggler {
+    display: flex;
+    height: 100%;
+    margin: 0 $header-context-margin;
+    justify-content: space-between;
+    align-items: center;
+    color: $header-color-top;
+    opacity: 0.8;
+
+    .ArrowsContainer {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 12px;
+
+      .ArrowSvgContainer {
+        height: 2rem;
+        width: 2rem;
+        .ArrowHeadSvgReversed {
+          transform: rotate(180deg);
+        }
+      }
+    }
+    p {
+      width: max-content;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+  }
 
   .InputContainer {
     margin-top: 17px;
@@ -112,6 +138,9 @@ $svg-icon-color: theme-color('gamma');
     align-items: center;
 
     .Input {
+      color: $svg-icon-color;
+      border: none;
+
       margin-left: 10px;
       font-size: 1.2rem;
     }
