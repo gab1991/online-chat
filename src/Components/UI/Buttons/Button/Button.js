@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import styles from './Button.module.scss';
 
 export default function Button(props) {
-  const { txtContent, onClick: clickHander, disabled } = props;
+  const { txtContent, onClick: clickHander, disabled, className } = props;
 
   return (
-    <button onClick={clickHander} className={`${styles.Button}`}>
+    <button onClick={clickHander} className={`${styles.Button} ${className}`}>
       {txtContent}
     </button>
   );
@@ -16,4 +16,5 @@ Button.propTypes = {
   txtContent: PropTypes.string.isRequired,
   onClick: PropTypes.func,
   disabled: PropTypes.bool,
+  className: PropTypes.string,
 };

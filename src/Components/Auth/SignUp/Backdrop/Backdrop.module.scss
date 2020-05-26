@@ -1,0 +1,42 @@
+.Backdrop {
+  z-index: -1;
+  position: absolute;
+  height: 100vh;
+  width: 100%;
+  // background-color: lightslategray;
+}
+
+.MainPlanetContainer {
+  position: absolute;
+  width: 120%;
+  left: -25%;
+  top: -15%;
+}
+
+.MiddlePlanetContainer {
+  position: absolute;
+  width: 30%;
+  left: -3%;
+  top: -3%;
+}
+
+.RingContainer {
+  position: absolute;
+  width: 90%;
+  top: -4%;
+  left: 5%;
+}
+
+.SmallPlanetContainer {
+  position: absolute;
+  width: 17%;
+  top: 30%;
+  left: 5%;
+}
+
+.TinyPlanetContainer {
+  position: absolute;
+  width: 5%;
+  left: 75%;
+  top: 10%;
+}

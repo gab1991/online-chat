@@ -1,26 +1,81 @@
 @import '../../../Configs/Variables.scss';
 
-$component-background-clr: theme-color('alpha');
+$component-background-clr: theme-color('background');
+$input-color: theme-color('beta');
+$input-placeholder-clr: theme-color('epsilon');
 
 .SignUp {
   min-height: 100vh;
-  background-color: $component-background-clr;
+  // background-color: $component-background-clr;
+  // background: url('../../../Frame.svg') no-repeat;
+  // background-color: lightseagreen;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
 }
-form {
-  margin: 0 1.5rem;
-  width: 100%;
+
+.HeaderSection {
+  margin: auto 0;
+  min-height: 200px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: $font-color-main;
   h1 {
-    text-align: center;
+    font-size: 2.813rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+    font-weight: normal;
+  }
+}
+
+form {
+  margin-top: auto;
+  margin-bottom: 20px;
+  height: 315px;
+  max-width: 300px;
+  // background-color: lightcoral;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.InputContainer {
+  width: 90%;
+  border-bottom: 1px solid $input-color;
+  display: flex;
+  margin-top: 20px;
+
+  .IconContainer {
+    width: 33px;
+    height: 33px;
+    color: $input-color;
+  }
+  .Input {
+    color: $input-color;
+    margin-left: 20px;
+    padding-bottom: 0;
+    border: 0;
+    &::placeholder {
+      color: $input-placeholder-clr;
+    }
   }
 }
 
 .ButtonContainer {
+  margin-top: auto;
   position: relative;
   display: flex;
   justify-content: center;
+  width: 100%;
+  .Button {
+    font-size: 1.625rem;
+    font-weight: bold;
+    width: 100%;
+  }
 }
 
 .SpinnerContainer {
