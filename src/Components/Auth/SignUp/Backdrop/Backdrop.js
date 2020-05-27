@@ -1,4 +1,5 @@
 import React from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import MainPlanet from '../../../UI/SvgBackgroundComponents/MainPlanet';
 import MiddlePlanet from '../../../UI/SvgBackgroundComponents/MiddlePlanet';
 import Ring from '../../../UI/SvgBackgroundComponents/Ring';
@@ -9,9 +10,14 @@ import styles from './Backdrop.module.scss';
 export default function Backdrop(props) {
   return (
     <div className={styles.Backdrop}>
-      <div className={styles.MainPlanetContainer}>
-        <MainPlanet />
-      </div>
+      <CSSTransition
+        timeout={1000}
+        classNames={'list-transition'}
+        onEnter={() => console.log('asdasd')}>
+        <div className={styles.MainPlanetContainer}>
+          <MainPlanet />
+        </div>
+      </CSSTransition>
       <div className={styles.RingContainer}>
         <Ring />
       </div>

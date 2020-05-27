@@ -1,0 +1,23 @@
+@import '../../../../Configs/Variables.scss';
+
+$backgroung-color: theme-color('background');
+
+.Backdrop {
+  z-index: -1;
+  position: absolute;
+  min-height: 100vh;
+
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: $backgroung-color;
+}
+
+.MainPlanetContainer {
+  position: absolute;
+  width: 130vh;
+  min-width: 1000px;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-22%, -50%, 0);
+}

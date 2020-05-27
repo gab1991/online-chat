@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { logIn } from '../../../Store/Actions/actions';
 import { useDispatch } from 'react-redux';
 import Backend from '../../../Backend/Backend';
+import Checkbox from '../../UI/Inputs/Checkbox/Checkbox';
+import Backdrop from './Backdrop/Backdrop';
+import HumanIcon from '../../UI/SvgIcons/Human';
+import KeyIcon from '../../UI/SvgIcons/Key';
 import Input from '../../UI/Inputs/Input/Input';
 import Button from '../../UI/Buttons/Button/Button';
 import validate from '../../../Validation/Validation';
@@ -14,10 +18,11 @@ export default function Login(props) {
     username_email: {
       label: 'Username/Email',
       type: 'text',
-      placeholder: 'Enter Your username or email',
+      placeholder: 'Enter username or email',
       value: '',
       valid: false,
       invalidMessage: 'Only numbers and letters allowed',
+      icon: <HumanIcon />,
     },
     password: {
       label: 'Password',
@@ -27,6 +32,7 @@ export default function Login(props) {
       valid: false,
       invalidMessage:
         'Password must contain 4 to 15 chars including at least one number',
+      icon: <KeyIcon />,
     },
   });
   const [sending, setSending] = useState(false);
@@ -102,39 +108,49 @@ export default function Login(props) {
   };
 
   return (
-    <div className={`${styles.Login}`}>
-      <form onSubmit={submitHandler}>
-        <h1>Login</h1>
-        {Object.keys(inputs).map((name) => {
-          const input = inputs[name];
-          return (
-            <Input
-              key={name}
-              name={name}
-              label={input.label}
-              type={input.type}
-              placeholder={input.placeholder}
-              value={input.value}
-              onChange={inputChangeHandler}
-              inValid={
-                input.errMessage || (!input.valid && input.value.length > 0)
-              }
-              inValidMessage={input.errMessage || input.invalidMessage}
-            />
-          );
-        })}
-        <div className={styles.ButtonContainer}>
-          {sending ? (
-            <div className={styles.SpinnerContainer}>
-              <FadingLinesSpinner
-                style={{ position: 'absolute', top: '0', left: '0' }}
-              />
-            </div>
-          ) : (
-            <Button txtContent={'Submit'} />
-          )}
+    <>
+      <Backdrop />
+      <div className={`${styles.Login}`}>
+        <div className={styles.HeaderSection}>
+          <h1>Log In</h1>
+          <h3>TO CONTINUE</h3>
         </div>
-      </form>
-    </div>
+        <form className={styles.Form} onSubmit={submitHandler}>
+          {Object.keys(inputs).map((name) => {
+            const input = inputs[name];
+            return (
+              <div className={styles.InputContainer} key={name}>
+                <div className={styles.IconContainer}>{input.icon}</div>
+                <Input
+                  name={name}
+                  type={input.type}
+                  placeholder={input.placeholder}
+                  value={input.value}
+                  className={styles.Input}
+                  onChange={inputChangeHandler}
+                  inValid={
+                    input.errMessage || (!input.valid && input.value.length > 0)
+                  }
+                  inValidMessage={input.errMessage || input.invalidMessage}
+                />
+              </div>
+            );
+          })}
+          <Checkbox txt={`Remember password`} className={styles.Checkbox} />
+          <div className={styles.ButtonContainer}>
+            {sending ? (
+              <div className={styles.SpinnerContainer}>
+                <FadingLinesSpinner
+                  style={{ position: 'absolute', top: '0', left: '0' }}
+                />
+              </div>
+            ) : (
+              <Button txtContent={'LOG IN'} className={styles.Button} light />
+            )}
+          </div>
+          <a className={styles.AccountCreation}>Do not have an account?</a>
+        </form>
+      </div>
+    </>
   );
 }

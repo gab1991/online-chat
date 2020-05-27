@@ -1,0 +1,47 @@
+@import '../../../../Configs/Variables.scss';
+
+$background-color: transparent;
+$border-color: theme-color('gamma');
+$input-border-color: $font-color-main;
+$box-shadow-color: theme-color('alpha');
+$wrong-input-color: #ff6f91;
+
+.CheckBoxContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.Checkbox {
+  outline: none;
+  appearance: none;
+  $input-side: 0.8rem;
+  border-radius: 2px;
+  width: $input-side;
+  height: $input-side;
+  background-color: $font-color-main;
+  position: relative;
+  &:checked {
+    outline: none;
+    background-color: none;
+    &::before {
+      position: absolute;
+      top: -15%;
+      left: 0;
+      display: block;
+      text-align: center;
+      content: '✔';
+      width: 100%;
+      height: 100%;
+      color: $border-color;
+    }
+  }
+}
+
+.Txt {
+  color: $font-color-main;
+  margin-left: 10px;
+  font-size: 0.9rem;
+}

@@ -1,6 +1,7 @@
 @import '../../../../Configs/Variables.scss';
 
 $btn-bassic-color: theme-color('beta');
+$btn-light-color: $font-color-main;
 
 .Button {
   font-family: $ff-secondary;
@@ -13,4 +14,9 @@ $btn-bassic-color: theme-color('beta');
   border: none;
   padding: 0.375rem 1.5rem;
   border-radius: 30px;
+}
+
+.Light {
+  color: $btn-bassic-color;
+  background-color: $font-color-main;
 }

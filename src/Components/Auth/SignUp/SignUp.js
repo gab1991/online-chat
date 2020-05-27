@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../../Store/Actions/actions';
+import { CSSTransition } from 'react-transition-group';
 import FadingLinesSpinner from '../../UI/SvgSpinners/FadingLines';
 import Input from '../../UI/Inputs/Input/Input';
 import Button from '../../UI/Buttons/Button/Button';
@@ -40,8 +41,7 @@ export default function SignUp(props) {
       placeholder: 'Enter email password',
       value: '',
       valid: false,
-      invalidMessage:
-        'Password must contain 4 to 15 chars including at least one number',
+      invalidMessage: 'Must contain 4 to 15 chars and at least one number',
       icon: <KeyIcon />,
     },
     passConfirm: {
@@ -144,10 +144,9 @@ export default function SignUp(props) {
         {Object.keys(inputs).map((name) => {
           const input = inputs[name];
           return (
-            <div className={styles.InputContainer}>
+            <div className={styles.InputContainer} key={name}>
               <div className={styles.IconContainer}>{input.icon}</div>
               <Input
-                key={name}
                 name={name}
                 type={input.type}
                 placeholder={input.placeholder}

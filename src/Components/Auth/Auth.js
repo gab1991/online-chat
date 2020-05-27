@@ -3,7 +3,7 @@ import Login from './Login/Login';
 import SignUp from './SignUp/SignUp';
 
 export default function Auth(props) {
-  const [activeScreen, setActiveScreen] = useState('SignUp');
+  const [activeScreen, setActiveScreen] = useState('Login');
 
   return <> {activeScreen === 'SignUp' ? <SignUp /> : <Login />}</>;
 }

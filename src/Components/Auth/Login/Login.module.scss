@@ -1,30 +1,94 @@
 @import '../../../Configs/Variables.scss';
 
-$component-background-clr: theme-color('alpha');
+$component-background-clr: theme-color('background');
+$input-color: $font-color-main;
+$input-placeholder-clr: $font-color-main;
+$signUp-link-color: theme-color('beta');
 
 .Login {
   min-height: 100vh;
-  background-color: $component-background-clr;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
 }
-form {
-  margin: 0 1.5rem;
-  width: 100%;
+
+.HeaderSection {
+  margin: auto 0;
+  min-height: 200px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: $font-color-main;
   h1 {
-    text-align: center;
+    font-size: 2.813rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+    font-weight: normal;
   }
 }
 
+.Form {
+  margin-top: auto;
+  margin-bottom: 40px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 400px;
+}
+
+.InputContainer {
+  width: 90%;
+  border-bottom: 1px solid $input-color;
+  display: flex;
+  margin-top: 20px;
+
+  .IconContainer {
+    width: 33px;
+    height: 33px;
+    color: $input-color;
+  }
+  .Input {
+    color: $input-color;
+    margin-left: 20px;
+    padding-bottom: 0;
+    border: 0;
+    &::placeholder {
+      color: $input-placeholder-clr;
+    }
+  }
+}
+
+.Checkbox {
+  margin-top: 40px;
+}
+
 .ButtonContainer {
+  margin-top: auto;
   position: relative;
   display: flex;
   justify-content: center;
+  width: 100%;
+  .Button {
+    font-size: 1.625rem;
+    font-weight: 600;
+    font-family: $ff-main;
+    width: 100%;
+    box-shadow: 0 0px 20px rgba($color: #000000, $alpha: 0.5);
+  }
 }
 
 .SpinnerContainer {
   position: absolute;
   height: 5rem;
   width: 5rem;
+}
+
+.AccountCreation {
+  margin-top: 40px;
+  font-weight: 600;
+  color: $signUp-link-color;
 }
