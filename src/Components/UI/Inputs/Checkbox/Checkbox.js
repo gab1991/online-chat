@@ -9,7 +9,7 @@ export default function Checkbox(props) {
     value,
     placeholder,
     className,
-    disabled,
+    checked,
     name,
     onChange,
     inValid,
@@ -26,7 +26,8 @@ export default function Checkbox(props) {
         type={`checkbox`}
         value={value}
         placeholder={placeholder}
-        className={`${styles.Checkbox} 
+        checked={checked}
+        className={`${styles.Checkbox}
     ${inValid && styles.Invalid}
     `}
         onChange={onChange}
@@ -34,11 +35,10 @@ export default function Checkbox(props) {
         autoComplete={autoComplete}
       />
       {txt && (
-        <label for="check" className={styles.Txt}>
+        <label htmlFor="check" className={styles.Txt}>
           {txt}
         </label>
       )}
-      {inValid && <div className={styles.InValidMessage}>{inValidMessage}</div>}
     </div>
   );
 }

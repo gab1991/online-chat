@@ -36,6 +36,7 @@ export default function Login(props) {
     },
   });
   const [sending, setSending] = useState(false);
+  const [saveUser, setSaveUser] = useState(false);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -66,8 +67,10 @@ export default function Login(props) {
           const username = res.data.username;
           const authToken = res.headers['auth-token'];
           dispatch(logIn(username, authToken));
-          localStorage.setItem('token', authToken);
-          localStorage.setItem('username', username);
+          if (saveUser) {
+            localStorage.setItem('token', authToken);
+            localStorage.setItem('username', username);
+          }
         })
         .catch((err) => {
           setSending(false);
@@ -91,6 +94,10 @@ export default function Login(props) {
     return validate(name, value);
   };
 
+  const rememberUser = (e) => {
+    setSaveUser(e.target.checked);
+  };
+
   const inputChangeHandler = (e) => {
     const inputName = e.target.getAttribute('data-name');
     const currentValue = e.target.value;
@@ -108,49 +115,54 @@ export default function Login(props) {
   };
 
   return (
-    <>
+    <div className={`${styles.Login}`}>
       <Backdrop />
-      <div className={`${styles.Login}`}>
-        <div className={styles.HeaderSection}>
-          <h1>Log In</h1>
-          <h3>TO CONTINUE</h3>
-        </div>
-        <form className={styles.Form} onSubmit={submitHandler}>
-          {Object.keys(inputs).map((name) => {
-            const input = inputs[name];
-            return (
-              <div className={styles.InputContainer} key={name}>
-                <div className={styles.IconContainer}>{input.icon}</div>
-                <Input
-                  name={name}
-                  type={input.type}
-                  placeholder={input.placeholder}
-                  value={input.value}
-                  className={styles.Input}
-                  onChange={inputChangeHandler}
-                  inValid={
-                    input.errMessage || (!input.valid && input.value.length > 0)
-                  }
-                  inValidMessage={input.errMessage || input.invalidMessage}
-                />
-              </div>
-            );
-          })}
-          <Checkbox txt={`Remember password`} className={styles.Checkbox} />
-          <div className={styles.ButtonContainer}>
-            {sending ? (
-              <div className={styles.SpinnerContainer}>
-                <FadingLinesSpinner
-                  style={{ position: 'absolute', top: '0', left: '0' }}
-                />
-              </div>
-            ) : (
-              <Button txtContent={'LOG IN'} className={styles.Button} light />
-            )}
-          </div>
-          <a className={styles.AccountCreation}>Do not have an account?</a>
-        </form>
+      <div className={styles.HeaderSection}>
+        <h1>Log In</h1>
+        <h3>TO CONTINUE</h3>
       </div>
-    </>
+      <form className={styles.Form} onSubmit={submitHandler}>
+        {Object.keys(inputs).map((name) => {
+          const input = inputs[name];
+          return (
+            <div className={styles.InputContainer} key={name}>
+              <div className={styles.IconContainer}>{input.icon}</div>
+              <Input
+                name={name}
+                type={input.type}
+                placeholder={input.placeholder}
+                value={input.value}
+                className={styles.Input}
+                onChange={inputChangeHandler}
+                inValid={
+                  input.errMessage || (!input.valid && input.value.length > 0)
+                }
+                inValidMessage={input.errMessage || input.invalidMessage}
+              />
+            </div>
+          );
+        })}
+        <Checkbox
+          txt={`Remember me`}
+          className={styles.Checkbox}
+          onChange={rememberUser}
+          checked={saveUser}
+        />
+        <div className={styles.ButtonContainer}>
+          {sending ? (
+            <div className={styles.SpinnerContainer}>
+              <FadingLinesSpinner />
+            </div>
+          ) : (
+            <Button txtContent={'LOG IN'} className={styles.Button} light />
+          )}
+        </div>
+        <a
+          className={styles.AccountCreation}
+          onClick={props.changeActiveScreen}>
+          Do not have an account?
+        </a>
+      </form>
+    </div>
   );
 }

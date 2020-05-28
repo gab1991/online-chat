@@ -10,6 +10,7 @@ $signUp-link-color: theme-color('beta');
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 
 .HeaderSection {
@@ -77,17 +78,21 @@ $signUp-link-color: theme-color('beta');
     font-weight: 600;
     font-family: $ff-main;
     width: 100%;
-    box-shadow: 0 0px 20px rgba($color: #000000, $alpha: 0.5);
   }
 }
 
 .SpinnerContainer {
-  position: absolute;
-  height: 5rem;
-  width: 5rem;
+  height: 60px;
+  width: 60px;
+  svg {
+    path {
+      fill: $input-color;
+    }
+  }
 }
 
 .AccountCreation {
+  cursor: pointer;
   margin-top: 40px;
   font-weight: 600;
   color: $signUp-link-color;

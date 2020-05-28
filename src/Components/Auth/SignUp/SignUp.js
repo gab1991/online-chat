@@ -172,6 +172,11 @@ export default function SignUp(props) {
             <Button txtContent={'create account'} className={styles.Button} />
           )}
         </div>
+        <a
+          className={styles.AccountCreation}
+          onClick={props.changeActiveScreen}>
+          Already have an account?
+        </a>
       </form>
     </div>
   );

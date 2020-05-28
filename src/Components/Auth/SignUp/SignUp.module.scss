@@ -6,9 +6,7 @@ $input-placeholder-clr: theme-color('epsilon');
 
 .SignUp {
   min-height: 100vh;
-  // background-color: $component-background-clr;
-  // background: url('../../../Frame.svg') no-repeat;
-  // background-color: lightseagreen;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,9 +32,8 @@ $input-placeholder-clr: theme-color('epsilon');
 form {
   margin-top: auto;
   margin-bottom: 20px;
-  height: 315px;
+  height: 330px;
   max-width: 300px;
-  // background-color: lightcoral;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -79,32 +76,18 @@ form {
 }
 
 .SpinnerContainer {
-  position: absolute;
-  height: 5rem;
-  width: 5rem;
+  height: 60px;
+  width: 60px;
+  svg {
+    path {
+      fill: $input-color;
+    }
+  }
 }
 
-:global {
-  /* This fires as soon as the element enters the DOM */
-  .list-transition-enter {
-    opacity: 0;
-  }
-  /* This is where we can add the transition*/
-  .list-transition-enter-active {
-    opacity: 0.5;
-    transition: all 400ms;
-  }
-  /* This is when element rendered in the dome*/
-  .list-transition-enter-active {
-    opacity: 1;
-  }
-  /* This fires as soon as the this.state.showList is false */
-  .list-transition-exit {
-    transition: all 400ms;
-    opacity: 1;
-  }
-  /* fires as element leaves the DOM*/
-  .list-transition-exit-active {
-    opacity: 0;
-  }
+.AccountCreation {
+  cursor: pointer;
+  margin-top: 5px;
+  font-weight: 600;
+  color: $input-color;
 }

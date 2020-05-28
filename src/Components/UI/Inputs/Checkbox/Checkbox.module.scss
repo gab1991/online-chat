@@ -8,6 +8,7 @@ $wrong-input-color: #ff6f91;
 
 .CheckBoxContainer {
   position: relative;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,6 +16,7 @@ $wrong-input-color: #ff6f91;
 }
 
 .Checkbox {
+  cursor: pointer;
   outline: none;
   appearance: none;
   $input-side: 0.8rem;
@@ -42,6 +44,7 @@ $wrong-input-color: #ff6f91;
 
 .Txt {
   color: $font-color-main;
+  cursor: pointer;
   margin-left: 10px;
   font-size: 0.9rem;
 }
