@@ -1,0 +1,72 @@
+@import '../../Configs/Variables.scss';
+
+$background-top-color: theme-color('gamma');
+$background-middle-color: theme-color('delta');
+$background-bottom-color: theme-color('epsilon');
+
+.Menu {
+  color: $font-color-main;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  width: 300px;
+  height: 100vh;
+  background: linear-gradient(
+    180deg,
+    $background-top-color 1.56%,
+    $background-middle-color 39.06%,
+    $background-bottom-color 100%
+  );
+  border-radius: 0px 20px 20px 0px;
+}
+
+.NameSection {
+  margin-top: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .PencilSvgContainer {
+    margin-left: 28px;
+    position: relative;
+    width: 1.5rem;
+    height: 1.5rem;
+    svg {
+      position: absolute;
+    }
+  }
+}
+.Avatar {
+  margin-top: 20px;
+}
+
+.OptionsSection {
+  li {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    // justify-content: center;
+    list-style: none;
+  }
+  div {
+    position: relative;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    height: 1.5rem;
+    width: 1.5rem;
+    svg {
+      position: absolute;
+    }
+  }
+  h4 {
+    font-weight: 600;
+    margin-left: 14px;
+    font-size: 1.4rem;
+  }
+}

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import Menu from '../Menu/Menu';
 import { connect } from 'react-redux';
 import Chat from '../Chat/Chat';
 import HamburgerIcon from '../UI/SvgIcons/Hamburger';
@@ -8,6 +9,7 @@ import styles from '../Messages/Messages.module.scss';
 
 function Messages(props) {
   const { conversations } = props;
+  const [showMenu, setShowMenu] = useState(true);
 
   const enterChat = (conversationID) => {
     console.log('here');
@@ -18,7 +20,12 @@ function Messages(props) {
     <div className={styles.Messages}>
       <div className={styles.Header}>
         <div className={styles.HeaderContent}>
-          <HamburgerIcon className={styles.HamburgerSvg} />
+          <HamburgerIcon
+            className={styles.HamburgerSvg}
+            onClick={() => {
+              setShowMenu(true);
+            }}
+          />
           <h3>Messages</h3>
           <LookUpIcon className={styles.LookUpSvg} />
         </div>
@@ -36,6 +43,7 @@ function Messages(props) {
             );
           })}
       </div>
+      {showMenu && <Menu />}
     </div>
   );
 }
