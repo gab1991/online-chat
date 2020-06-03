@@ -43,7 +43,14 @@ function Messages(props) {
             );
           })}
       </div>
-      {showMenu && <Menu />}
+      {showMenu && (
+        <div
+          className={styles.BackDrop}
+          onClick={() => {
+            setShowMenu(false);
+          }}></div>
+      )}
+      <Menu className={showMenu ? styles.ShowMenu : styles.HideMenu} />
     </div>
   );
 }

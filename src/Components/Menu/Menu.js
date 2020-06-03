@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Avatar from '../UI/Avatar/Avatar';
+import Input from '../UI/Inputs/Input/Input';
 import PencilSvg from '../UI/SvgIcons/Pencil';
 import HumanSvg from '../UI/SvgIcons/Human';
 import CogSvg from '../UI/SvgIcons/Cog';
@@ -9,13 +10,22 @@ import ExitSvg from '../UI/SvgIcons/Exit';
 import styles from './Menu.module.scss';
 
 function Menu(props) {
-  const { username, avatar_path } = props;
+  const { username, avatar_path, className } = props;
+  const [showNameInput, setShowNameInput] = useState(true);
 
   return (
-    <div className={styles.Menu}>
+    <div className={`${styles.Menu} ${className}`}>
       <div className={styles.NameSection}>
-        <h3>{username}</h3>
-        <div className={styles.PencilSvgContainer}>
+        {showNameInput ? (
+          <Input className={styles.Input} />
+        ) : (
+          <h3>{username}</h3>
+        )}
+        <div
+          className={styles.PencilSvgContainer}
+          onClick={() => {
+            setShowNameInput((prev) => !prev);
+          }}>
           <PencilSvg />
         </div>
       </div>
