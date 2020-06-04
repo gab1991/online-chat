@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import { logOut } from '../../Store/Actions/actions';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import Avatar from '../UI/Avatar/Avatar';
 import Input from '../UI/Inputs/Input/Input';
@@ -11,23 +13,30 @@ import styles from './Menu.module.scss';
 
 function Menu(props) {
   const { username, avatar_path, className } = props;
-  const [showNameInput, setShowNameInput] = useState(true);
+  const dispatch = useDispatch();
+  const [showNameInput, setShowNameInput] = useState(false);
+
+  const sendLogOut = () => {
+    dispatch(logOut());
+    props.history.push('/');
+    localStorage.clear();
+  };
 
   return (
     <div className={`${styles.Menu} ${className}`}>
       <div className={styles.NameSection}>
         {showNameInput ? (
-          <Input className={styles.Input} />
+          <Input className={styles.Input} type={'text'} />
         ) : (
           <h3>{username}</h3>
         )}
-        <div
-          className={styles.PencilSvgContainer}
-          onClick={() => {
-            setShowNameInput((prev) => !prev);
-          }}>
-          <PencilSvg />
-        </div>
+      </div>
+      <div
+        className={styles.PencilSvgContainer}
+        onClick={() => {
+          setShowNameInput((prev) => !prev);
+        }}>
+        <PencilSvg />
       </div>
       {username && (
         <Avatar
@@ -50,7 +59,7 @@ function Menu(props) {
           </div>
           <h4>Settings</h4>
         </li>
-        <li>
+        <li onClick={sendLogOut}>
           <div className={styles.ExitSvgContainer}>
             <ExitSvg />
           </div>
@@ -68,7 +77,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Menu);
+export default withRouter(connect(mapStateToProps)(Menu));
 
 Menu.propTypes = {
   username: PropTypes.string,

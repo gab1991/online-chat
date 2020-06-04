@@ -9,6 +9,7 @@ const logIn = (username, token) => {
 };
 
 const logOut = () => {
+  console.log('in actions');
   return {
     type: 'LOG_OUT',
   };

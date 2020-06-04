@@ -14,41 +14,38 @@ import styles from './App.module.scss';
 
 function App(props) {
   const dispatch = useDispatch();
-  const { isLogged, conversations } = props;
+  const { isLogged, conversations, token } = props;
 
   useEffect(() => {
     Socket.subscribeToConversations(conversations);
   }, [conversations]);
 
   useEffect(() => {
-    //   Backend.getProfile(token).then((res) => {
-    //     const profile = {
-    //       avatar_path: res.data.avatar_path,
-    //       id: res.data.id,
-    //       username: res.data.username,
-    //       displayed_name: res.data.displayed_name,
-    //     };
-    //     const conversations = {
-    //       ...res.data.conversations,
-    //     };
-    //     dispatch(updateProfile(profile));
-    //     dispatch(fillChats(conversations));
-    //   });
-    // }
+    Backend.getProfile(token).then((res) => {
+      const profile = {
+        avatar_path: res.data.avatar_path,
+        id: res.data.id,
+        username: res.data.username,
+        displayed_name: res.data.displayed_name,
+      };
+      const conversations = {
+        ...res.data.conversations,
+      };
+      dispatch(updateProfile(profile));
+      dispatch(fillChats(conversations));
+    });
   }, []);
 
   return (
     <div className={styles.App}>
-      <Switch>
-        <Route path="/messages" component={Messages} />
-        <Route path="/findContact" component={FindContact} />
-        <Route path="/chats/:chatID?" component={ChatRoom}></Route>
-        <Route path="/">
-          {isLogged && <UserSettings />}
-          {!isLogged && <Auth />}
-          {/* <Auth /> */}
-        </Route>
-      </Switch>
+      {!isLogged && <Route path="/" component={Auth} />}
+      {isLogged && (
+        <Switch>
+          <Route path="/" component={Messages} />
+          <Route path="/findContact" component={FindContact} />
+          <Route path="/chats/:chatID?" component={ChatRoom} />
+        </Switch>
+      )}
     </div>
   );
 }
@@ -57,6 +54,7 @@ function mapStateToProps(state) {
   return {
     isLogged: state.logged,
     conversations: state.chats,
+    token: state.logged.token,
   };
 }
 

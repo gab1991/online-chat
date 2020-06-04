@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { logIn } from '../../../Store/Actions/actions';
+import {
+  logIn,
+  updateProfile,
+  fillChats,
+} from '../../../Store/Actions/actions';
 import { useDispatch } from 'react-redux';
 import Backend from '../../../Backend/Backend';
 import Checkbox from '../../UI/Inputs/Checkbox/Checkbox';
@@ -11,6 +15,22 @@ import Button from '../../UI/Buttons/Button/Button';
 import validate from '../../../Validation/Validation';
 import FadingLinesSpinner from '../../UI/SvgSpinners/FadingLines';
 import styles from '../Login/Login.module.scss';
+
+function getProfileInfo(token, dispatch) {
+  Backend.getProfile(token).then((res) => {
+    const profile = {
+      avatar_path: res.data.avatar_path,
+      id: res.data.id,
+      username: res.data.username,
+      displayed_name: res.data.displayed_name,
+    };
+    const conversations = {
+      ...res.data.conversations,
+    };
+    dispatch(updateProfile(profile));
+    dispatch(fillChats(conversations));
+  });
+}
 
 export default function Login(props) {
   const dispatch = useDispatch();
@@ -67,6 +87,7 @@ export default function Login(props) {
           const username = res.data.username;
           const authToken = res.headers['auth-token'];
           dispatch(logIn(username, authToken));
+          getProfileInfo(authToken, dispatch);
           if (saveUser) {
             localStorage.setItem('token', authToken);
             localStorage.setItem('username', username);
