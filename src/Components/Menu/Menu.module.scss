@@ -46,7 +46,7 @@ $background-bottom-color: theme-color('epsilon');
   }
 }
 
-.PencilSvgContainer {
+.PencilTickSvgContainer {
   grid-area: pencil;
   align-self: center;
   margin-top: 28px;
@@ -62,8 +62,9 @@ $background-bottom-color: theme-color('epsilon');
 }
 
 .Avatar {
+  user-select: none;
   grid-column: 2/3;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .OptionsSection {

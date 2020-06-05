@@ -22,7 +22,7 @@ export default function Chat(props) {
         <p className={styles.ContactName}>
           {privateContact.displayed_name || privateContact.username}
         </p>
-        <p>i want to eat this shit</p>
+        <p>last message should be here</p>
       </div>
       <div className={styles.TimeSection}>11:58</div>
     </div>

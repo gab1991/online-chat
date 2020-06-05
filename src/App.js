@@ -41,9 +41,9 @@ function App(props) {
       {!isLogged && <Route path="/" component={Auth} />}
       {isLogged && (
         <Switch>
-          <Route path="/" component={Messages} />
-          <Route path="/findContact" component={FindContact} />
           <Route path="/chats/:chatID?" component={ChatRoom} />
+          <Route path="/findContact" component={FindContact} />
+          <Route path="/" component={Messages} />
         </Switch>
       )}
     </div>

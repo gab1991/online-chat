@@ -98,12 +98,14 @@ $svg-icon-color: theme-color('gamma');
 .TypeArea {
   margin: 0;
   height: 80px;
+  overflow: hidden;
 
   .TypeAreaSeparator {
     height: 2px;
     background-color: $typing-area-separator-color;
   }
   .SearchResultToggler {
+    user-select: none;
     display: flex;
     height: 100%;
     margin: 0 $header-context-margin;
@@ -113,6 +115,7 @@ $svg-icon-color: theme-color('gamma');
     opacity: 0.8;
 
     .ArrowsContainer {
+      cursor: pointer;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       grid-gap: 12px;

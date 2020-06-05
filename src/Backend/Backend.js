@@ -107,6 +107,25 @@ const Backend = {
         .catch((err) => reject(err));
     });
   },
+  updateDispName: (dispName) => {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: `/api/profiles/updateDispName`,
+        method: 'POST',
+        headers: {
+          authorization: `Bearer ${getToken()}`,
+        },
+        data: {
+          token: getToken(),
+          dispName: dispName,
+        },
+      })
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => reject(err));
+    });
+  },
 };
 
 export default Backend;

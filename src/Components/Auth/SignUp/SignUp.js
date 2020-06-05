@@ -140,7 +140,7 @@ export default function SignUp(props) {
         <h1>SignUp</h1>
         <h3>TO CONTINUE</h3>
       </div>
-      <form onSubmit={submitHandler}>
+      <form className={styles.SignUpForm} onSubmit={submitHandler}>
         {Object.keys(inputs).map((name) => {
           const input = inputs[name];
           return (

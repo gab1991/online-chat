@@ -175,7 +175,7 @@ function ChatRoom(props) {
             <>
               <Input
                 onChange={SeacrhinputChangeHandler}
-                placeholder={'Seacrh message'}
+                placeholder={'Search message'}
                 type={'text'}
                 value={searchInputValue}
                 className={styles.Input}

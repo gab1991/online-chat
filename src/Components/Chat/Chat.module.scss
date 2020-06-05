@@ -1,5 +1,6 @@
 @import '../../Configs/Variables.scss';
 $chat-background: whitesmoke;
+$contact-box-shadow-color: theme-color('delta');
 
 .Chat {
   cursor: pointer;
@@ -7,6 +8,7 @@ $chat-background: whitesmoke;
   display: flex;
   align-items: center;
   background-color: $chat-background;
+  box-shadow: 0 1px 1px 0 $contact-box-shadow-color;
 }
 
 .Avatar {
