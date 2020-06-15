@@ -36,6 +36,9 @@ $svg-rect-side: 2rem;
   align-items: center;
 
   .SearchInput {
+    &::placeholder {
+      color: rgba($color: $font-color-main, $alpha: 0.8);
+    }
   }
   .BackArrowSvg {
     cursor: pointer;

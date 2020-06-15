@@ -178,11 +178,11 @@ export default function Login(props) {
             <Button txtContent={'LOG IN'} className={styles.Button} light />
           )}
         </div>
-        <a
+        <button
           className={styles.AccountCreation}
           onClick={props.changeActiveScreen}>
           Do not have an account?
-        </a>
+        </button>
       </form>
     </div>
   );

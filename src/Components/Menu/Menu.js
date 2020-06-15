@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import useClickOutside from '../../Utils/useClickOutside';
 import { connect, useDispatch } from 'react-redux';
 import { logOut, updateProfile } from '../../Store/Actions/actions';
 import { withRouter } from 'react-router';

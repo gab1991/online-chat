@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import formatTime from '../../Utils/timeFormatter';
 import Avatar from '../UI/Avatar/Avatar';
 import styles from './Chat.module.scss';
 
@@ -8,6 +9,11 @@ export default function Chat(props) {
   const privateContact = {
     ...participants[0],
   };
+  const msgs = props.messages;
+  const lastMsg = msgs[msgs.length - 1];
+  const [hours, minutes] = lastMsg
+    ? formatTime(lastMsg.created_at)
+    : [null, null];
 
   const privateAvatarProps = {
     text: privateContact.displayed_name || privateContact.username,
@@ -22,9 +28,11 @@ export default function Chat(props) {
         <p className={styles.ContactName}>
           {privateContact.displayed_name || privateContact.username}
         </p>
-        <p>last message should be here</p>
+        <p>{lastMsg && lastMsg.message}</p>
       </div>
-      <div className={styles.TimeSection}>11:58</div>
+      <div className={styles.TimeSection}>
+        {hours}:{minutes}
+      </div>
     </div>
   );
 }

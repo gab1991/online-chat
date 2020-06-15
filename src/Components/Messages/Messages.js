@@ -12,9 +12,9 @@ function Messages(props) {
   const [showMenu, setShowMenu] = useState(true);
 
   const enterChat = (conversationID) => {
-    console.log('here');
     props.history.push(`/chats/${conversationID}`);
   };
+  console.log(conversations);
 
   return (
     <div className={styles.Messages}>
@@ -34,13 +34,15 @@ function Messages(props) {
         {conversations &&
           Object.keys(conversations).map((key) => {
             const conversation = conversations[key];
-            return (
-              <Chat
-                key={conversation.id}
-                {...conversation}
-                onClick={() => enterChat(conversation.id)}
-              />
-            );
+            if (conversation.messages.length) {
+              return (
+                <Chat
+                  key={conversation.id}
+                  {...conversation}
+                  onClick={() => enterChat(conversation.id)}
+                />
+              );
+            }
           })}
       </div>
       {showMenu && (

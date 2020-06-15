@@ -92,6 +92,9 @@ $signUp-link-color: theme-color('beta');
 }
 
 .AccountCreation {
+  border: none;
+  background: none;
+  font: inherit;
   cursor: pointer;
   margin-top: 40px;
   font-weight: 600;

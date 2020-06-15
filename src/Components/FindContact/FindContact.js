@@ -68,6 +68,7 @@ function FindContact(props) {
             type={'text'}
             className={styles.SearchInput}
             onChange={onChangeHandler}
+            placeholder={'Find contact'}
           />
           {typing ? (
             <CircularSpinner className={styles.CircularSpinnerSvg} />

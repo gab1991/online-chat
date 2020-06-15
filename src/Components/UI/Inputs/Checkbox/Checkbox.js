@@ -13,7 +13,6 @@ export default function Checkbox(props) {
     name,
     onChange,
     inValid,
-    inValidMessage,
     autoComplete = 'on',
   } = props;
 
