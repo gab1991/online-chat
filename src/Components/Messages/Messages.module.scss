@@ -1,9 +1,12 @@
 @import '../../Configs/Variables';
 
+$background-color: whitesmoke;
 $header-color-top: theme-color('gamma');
 $header-color-middle: theme-color('delta');
 $header-color-bottom: theme-color('epsilon');
 $chat-section-background: theme-color('delta');
+$header-context-margin: 24px;
+$svg-arrow-side: 1.5rem;
 $svg-rect-side: 2rem;
 
 @mixin chat-container-font {
@@ -15,6 +18,7 @@ $svg-rect-side: 2rem;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: $background-color;
 }
 
 .Header {
@@ -35,6 +39,7 @@ $svg-rect-side: 2rem;
   width: 100%;
   display: flex;
   align-items: center;
+  margin: 0 $header-context-margin;
 
   .HamburgerSvg {
     cursor: pointer;
@@ -47,13 +52,38 @@ $svg-rect-side: 2rem;
     height: $svg-rect-side;
     width: $svg-rect-side;
   }
-  margin: 0 2rem;
 
   h3 {
     display: inline-block;
     margin-left: 2.5rem;
     font-weight: 600;
     font-size: 1.25rem;
+  }
+}
+
+.BackArrowSvg {
+  cursor: pointer;
+  margin-right: 24px;
+  height: $svg-arrow-side;
+  width: $svg-arrow-side;
+}
+
+.Input {
+  &::placeholder {
+    color: $font-color-main;
+    opacity: 0.5;
+  }
+}
+
+.EscIconContainer {
+  width: 2rem;
+  height: 2rem;
+  position: relative;
+  margin-left: 12px;
+  svg {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 }
 

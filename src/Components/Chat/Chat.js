@@ -5,16 +5,17 @@ import Avatar from '../UI/Avatar/Avatar';
 import styles from './Chat.module.scss';
 
 export default function Chat(props) {
-  const { type, participants, onClick } = props;
+  const { type, participants, onClick, matchedMsgs } = props;
   const privateContact = {
     ...participants[0],
   };
   const msgs = props.messages;
-  const lastMsg = msgs[msgs.length - 1];
-  const [hours, minutes] = lastMsg
-    ? formatTime(lastMsg.created_at)
+  const msgPreview = matchedMsgs ? matchedMsgs[0] : msgs[msgs.length - 1];
+  const [hours, minutes] = msgPreview
+    ? formatTime(msgPreview.created_at)
     : [null, null];
 
+  console.log(props);
   const privateAvatarProps = {
     text: privateContact.displayed_name || privateContact.username,
     imgSrc: privateContact.avatar_path,
@@ -28,10 +29,13 @@ export default function Chat(props) {
         <p className={styles.ContactName}>
           {privateContact.displayed_name || privateContact.username}
         </p>
-        <p>{lastMsg && lastMsg.message}</p>
+        <p>{msgPreview && msgPreview.message}</p>
       </div>
       <div className={styles.TimeSection}>
         {hours}:{minutes}
+        {matchedMsgs && (
+          <div className={styles.FoundMsgsNum}>{matchedMsgs.length}</div>
+        )}
       </div>
     </div>
   );

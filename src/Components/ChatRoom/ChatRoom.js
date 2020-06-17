@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  createRef,
-  useCallback,
-} from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { debounce } from '../../Utils/Utils';
 import PropTypes from 'prop-types';
@@ -88,7 +82,7 @@ function ChatRoom(props) {
     return resullt;
   };
 
-  const delayedSearch = useCallback(debounce(findMessage, 1000));
+  const delayedSearch = useCallback(debounce(findMessage, 1000), []);
 
   const SeacrhinputChangeHandler = (e) => {
     const searchStr = e.target.value;

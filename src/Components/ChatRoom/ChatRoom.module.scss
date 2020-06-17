@@ -1,5 +1,6 @@
 @import '../../Configs/Variables';
 
+$background-color: whitesmoke;
 $header-context-margin: 24px;
 $header-color-top: theme-color('gamma');
 $header-color-middle: theme-color('delta');
@@ -7,6 +8,7 @@ $header-color-bottom: theme-color('epsilon');
 $chat-section-background: theme-color('background');
 $svg-arrow-side: 1.5rem;
 $svg-lookUp-side: 2rem;
+$svg-escSvg-side: 2rem;
 $typing-area-separator-color: theme-color('epsilon');
 $svg-icon-color: theme-color('gamma');
 
@@ -19,6 +21,7 @@ $svg-icon-color: theme-color('gamma');
   height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: $background-color;
 }
 
 .Header {
@@ -72,8 +75,8 @@ $svg-icon-color: theme-color('gamma');
     }
   }
   .EscIconContainer {
-    width: 2rem;
-    height: 2rem;
+    width: $svg-escSvg-side;
+    height: $svg-escSvg-side;
     position: relative;
     margin-left: 12px;
     svg {

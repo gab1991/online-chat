@@ -4,6 +4,7 @@ $contact-box-shadow-color: theme-color('delta');
 
 .Chat {
   cursor: pointer;
+
   width: 100%;
   display: flex;
   align-items: center;
@@ -35,8 +36,21 @@ $contact-box-shadow-color: theme-color('delta');
 }
 
 .TimeSection {
+  position: relative;
   margin-right: 22px;
   width: 61px;
   text-align: center;
   font-size: 0.875rem;
+
+  .FoundMsgsNum {
+    position: absolute;
+    bottom: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: lightcoral;
+    color: white;
+    min-width: 20px;
+    min-height: 20px;
+    border-radius: 50%;
+  }
 }
