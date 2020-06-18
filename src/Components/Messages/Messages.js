@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { debounce, isEmptyObj } from '../../Utils/Utils';
 import Menu from '../Menu/Menu';
@@ -13,19 +13,41 @@ import styles from '../Messages/Messages.module.scss';
 
 function Messages(props) {
   const { conversations } = props;
+  const inputRef = useRef();
+  const [displConvs, setDisplConvs] = useState({});
   const [showMenu, setShowMenu] = useState(false);
   const [showInput, setShowInput] = useState(false);
-  const [searchInputValue, serSearchInputValue] = useState('');
+  const [searchInputValue, setSearchInputValue] = useState('');
   const [matchedConvs, setMatchedConvs] = useState({});
+
+  useEffect(() => {
+    if (isEmptyObj(matchedConvs)) {
+      setDisplConvs(conversations);
+    } else {
+      setDisplConvs(matchedConvs);
+    }
+  }, [conversations, matchedConvs]);
 
   useEffect(() => {
     delayedSearch(searchInputValue, conversations);
   }, [searchInputValue]);
 
+  useEffect(() => {
+    if (showInput) {
+      inputRef.current.focus();
+    }
+  }, [showInput]);
+
   const findMessage = (searchStr, conversations) => {
     const foundConvs = {};
+
+    if (searchStr.length == 0) {
+      setMatchedConvs(foundConvs);
+      return;
+    }
+
     for (let id in conversations) {
-      const conversation = conversations[id];
+      const conversation = { ...conversations[id] };
       if (!conversation.messages.length) continue;
       const convResult = conversation.messages.filter((message) => {
         return message.message.toLowerCase().includes(searchStr.toLowerCase());
@@ -39,8 +61,6 @@ function Messages(props) {
     setMatchedConvs(foundConvs);
   };
 
-  console.log(matchedConvs, isEmptyObj(matchedConvs));
-
   const delayedSearch = useCallback(debounce(findMessage, 500), []);
 
   const enterChat = (conversationID) => {
@@ -51,6 +71,7 @@ function Messages(props) {
     setShowInput((prev) => {
       if (prev) {
         setMatchedConvs({});
+        setSearchInputValue('');
       }
       return !prev;
     });
@@ -58,7 +79,12 @@ function Messages(props) {
 
   const SeacrhinputChangeHandler = (e) => {
     const searchStr = e.target.value;
-    serSearchInputValue(searchStr);
+    setSearchInputValue(searchStr);
+  };
+
+  const clearInput = () => {
+    setSearchInputValue('');
+    inputRef.current.focus();
   };
 
   return (
@@ -90,10 +116,9 @@ function Messages(props) {
                 type={'text'}
                 value={searchInputValue}
                 className={styles.Input}
+                inputRef={inputRef}
               />
-              <div
-                className={styles.EscIconContainer}
-                onClick={toggleSearchInMsgs}>
+              <div className={styles.EscIconContainer} onClick={clearInput}>
                 <EscIcon className={styles.EscIconSvg} />
               </div>
             </>
@@ -101,25 +126,9 @@ function Messages(props) {
         </div>
       </div>
       <div className={styles.ChatsContainer}>
-        {conversations &&
-          isEmptyObj(matchedConvs) &&
-          !searchInputValue &&
-          Object.keys(conversations).map((key) => {
-            const conversation = conversations[key];
-            if (conversation.messages.length) {
-              return (
-                <Chat
-                  key={conversation.id}
-                  {...conversation}
-                  onClick={() => enterChat(conversation.id)}
-                />
-              );
-            }
-          })}
-        {matchedConvs &&
-          !isEmptyObj(matchedConvs) &&
-          Object.keys(matchedConvs).map((key) => {
-            const conversation = matchedConvs[key];
+        {displConvs &&
+          Object.keys(displConvs).map((key) => {
+            const conversation = displConvs[key];
             if (conversation.messages.length) {
               return (
                 <Chat

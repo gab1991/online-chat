@@ -15,7 +15,7 @@ export default function Chat(props) {
     ? formatTime(msgPreview.created_at)
     : [null, null];
 
-  console.log(props);
+  // console.log(matchedMsgs);
   const privateAvatarProps = {
     text: privateContact.displayed_name || privateContact.username,
     imgSrc: privateContact.avatar_path,
@@ -34,7 +34,9 @@ export default function Chat(props) {
       <div className={styles.TimeSection}>
         {hours}:{minutes}
         {matchedMsgs && (
-          <div className={styles.FoundMsgsNum}>{matchedMsgs.length}</div>
+          <div className={styles.FoundMsgsNum}>
+            <p>{matchedMsgs.length}</p>
+          </div>
         )}
       </div>
     </div>
