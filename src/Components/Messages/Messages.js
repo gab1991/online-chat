@@ -21,10 +21,13 @@ function Messages(props) {
   const [matchedConvs, setMatchedConvs] = useState({});
 
   useEffect(() => {
-    if (isEmptyObj(matchedConvs)) {
-      setDisplConvs(conversations);
-    } else {
+    if (
+      (isEmptyObj(matchedConvs) && searchInputValue.length !== 0) ||
+      !isEmptyObj(matchedConvs)
+    ) {
       setDisplConvs(matchedConvs);
+    } else {
+      setDisplConvs(conversations);
     }
   }, [conversations, matchedConvs]);
 
@@ -126,7 +129,7 @@ function Messages(props) {
         </div>
       </div>
       <div className={styles.ChatsContainer}>
-        {displConvs &&
+        {!isEmptyObj(displConvs) &&
           Object.keys(displConvs).map((key) => {
             const conversation = displConvs[key];
             if (conversation.messages.length) {
@@ -139,6 +142,9 @@ function Messages(props) {
               );
             }
           })}
+        {isEmptyObj(displConvs) && (
+          <p className={styles.NothingFound}>Nothing found</p>
+        )}
       </div>
       {showMenu && (
         <div
