@@ -17,6 +17,7 @@ import styles from './ChatRoom.module.scss';
 function ChatRoom(props) {
   const { chatID } = props.match.params;
   const { user_id } = props;
+  const inputRef = useRef();
   const chatData = useSelector((state) => state.chats[chatID]);
   const messages = chatData ? chatData.messages : [];
   const type = chatData && chatData.type;
@@ -33,6 +34,12 @@ function ChatRoom(props) {
   const messageRefs = useRef({});
 
   useEffect(() => {
+    if (showSearch) {
+      inputRef.current.focus();
+    }
+  }, [showSearch]);
+
+  useEffect(() => {
     if (selectedMatchedMsg.msgId) {
       focusOnMsg(selectedMatchedMsg.msgId);
     }
@@ -45,6 +52,11 @@ function ChatRoom(props) {
         updState.msgId = matchedMsgs[0].id;
         return updState;
       });
+    } else {
+      setSelectedMatchedMsg({
+        index: 1,
+        msgId: null,
+      });
     }
   }, [matchedMsgs.length]);
 
@@ -53,7 +65,7 @@ function ChatRoom(props) {
   }, [messages.length]);
 
   useEffect(() => {
-    delayedSearch(searchInputValue);
+    delayedSearch(searchInputValue, messages);
   }, [searchInputValue]);
 
   const goBackHandler = () => {
@@ -74,12 +86,16 @@ function ChatRoom(props) {
     setShowSearch((prevState) => !prevState);
   };
 
-  const findMessage = (searchStr) => {
+  const findMessage = (searchStr, messages) => {
+    if (searchStr.length === 0) {
+      return;
+    }
+
     const resullt = messages.filter((message) => {
       return message.message.toLowerCase().includes(searchStr.toLowerCase());
     });
+    console.log(resullt);
     setMatchedMsgs(resullt.reverse());
-    return resullt;
   };
 
   const delayedSearch = useCallback(debounce(findMessage, 1000), []);
@@ -125,10 +141,14 @@ function ChatRoom(props) {
 
   const clearSearchInput = () => {
     setSearchInputValue('');
+    inputRef.current.focus();
+    setMatchedMsgs([]);
   };
 
   const hideSearch = () => {
     setShowSearch(false);
+    setSearchInputValue('');
+    setMatchedMsgs([]);
   };
 
   const privateChatAvatarProps = {
@@ -173,6 +193,7 @@ function ChatRoom(props) {
                 type={'text'}
                 value={searchInputValue}
                 className={styles.Input}
+                inputRef={inputRef}
               />
               <div
                 className={styles.EscIconContainer}

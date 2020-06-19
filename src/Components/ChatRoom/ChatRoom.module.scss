@@ -75,6 +75,7 @@ $svg-icon-color: theme-color('gamma');
     }
   }
   .EscIconContainer {
+    cursor: pointer;
     width: $svg-escSvg-side;
     height: $svg-escSvg-side;
     position: relative;

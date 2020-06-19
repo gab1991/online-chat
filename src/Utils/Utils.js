@@ -2,13 +2,14 @@ const debounce = (func, wait) => {
   let timeout;
 
   return function (...args) {
+    const context = this;
     if (timeout) {
       clearTimeout(timeout);
     }
-
+    console.log(context);
     timeout = setTimeout(() => {
       timeout = null;
-      func.apply(this, args);
+      func.apply(context, args);
     }, wait);
   };
 };

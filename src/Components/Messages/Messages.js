@@ -35,12 +35,6 @@ function Messages(props) {
     delayedSearch(searchInputValue, conversations);
   }, [searchInputValue]);
 
-  useEffect(() => {
-    if (showInput) {
-      inputRef.current.focus();
-    }
-  }, [showInput]);
-
   const findMessage = (searchStr, conversations) => {
     const foundConvs = {};
 
