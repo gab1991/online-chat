@@ -43,6 +43,7 @@ function App(props) {
         <Switch>
           <Route path="/chats/:chatID?" component={ChatRoom} />
           <Route path="/findContact" component={FindContact} />
+          <Route path="/userSettings" component={UserSettings} />
           <Route path="/" component={Messages} />
         </Switch>
       )}

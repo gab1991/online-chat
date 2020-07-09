@@ -42,6 +42,10 @@ function Menu(props) {
     props.history.push('/findContact');
   };
 
+  const toSettings = () => {
+    props.history.push('/userSettings');
+  };
+
   const toggleInputVisibility = () => {
     setShowNameInput((prev) => !prev);
   };
@@ -109,7 +113,7 @@ function Menu(props) {
           </div>
           <h4>Contacts</h4>
         </li>
-        <li>
+        <li onClick={toSettings}>
           <div className={styles.CogSvgContainer}>
             <CogSvg />
           </div>

@@ -1,0 +1,31 @@
+@import '../../Configs/Variables.scss';
+
+$background-top-color: theme-color('gamma');
+$background-middle-color: theme-color('delta');
+$background-bottom-color: theme-color('epsilon');
+
+.UserSettings {
+  min-height: 100vh;
+  background: linear-gradient(
+    180deg,
+    $background-top-color 1.56%,
+    $background-middle-color 39.06%,
+    $background-bottom-color 100%
+  );
+  // background: theme-color('');
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.AvatarSection {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.AvatarChangeBtn {
+  margin-top: 20px;
+}

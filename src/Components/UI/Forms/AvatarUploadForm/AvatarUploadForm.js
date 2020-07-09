@@ -3,13 +3,17 @@ import { connect, useDispatch } from 'react-redux';
 import AvatarEditor from 'react-avatar-editor';
 import { updateProfile } from '../../../../Store/Actions/actions';
 import Backend from '../../../../Backend/Backend';
+import Button from '../../../UI/Buttons/Button/Button';
+import ExclamationSvg from '../../../UI/SvgIcons/Exclamation';
+import styles from './AvatarUploadForm.module.scss';
+import btnStyles from '../../../UI/Buttons/Button/Button.module.scss';
 
 function FileUploadForm(props) {
-  const { loggedUser } = props;
+  const { loggedUser, hideForm } = props;
   const [file, setFile] = useState();
-  const [showAvatarEditor, setShowAvatarEditor] = useState(false);
   const dispatch = useDispatch();
   const avatarRef = useRef();
+  const avatarCanvasSide = 150;
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -27,7 +31,8 @@ function FileUploadForm(props) {
 
       Backend.uploadAvatar(formData).then((res) => {
         const avatarPath = res.data.avatar_path;
-        setShowAvatarEditor(false);
+        // setShowAvatarEditor(false);
+        hideForm();
         if (avatarPath) {
           dispatch(updateProfile({ avatar_path: avatarPath }));
         }
@@ -40,34 +45,46 @@ function FileUploadForm(props) {
     setFile(file);
   };
 
-  const avatarEditorToggler = () => {
-    setShowAvatarEditor((prev) => !prev);
-  };
-
+  console.log(file);
   return (
-    <div>
-      <button onClick={avatarEditorToggler}>Change Avatar</button>
-      {showAvatarEditor && (
-        <div>
+    <div className={styles.AvatarUploadForm}>
+      {!file && (
+        <div className={styles.SvgExclamationContainer}>
+          <ExclamationSvg
+            style={{ width: avatarCanvasSide, height: avatarCanvasSide }}
+          />
+          <h3>No file chosen yet</h3>
+        </div>
+      )}
+      {file && (
+        <>
           <AvatarEditor
             ref={avatarRef}
             image={file}
-            width={150}
+            width={avatarCanvasSide}
             crossOrigin={'anonymous'}
-            height={150}
+            height={avatarCanvasSide}
             border={0}
-            borderRadius={75}
-            color={[255, 255, 255, 0.5]}
+            borderRadius={avatarCanvasSide / 2}
+            color={[0, 0, 0, 0.5]}
             scale={1.2}
             rotate={0}
           />
-          <form onSubmit={submitHandler}>
-            <h1>File Upload</h1>
-            <input type="file" name="avatar" onChange={onChangeHandler} />
-            <button type="submit">Upload</button>
-          </form>
-        </div>
+          <h3>May drag to move</h3>
+        </>
       )}
+
+      <form onSubmit={submitHandler} className={styles.FileInputForm}>
+        <input id="file" type="file" name="avatar" onChange={onChangeHandler} />
+        <label htmlFor="file" className={btnStyles.Button}>
+          Pick a file
+        </label>
+        <Button
+          type="submit"
+          txtContent={'Upload'}
+          disabled={file ? false : true}
+        />
+      </form>
     </div>
   );
 }

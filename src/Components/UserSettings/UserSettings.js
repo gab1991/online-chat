@@ -1,30 +1,40 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Avatar from '../UI/Avatar/Avatar';
-import PropTypes from 'prop-types';
+import Button from '../UI/Buttons/Button/Button';
 import styles from './UserSettings.module.scss';
 import AvatarUploadForm from '../UI/Forms/AvatarUploadForm/AvatarUploadForm';
 
 function UserSettings(props) {
-  const { avatarPath, user } = props.profile;
-  const [searchInput, setSearchInput] = useState();
+  const { avatar_path, user } = props.profile;
+  const [showUploadForm, setShowUploadForm] = useState(true);
 
-  const searchOnBackend = (e) => {
-    const value = e.target.value;
-    
-  } 
+  const toggleUploadFormVisibility = () => {
+    setShowUploadForm((prev) => !prev);
+  };
 
-  console.log(searchInput);
+  console.log(showUploadForm);
+
   return (
-    <div>
-      <Avatar text={'bam'} size={150} imgSrc={avatarPath} />
-      <AvatarUploadForm />
-      <input
-        type="text"
-        onChange={(e) => {
-          searchOnBackend(e)
-          setSearchInput(e.target.value)}}></input>
-      <button>Find Contact</button>
+    <div className={styles.UserSettings}>
+      <div className={styles.AvatarSection}>
+        {!showUploadForm && (
+          <Avatar text={'bam'} size={150} imgSrc={avatar_path} />
+        )}
+        {showUploadForm && (
+          <AvatarUploadForm
+            hideForm={() => {
+              setShowUploadForm(false);
+            }}
+          />
+        )}
+        <Button
+          className={styles.AvatarChangeBtn}
+          onClick={toggleUploadFormVisibility}
+          txtContent={showUploadForm ? 'Hide' : 'Change Avatar'}
+        />
+      </div>
     </div>
   );
 }

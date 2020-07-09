@@ -4,6 +4,7 @@ $btn-bassic-color: theme-color('beta');
 $btn-light-color: $font-color-main;
 $btn-light-hover-clr1: theme-color('gamma');
 $btn-light-hover-clr2: theme-color('epsilon');
+$btn-disabled-clr: grey;
 
 .Button {
   font-family: $ff-secondary;
@@ -20,6 +21,14 @@ $btn-light-hover-clr2: theme-color('epsilon');
   transition: all 200ms ease-in-out;
   &:hover {
     background-color: $btn-light-hover-clr2;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:disabled {
+    cursor: default;
+    background-color: $btn-disabled-clr;
+    color: darken($font-color-main, $amount: 20);
   }
 }
 

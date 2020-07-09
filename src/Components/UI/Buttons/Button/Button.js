@@ -14,6 +14,7 @@ export default function Button(props) {
   return (
     <button
       onClick={clickHander}
+      disabled={disabled}
       className={`${styles.Button} ${className} ${light ? styles.Light : ''}`}>
       {txtContent}
     </button>
