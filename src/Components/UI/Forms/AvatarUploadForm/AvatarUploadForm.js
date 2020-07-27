@@ -70,7 +70,7 @@ function FileUploadForm(props) {
             scale={1.2}
             rotate={0}
           />
-          <h3>May drag to move</h3>
+          <h3>DRAG TO MOVE</h3>
         </>
       )}
 
