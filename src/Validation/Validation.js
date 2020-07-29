@@ -1,6 +1,8 @@
 const regexList = {
   username: /^[a-zA-Z0-9]+$/,
   password: /^(?=.*\d).{4,15}$/,
+  // displayed_name: /^(?! )[A-Za-z0-9]*(?<! )$/,
+  displayed_name: /^(?! ).*(?<! )$/,
   email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
   username_email: /^[a-zA-Z0-9]+$/,
 };
