@@ -19,7 +19,6 @@ const Backend = {
         },
       })
         .then((res) => {
-          console.log(res);
           resolve(res);
         })
         .catch((err) => reject(err));
@@ -36,7 +35,6 @@ const Backend = {
         },
       })
         .then((res) => {
-          console.log(res);
           resolve(res);
         })
         .catch((err) => reject(err));
@@ -56,7 +54,6 @@ const Backend = {
         data: formData,
       })
         .then((res) => {
-          console.log(res);
           resolve(res);
         })
         .catch((err) => reject(err));

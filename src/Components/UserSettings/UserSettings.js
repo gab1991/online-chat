@@ -14,7 +14,6 @@ import AvatarUploadForm from '../UI/Forms/AvatarUploadForm/AvatarUploadForm';
 function UserSettings(props) {
   const { avatar_path, username, displayed_name } = props.profile;
   const dispatch = useDispatch();
-
   const [showUploadForm, setShowUploadForm] = useState(false);
   const [showDispNameChanger, setShowDispNameChanger] = useState(false);
   const [disNameInputValue, setDispNameInputValue] = useState('');
@@ -47,19 +46,16 @@ function UserSettings(props) {
         message: 'trailing whitespaces not allowed',
       });
     }
+
     setIsSendingDispName(true);
+
     Backend.updateDispName(dispName)
       .then((res) => {
-        if (res.status === 200) {
-          dispatch(updateProfile({ displayed_name: dispName }));
-          toggleDispNameChanger();
-        } else {
-          setWrongInput({ status: true, message: 'something went wrong' });
-        }
+        dispatch(updateProfile({ displayed_name: dispName }));
+        toggleDispNameChanger();
         setIsSendingDispName(false);
       })
       .catch((err) => {
-        console.log(err);
         setWrongInput({ status: true, message: 'something went wrong' });
         setIsSendingDispName(false);
       });
@@ -68,6 +64,10 @@ function UserSettings(props) {
   const disNameInputHandler = (e) => {
     setDispNameInputValue(e.target.value);
     setWrongInput({ status: false, message: '' });
+  };
+
+  const goBackHandler = () => {
+    props.history.goBack();
   };
 
   return (
@@ -126,10 +126,16 @@ function UserSettings(props) {
             <Button
               txtContent={'Change displayed name'}
               onClick={toggleDispNameChanger}
+              className={styles.ChangeDispNameBtn}
             />
           </>
         )}
       </div>
+      <Button
+        className={styles.GoBackBtn}
+        txtContent={'Go Back'}
+        onClick={goBackHandler}
+      />
     </div>
   );
 }
@@ -144,6 +150,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps)(UserSettings);
 
 UserSettings.Protypes = {
-  avatarPath: PropTypes.string,
+  profile: PropTypes.object,
   user: PropTypes.object,
 };

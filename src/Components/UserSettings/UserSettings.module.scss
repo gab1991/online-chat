@@ -3,6 +3,7 @@
 $background-top-color: theme-color('gamma');
 $background-middle-color: theme-color('delta');
 $background-bottom-color: theme-color('epsilon');
+$goBackBtn-color: theme-color('alpha');
 
 .UserSettings {
   min-height: 100vh;
@@ -20,6 +21,9 @@ $background-bottom-color: theme-color('epsilon');
 
 .UserNameSection {
   margin-top: 10px;
+  p {
+    font-size: 1.1rem;
+  }
 }
 
 .AvatarSection {
@@ -34,6 +38,7 @@ $background-bottom-color: theme-color('epsilon');
 }
 
 .ChangeDispNameSection {
+  flex-grow: 1;
   margin-top: 30px;
   display: flex;
   flex-direction: column;
@@ -50,6 +55,10 @@ $background-bottom-color: theme-color('epsilon');
       opacity: 0.4;
     }
   }
+
+  .ChangeDispNameBtn {
+    margin-top: 20px;
+  }
   .DispNameSpinnerWrapper {
     width: 40px;
     height: 40px;
@@ -60,4 +69,10 @@ $background-bottom-color: theme-color('epsilon');
     grid-template-columns: repeat(2, 1fr);
     column-gap: 10px;
   }
+}
+
+.GoBackBtn {
+  justify-self: flex-end;
+  margin: 15px;
+  background-color: $goBackBtn-color;
 }
