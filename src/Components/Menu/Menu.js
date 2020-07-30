@@ -10,6 +10,8 @@ import ConfirmTickSvg from '../UI/SvgIcons/ConfirmCheck';
 import HumanSvg from '../UI/SvgIcons/Human';
 import CogSvg from '../UI/SvgIcons/Cog';
 import ExitSvg from '../UI/SvgIcons/Exit';
+import CircularSpinner from '../UI/SvgSpinners/Circular';
+import validate from '../../Validation/Validation';
 import styles from './Menu.module.scss';
 import Backend from '../../Backend/Backend';
 
@@ -19,6 +21,7 @@ function Menu(props) {
   const [inputValue, setInputValue] = useState();
   const nameSectionRef = useRef();
   const [showNameInput, setShowNameInput] = useState(false);
+  const [isSendingDispName, setIsSendingDispName] = useState(false);
   const [wrongInput, setWrongInput] = useState({
     state: false,
     invalidMsg: '',
@@ -50,16 +53,32 @@ function Menu(props) {
     setShowNameInput((prev) => !prev);
   };
 
-  const changeDisplayedName = () => {
-    if (!inputValue) {
+  const changeDisplayedName = (dispName) => {
+    if (!dispName) {
       setWrongInput({ state: true, invalidMsg: 'Write at least 1 char' });
       return;
     }
-    Backend.updateDispName(inputValue).then((res) => {
-      const newDispName = res.data.displayed_name;
-      dispatch(updateProfile({ displayed_name: newDispName }));
-      setShowNameInput(false);
-    });
+
+    const isValid = validate('displayed_name', dispName);
+    if (!isValid) {
+      return setWrongInput({
+        state: true,
+        invalidMsg: 'trailing whitespaces not allowed',
+      });
+    }
+
+    setIsSendingDispName(true);
+
+    Backend.updateDispName(dispName)
+      .then((res) => {
+        dispatch(updateProfile({ displayed_name: dispName }));
+        setShowNameInput(false);
+        setIsSendingDispName(false);
+      })
+      .catch((err) => {
+        setWrongInput({ state: true, invalidMsg: 'something went wrong' });
+        setIsSendingDispName(false);
+      });
   };
 
   const hideInput = (e) => {
@@ -86,13 +105,19 @@ function Menu(props) {
         )}
       </div>
       <div className={styles.PencilTickSvgContainer}>
-        {showNameInput ? (
+        {showNameInput && !isSendingDispName && (
           <div
             className={styles.ConfirmTickWrapper}
-            onClick={changeDisplayedName}>
+            onClick={() => changeDisplayedName(inputValue)}>
             <ConfirmTickSvg />
           </div>
-        ) : (
+        )}
+        {showNameInput && isSendingDispName && (
+          <div className={styles.PencilWrapper}>
+            <CircularSpinner />
+          </div>
+        )}
+        {!showNameInput && (
           <div className={styles.PencilWrapper} onClick={toggleInputVisibility}>
             <PencilSvg />
           </div>
