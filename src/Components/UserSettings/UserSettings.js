@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { updateProfile } from '../../Store/Actions/actions';
@@ -22,6 +22,13 @@ function UserSettings(props) {
     status: false,
     message: '',
   });
+  const inputRef = useRef();
+
+  useEffect(() => {
+    if (showDispNameChanger) {
+      inputRef.current.focus();
+    }
+  }, [showDispNameChanger]);
 
   const toggleUploadFormVisibility = () => {
     setShowUploadForm((prev) => !prev);
@@ -102,6 +109,7 @@ function UserSettings(props) {
             )}
             {!isSendingDispName && (
               <Input
+                inputRef={inputRef}
                 type="text"
                 placeholder="Type your new name"
                 className={styles.DispNameInput}
