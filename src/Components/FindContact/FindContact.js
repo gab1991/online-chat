@@ -1,12 +1,10 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Contact from '../Contact/Contact';
 import { debounce } from '../../Utils/Utils';
 import Backend from '../../Backend/Backend';
-import Socket from '../../Backend/Socket';
-import { socket } from '../../Backend/Socket';
 import BackArrowIcon from '../UI/SvgIcons/BackArrow';
 import CircularSpinner from '../UI/SvgSpinners/Circular';
 import Input from '../UI/Inputs/Input/Input';
@@ -15,12 +13,13 @@ import styles from '../FindContact/FindContact.module.scss';
 
 function FindContact(props) {
   const { user_id } = props;
+  const inputRef = useRef();
   const [contacts, setContacts] = useState([]);
   const [typing, showTyping] = useState(false);
 
   useEffect(() => {
-    socket.on('got into room', () => console.log('got message'));
-  }, []);
+    inputRef.current.focus();
+  }, [inputRef]);
 
   const findProfiles = (searchStr) => {
     Backend.findProfiles(searchStr)
@@ -65,6 +64,7 @@ function FindContact(props) {
             onClick={goBackHandler}
           />
           <Input
+            inputRef={inputRef}
             type={'text'}
             className={styles.SearchInput}
             onChange={onChangeHandler}
