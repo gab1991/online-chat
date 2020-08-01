@@ -6,6 +6,7 @@ import Socket from '../../Backend/Socket';
 import KeyBoardIcon from '../UI/SvgIcons/Keyboard';
 import LookUpIcon from '../UI/SvgIcons/LookUp';
 import ArrowHeadSvg from '../UI/SvgIcons/ArrowHead';
+import CircularSpinner from '../UI/SvgSpinners/Circular';
 import Avatar from '../UI/Avatar/Avatar';
 import EscIcon from '../UI/SvgIcons/Esc';
 import Message from '../Message/Message';
@@ -30,6 +31,7 @@ function ChatRoom(props) {
   });
   const [showSearch, setShowSearch] = useState(false);
   const [searchInputValue, setSearchInputValue] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
   const msgArea = useRef();
   const messageRefs = useRef({});
 
@@ -65,6 +67,7 @@ function ChatRoom(props) {
   }, [messages.length]);
 
   useEffect(() => {
+    setIsSearching(true);
     delayedSearch(searchInputValue, messages);
   }, [searchInputValue]);
 
@@ -88,17 +91,18 @@ function ChatRoom(props) {
 
   const findMessage = (searchStr, messages) => {
     if (searchStr.length === 0) {
+      setIsSearching(false);
       return;
     }
 
     const resullt = messages.filter((message) => {
       return message.message.toLowerCase().includes(searchStr.toLowerCase());
     });
-    console.log(resullt);
     setMatchedMsgs(resullt.reverse());
+    setIsSearching(false);
   };
 
-  const delayedSearch = useCallback(debounce(findMessage, 1000), []);
+  const delayedSearch = useCallback(debounce(findMessage, 500), []);
 
   const SeacrhinputChangeHandler = (e) => {
     const searchStr = e.target.value;
@@ -195,11 +199,20 @@ function ChatRoom(props) {
                 className={styles.Input}
                 inputRef={inputRef}
               />
-              <div
-                className={styles.EscIconContainer}
-                onClick={clearSearchInput}>
-                <EscIcon className={styles.EscIconSvg} />
-              </div>
+              {isSearching && (
+                <div
+                  className={styles.EscIconContainer}
+                  onClick={clearSearchInput}>
+                  <CircularSpinner className={styles.EscIconSvg} />
+                </div>
+              )}
+              {!isSearching && (
+                <div
+                  className={styles.EscIconContainer}
+                  onClick={clearSearchInput}>
+                  <EscIcon className={styles.EscIconSvg} />
+                </div>
+              )}
             </>
           )}
         </div>

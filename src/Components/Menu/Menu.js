@@ -97,6 +97,11 @@ function Menu(props) {
             onChange={(e) => {
               setInputValue(e.target.value);
             }}
+            onKeyPress={(e) => {
+              if (e.charCode === 13) {
+                changeDisplayedName(inputValue);
+              }
+            }}
             inValid={wrongInput.state}
             inValidMessage={wrongInput.invalidMsg}
           />

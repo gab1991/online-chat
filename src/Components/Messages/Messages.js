@@ -7,6 +7,7 @@ import BackArrowIcon from '../UI/SvgIcons/BackArrow';
 import Input from '../UI/Inputs/Input/Input';
 import { connect } from 'react-redux';
 import Chat from '../Chat/Chat';
+import CircularSpinner from '../UI/SvgSpinners/Circular';
 import HamburgerIcon from '../UI/SvgIcons/Hamburger';
 import LookUpIcon from '../UI/SvgIcons/LookUp';
 import styles from '../Messages/Messages.module.scss';
@@ -19,6 +20,7 @@ function Messages(props) {
   const [showInput, setShowInput] = useState(false);
   const [searchInputValue, setSearchInputValue] = useState('');
   const [matchedConvs, setMatchedConvs] = useState({});
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
     if (
@@ -32,6 +34,8 @@ function Messages(props) {
   }, [conversations, matchedConvs]);
 
   useEffect(() => {
+    setIsSearching(true);
+
     delayedSearch(searchInputValue, conversations);
   }, [searchInputValue]);
 
@@ -40,6 +44,8 @@ function Messages(props) {
 
     if (searchStr.length == 0) {
       setMatchedConvs(foundConvs);
+      setIsSearching(false);
+
       return;
     }
 
@@ -54,6 +60,7 @@ function Messages(props) {
         foundConvs[conversation.id].matchedMsgs = convResult.reverse();
       }
     }
+    setIsSearching(false);
 
     setMatchedConvs(foundConvs);
   };
@@ -115,9 +122,16 @@ function Messages(props) {
                 className={styles.Input}
                 inputRef={inputRef}
               />
-              <div className={styles.EscIconContainer} onClick={clearInput}>
-                <EscIcon className={styles.EscIconSvg} />
-              </div>
+              {isSearching && (
+                <div className={styles.EscIconContainer} onClick={clearInput}>
+                  <CircularSpinner className={styles.EscIconSvg} />
+                </div>
+              )}
+              {!isSearching && (
+                <div className={styles.EscIconContainer} onClick={clearInput}>
+                  <EscIcon className={styles.EscIconSvg} />
+                </div>
+              )}
             </>
           )}
         </div>

@@ -6,7 +6,6 @@ const debounce = (func, wait) => {
     if (timeout) {
       clearTimeout(timeout);
     }
-    console.log(context);
     timeout = setTimeout(() => {
       timeout = null;
       func.apply(context, args);

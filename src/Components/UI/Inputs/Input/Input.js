@@ -13,6 +13,7 @@ export default function Input(props) {
     disabled,
     name,
     onChange,
+    onKeyPress,
     inValid,
     inValidMessage,
     autoComplete = 'on',
@@ -30,6 +31,7 @@ export default function Input(props) {
         ${inValid && styles.Invalid}
         ${className}`}
         onChange={onChange}
+        onKeyPress={onKeyPress}
         data-name={name}
         autoComplete={autoComplete}
       />
