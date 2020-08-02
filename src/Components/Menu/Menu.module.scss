@@ -44,6 +44,12 @@ $background-bottom-color: theme-color('epsilon');
     font-size: 1.5rem;
     font-weight: 600;
   }
+  .DispNameInput {
+    &::placeholder {
+      color: $font-color-main;
+      opacity: 0.4;
+    }
+  }
 }
 
 .PencilTickSvgContainer {

@@ -16,16 +16,21 @@ import styles from './Menu.module.scss';
 import Backend from '../../Backend/Backend';
 
 function Menu(props) {
-  const { username, avatar_path, className, displayed_name } = props;
+  const { username, avatar_path, className, displayed_name, isShowed } = props;
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState();
-  const nameSectionRef = useRef();
+  const inputRef = useRef();
   const [showNameInput, setShowNameInput] = useState(false);
   const [isSendingDispName, setIsSendingDispName] = useState(false);
   const [wrongInput, setWrongInput] = useState({
     state: false,
     invalidMsg: '',
   });
+  useEffect(() => {
+    if (!isShowed) {
+      setShowNameInput(false);
+    }
+  }, [isShowed]);
 
   useEffect(() => {
     if (inputValue && inputValue.length > 19) {
@@ -34,6 +39,12 @@ function Menu(props) {
       setWrongInput({ state: false, invalidMsg: '' });
     }
   }, [inputValue]);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [showNameInput]);
 
   const sendLogOut = () => {
     dispatch(logOut());
@@ -89,21 +100,19 @@ function Menu(props) {
 
   return (
     <div className={`${styles.Menu} ${className}`} onClick={hideInput}>
-      <div className={styles.NameSection} ref={nameSectionRef}>
+      <div className={styles.NameSection}>
         {showNameInput ? (
           <Input
-            className={styles.Input}
+            className={styles.DispNameInput}
             type={'text'}
             onChange={(e) => {
               setInputValue(e.target.value);
             }}
-            onKeyPress={(e) => {
-              if (e.charCode === 13) {
-                changeDisplayedName(inputValue);
-              }
-            }}
+            placeholder={'Enter your name'}
+            keyPressCallBack={['Enter', () => changeDisplayedName(inputValue)]}
             inValid={wrongInput.state}
             inValidMessage={wrongInput.invalidMsg}
+            inputRef={inputRef}
           />
         ) : (
           <h3>{displayed_name || username}</h3>

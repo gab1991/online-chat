@@ -116,6 +116,10 @@ function UserSettings(props) {
                 onChange={disNameInputHandler}
                 inValid={wrongInput.status}
                 inValidMessage={wrongInput.message}
+                keyPressCallBack={[
+                  'Enter',
+                  () => confirmDispName(disNameInputValue),
+                ]}
               />
             )}
 

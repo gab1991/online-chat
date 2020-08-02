@@ -161,7 +161,7 @@ function Messages(props) {
             setShowMenu(false);
           }}></div>
       )}
-      <Menu className={showMenu ? styles.ShowMenu : styles.HideMenu} />
+      <Menu isShowed={showMenu} className={showMenu ? styles.ShowMenu : styles.HideMenu} />
     </div>
   );
 }

@@ -17,7 +17,15 @@ export default function Input(props) {
     inValid,
     inValidMessage,
     autoComplete = 'on',
+    keyPressCallBack,
   } = props;
+
+  const keyPressExecut = (e) => {
+    const [key, cb] = keyPressCallBack;
+    if (e.key === key) {
+      cb();
+    }
+  };
 
   return (
     <div className={styles.InputContainer}>
@@ -31,7 +39,7 @@ export default function Input(props) {
         ${inValid && styles.Invalid}
         ${className}`}
         onChange={onChange}
-        onKeyPress={onKeyPress}
+        onKeyPress={keyPressCallBack ? (e) => keyPressExecut(e) : onKeyPress}
         data-name={name}
         autoComplete={autoComplete}
       />
@@ -52,4 +60,5 @@ Input.propTypes = {
   inValidMessage: PropTypes.string,
   autoComplete: PropTypes.string,
   className: PropTypes.string,
+  keyPressCallBack: PropTypes.array,
 };
