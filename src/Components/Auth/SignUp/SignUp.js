@@ -38,7 +38,7 @@ export default function SignUp(props) {
     password: {
       label: 'Password',
       type: 'password',
-      placeholder: 'Enter email password',
+      placeholder: 'Enter  password',
       value: '',
       valid: false,
       invalidMessage: 'Must contain 4 to 15 chars and at least one number',

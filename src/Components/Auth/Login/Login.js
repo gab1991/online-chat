@@ -47,7 +47,7 @@ export default function Login(props) {
     password: {
       label: 'Password',
       type: 'password',
-      placeholder: 'Enter email',
+      placeholder: 'Enter password',
       value: '',
       valid: false,
       invalidMessage:
