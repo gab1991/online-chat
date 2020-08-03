@@ -49,7 +49,7 @@ const palette = [
   sassVars['palette-zeta'],
 ];
 
-export default function Avatar(props) {
+function Avatar(props) {
   const { text, size = 50, imgSrc, className, color } = props;
   const name = text.slice(0, 2);
   const randColor = randomizePalette(palette, 10);
@@ -77,6 +77,8 @@ export default function Avatar(props) {
     </div>
   );
 }
+
+export default React.memo(Avatar);
 
 Avatar.Protypes = {
   text: PropTypes.string.isRequired,
