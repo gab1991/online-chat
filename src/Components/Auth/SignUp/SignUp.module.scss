@@ -94,3 +94,36 @@ $input-placeholder-clr: theme-color('epsilon');
   font-weight: 600;
   color: $input-color;
 }
+
+/* Transitions */
+.appear,
+.enter {
+  opacity: 0;
+}
+
+.appearActive,
+.enterActive {
+  opacity: 1;
+  transition: opacity 2s;
+}
+
+.appearDone,
+.enterDone {
+  opacity: 1;
+  transition: opacity 2s;
+}
+
+.exit {
+}
+
+.exitActive {
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.exitDone {
+  .Form,
+  .HeaderSection {
+    opacity: 0;
+  }
+}

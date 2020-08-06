@@ -180,7 +180,10 @@ export default function Login(props) {
         </div>
         <button
           className={styles.AccountCreation}
-          onClick={props.changeActiveScreen}>
+          onClick={(e) => {
+            e.preventDefault();
+            props.changeActiveScreen.apply(this, [...arguments]);
+          }}>
           Do not have an account?
         </button>
       </form>

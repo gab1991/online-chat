@@ -100,3 +100,69 @@ $signUp-link-color: theme-color('beta');
   font-weight: 600;
   color: $signUp-link-color;
 }
+
+/*Transitions */
+
+.appear,
+.enter {
+  opacity: 0;
+
+  .Form {
+    opacity: 0;
+  }
+  [data-name='main-planet'] {
+    transform: translate3d(0, 0, 0) scale(0.2);
+  }
+}
+
+.appearActive,
+.enterActive {
+  opacity: 1;
+  transition: opacity 1s;
+
+  .Form,
+  .HeaderSection {
+    opacity: 1;
+    transition: opacity 1s 1s;
+  }
+  [data-name='main-planet'] {
+    transform: translate3d(-22%, -50%, 0) scale(1);
+    transition: transform 2s;
+  }
+}
+
+.appearDone,
+.enterDone {
+  [data-name='main-planet'] {
+    transform: translate3d(-22%, -50%, 0);
+  }
+}
+
+.exit {
+  [data-name='main-planet'] {
+    transform: translate3d(-22%, -50%, 0);
+  }
+}
+
+.exitActive {
+  .Form,
+  .HeaderSection {
+    opacity: 0;
+    transition: opacity 1s;
+  }
+  [data-name='main-planet'] {
+    transform: translate3d(-22%, -50%, 0) translateX(100%);
+    transition: all 1s;
+  }
+}
+
+.exitDone {
+  .Form,
+  .HeaderSection {
+    opacity: 0;
+  }
+
+  [data-name='main-planet'] {
+    transform: translate3d(-22%, -50%, 0) translateX(100%);
+  }
+}
