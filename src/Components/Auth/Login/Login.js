@@ -72,7 +72,7 @@ export default function Login(props) {
       }
       if (!inputs[name].valid) isEntireFormValid = false;
     }
-    console.log(isEntireFormValid);
+
     if (isEntireFormValid) {
       const sendObj = {
         username_email: inputs.username_email.value,

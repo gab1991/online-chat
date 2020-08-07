@@ -26,6 +26,7 @@ socket.on('connect', () => {
 
   const token = localStorage.token;
   const username = localStorage.username;
+
   if (token && username) {
     dispatch(logIn(username, token));
     Backend.getProfile(getToken()).then((res) => {

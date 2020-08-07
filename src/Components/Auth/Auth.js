@@ -6,8 +6,8 @@ import Login from './Login/Login';
 import SignUp from './SignUp/SignUp';
 
 export default function Auth(props) {
-  const [showLogin, setShowLogin] = useState(false);
-  const [showSignUp, setShowSignUp] = useState(true);
+  const [showLogin, setShowLogin] = useState(true);
+  const [showSignUp, setShowSignUp] = useState(false);
 
   return (
     <>
@@ -21,7 +21,7 @@ export default function Auth(props) {
         <Login changeActiveScreen={() => setShowLogin(false)} />
       </CSSTransition>
       <CSSTransition
-        timeout={{ exit: 700, appear: 2000, enter: 2000 }}
+        timeout={{ exit: 700, appear: 2000, enter: 1000 }}
         in={showSignUp}
         classNames={{ ...SignUpTransitions }}
         unmountOnExit

@@ -104,13 +104,11 @@ $input-placeholder-clr: theme-color('epsilon');
 .appearActive,
 .enterActive {
   opacity: 1;
-  transition: opacity 2s;
+  transition: opacity 1s;
 }
 
 .appearDone,
 .enterDone {
-  opacity: 1;
-  transition: opacity 2s;
 }
 
 .exit {

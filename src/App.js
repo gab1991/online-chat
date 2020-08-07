@@ -21,6 +21,8 @@ function App(props) {
   }, [conversations]);
 
   useEffect(() => {
+    if (!token) return;
+
     Backend.getProfile(token).then((res) => {
       const profile = {
         avatar_path: res.data.avatar_path,
@@ -34,7 +36,7 @@ function App(props) {
       dispatch(updateProfile(profile));
       dispatch(fillChats(conversations));
     });
-  }, []);
+  }, [token]);
 
   return (
     <div className={styles.App}>
