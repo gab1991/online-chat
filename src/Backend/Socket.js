@@ -1,5 +1,6 @@
 import io from 'socket.io-client';
 import Backend from './Backend';
+import { getProfileInfo } from '../Components/Auth/Login/Login';
 import {
   addMessage,
   updateProfile,
@@ -29,19 +30,8 @@ socket.on('connect', () => {
 
   if (token && username) {
     dispatch(logIn(username, token));
-    Backend.getProfile(getToken()).then((res) => {
-      const profile = {
-        avatar_path: res.data.avatar_path,
-        id: res.data.id,
-        username: res.data.username,
-        displayed_name: res.data.displayed_name,
-      };
-      const conversations = {
-        ...res.data.conversations,
-      };
-      dispatch(updateProfile(profile));
-      dispatch(fillChats(conversations));
-    });
+
+    getProfileInfo(getToken(), dispatch);
   }
 });
 
@@ -66,12 +56,7 @@ const sockets = {
   subscribeToConversations: (arrConversations = {}) => {
     socket.emit('subscribeToConversations', arrConversations);
   },
-  // enterChat: (user_id, chatID) => {
-  //   socket.emit('enterChat', {
-  //     user_id,
-  //     chatID,
-  //   });
-  // },
+
   sendMessage: (user_id, chatID, message) => {
     socket.emit('sendMessage', {
       user_id,

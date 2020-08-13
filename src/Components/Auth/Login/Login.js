@@ -190,3 +190,5 @@ export default function Login(props) {
     </div>
   );
 }
+
+export { getProfileInfo };

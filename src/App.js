@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { logIn, updateProfile, fillChats } from './Store/Actions/actions';
+import { getProfileInfo } from './Components/Auth/Login/Login';
 import Socket from './Backend/Socket';
 import PropTypes, { object, bool } from 'prop-types';
 import Backend from '../src/Backend/Backend';
@@ -22,20 +23,7 @@ function App(props) {
 
   useEffect(() => {
     if (!token) return;
-
-    Backend.getProfile(token).then((res) => {
-      const profile = {
-        avatar_path: res.data.avatar_path,
-        id: res.data.id,
-        username: res.data.username,
-        displayed_name: res.data.displayed_name,
-      };
-      const conversations = {
-        ...res.data.conversations,
-      };
-      dispatch(updateProfile(profile));
-      dispatch(fillChats(conversations));
-    });
+    getProfileInfo(token, dispatch);
   }, [token]);
 
   return (

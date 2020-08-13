@@ -91,6 +91,25 @@ function Messages(props) {
     inputRef.current.focus();
   };
 
+  const convSortedByTime = Object.keys(displConvs).sort((chatId1, chatId2) => {
+    const messageArr1 = displConvs[chatId1].messages;
+    const messageArr2 = displConvs[chatId2].messages;
+    const lastMsg1Date = Date.parse(
+      messageArr1[messageArr1.length - 1].created_at
+    );
+    const lastMsg2Date = Date.parse(
+      messageArr2[messageArr2.length - 1].created_at
+    );
+
+    if (lastMsg1Date < lastMsg2Date) {
+      return 1;
+    } else if (lastMsg2Date < lastMsg1Date) {
+      return -1;
+    } else {
+      return 0;
+    }
+  });
+
   return (
     <div className={styles.Messages}>
       <div className={styles.Header}>
@@ -138,7 +157,7 @@ function Messages(props) {
       </div>
       <div className={styles.ChatsContainer}>
         {!isEmptyObj(displConvs) &&
-          Object.keys(displConvs).map((key) => {
+          convSortedByTime.map((key) => {
             const conversation = displConvs[key];
             if (conversation.messages.length) {
               return (
@@ -161,7 +180,10 @@ function Messages(props) {
             setShowMenu(false);
           }}></div>
       )}
-      <Menu isShowed={showMenu} className={showMenu ? styles.ShowMenu : styles.HideMenu} />
+      <Menu
+        isShowed={showMenu}
+        className={showMenu ? styles.ShowMenu : styles.HideMenu}
+      />
     </div>
   );
 }
