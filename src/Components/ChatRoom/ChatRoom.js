@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { connect, useSelector } from 'react-redux';
-import { debounce } from '../../Utils/Utils';
+import { debounce, throttle } from '../../Utils/Utils';
+import { formatPopUpScroll } from '../../Utils/timeFormatter';
 import PropTypes from 'prop-types';
 import Socket from '../../Backend/Socket';
 import KeyBoardIcon from '../UI/SvgIcons/Keyboard';
@@ -71,6 +72,27 @@ function ChatRoom(props) {
     delayedSearch(searchInputValue, messages);
   }, [searchInputValue]);
 
+  const getlastVisibleMsg = (containerRef, msgRefsObj) => {
+    if (!containerRef || !msgRefsObj) return;
+
+    const msgIds = Object.keys(msgRefsObj).reverse();
+    const maxHeight = containerRef.scrollHeight - containerRef.scrollTop;
+    let currentSum = 0;
+    let lastVisibleId = msgIds[0];
+
+    for (let msgId of msgIds) {
+      const elHeight = msgRefsObj[msgId].getBoundingClientRect().height;
+
+      if (maxHeight > currentSum + elHeight) {
+        currentSum += elHeight;
+        lastVisibleId = msgId;
+      } else {
+        break;
+      }
+    }
+    return Number(lastVisibleId);
+  };
+
   const goBackHandler = () => {
     props.history.goBack();
   };
@@ -101,8 +123,6 @@ function ChatRoom(props) {
     setMatchedMsgs(resullt.reverse());
     setIsSearching(false);
   };
-
-  const delayedSearch = useCallback(debounce(findMessage, 500), []);
 
   const SeacrhinputChangeHandler = (e) => {
     const searchStr = e.target.value;
@@ -165,6 +185,32 @@ function ChatRoom(props) {
     color: sassVars['palette-background'],
   };
 
+  const msgAreaScrollHandler = (msgAreaRef, msgsRefs, msgArr) => {
+    const lastVisibleMsgId = getlastVisibleMsg(
+      msgAreaRef.current,
+      msgsRefs.current
+    );
+
+    let lastVisibleMsgDate;
+
+    for (let msg of msgArr) {
+      if (msg.id === lastVisibleMsgId) {
+        lastVisibleMsgDate = msg.created_at;
+        break;
+      }
+    }
+
+    const formattedTime = formatPopUpScroll(lastVisibleMsgDate);
+    console.log(formattedTime);
+  };
+
+  const delayedSearch = useCallback(debounce(findMessage, 500), []);
+
+  const throttledScroll = useCallback(
+    throttle(() => msgAreaScrollHandler(msgArea, messageRefs, messages), 500),
+    [msgArea, messageRefs, chatData]
+  );
+
   return (
     <div className={styles.ChatRoom}>
       <div className={styles.Header}>
@@ -217,7 +263,10 @@ function ChatRoom(props) {
           )}
         </div>
       </div>
-      <div className={styles.MessageArea} ref={msgArea}>
+      <div
+        className={styles.MessageArea}
+        ref={msgArea}
+        onScroll={throttledScroll}>
         {messages.map((msg) => (
           <Message
             {...msg}

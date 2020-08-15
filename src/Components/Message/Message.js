@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import formatTime from '../../Utils/timeFormatter';
+import { getHoursMinutes } from '../../Utils/timeFormatter';
 import { connect } from 'react-redux';
 import styles from './Message.module.scss';
 
@@ -15,7 +15,7 @@ function Message(props) {
     focused,
   } = props;
   const side = user_id === sender_id ? 'right' : 'left';
-  const [hours, minutes] = formatTime(created_at);
+  const [hours, minutes] = getHoursMinutes(created_at);
 
   return (
     <div
