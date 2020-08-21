@@ -1,0 +1,21 @@
+@import '../../../../Configs/Variables.scss';
+
+$datePopUp-color-top: theme-color('delta');
+$datePopUp-color-middle: theme-color('epsilon');
+$datePopUp-color-bottom: theme-color('zeta');
+
+.DatePopUp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 150px;
+  background-color: darkorchid;
+  border-radius: 20px;
+  color: $font-color-main;
+  background: linear-gradient(
+    180deg,
+    rgba($datePopUp-color-middle, 1) 20%,
+    rgba($datePopUp-color-bottom, 1) 100%
+  );
+}

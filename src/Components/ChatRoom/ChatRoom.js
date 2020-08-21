@@ -4,6 +4,7 @@ import { debounce, throttle } from '../../Utils/Utils';
 import { formatPopUpScroll } from '../../Utils/timeFormatter';
 import PropTypes from 'prop-types';
 import Socket from '../../Backend/Socket';
+import DatePopUp from '../UI/PopUps/DatePopUp/DatePopUp';
 import KeyBoardIcon from '../UI/SvgIcons/Keyboard';
 import LookUpIcon from '../UI/SvgIcons/LookUp';
 import ArrowHeadSvg from '../UI/SvgIcons/ArrowHead';
@@ -35,6 +36,20 @@ function ChatRoom(props) {
   const [isSearching, setIsSearching] = useState(false);
   const msgArea = useRef();
   const messageRefs = useRef({});
+  const [datePopUp, setDatePopUp] = useState({
+    isActive: false,
+    content: '',
+  });
+
+  useEffect(() => {
+    if (!datePopUp.isActive) return;
+    const popUpTimer = setTimeout(() => {
+      setDatePopUp((prev) => {
+        return { ...prev, isActive: false };
+      });
+    }, 1000);
+    return () => clearTimeout(popUpTimer);
+  }, [datePopUp]);
 
   useEffect(() => {
     if (showSearch) {
@@ -201,7 +216,7 @@ function ChatRoom(props) {
     }
 
     const formattedTime = formatPopUpScroll(lastVisibleMsgDate);
-    console.log(formattedTime);
+    setDatePopUp({ isActive: true, txtContent: formattedTime });
   };
 
   const delayedSearch = useCallback(debounce(findMessage, 500), []);
@@ -214,6 +229,12 @@ function ChatRoom(props) {
   return (
     <div className={styles.ChatRoom}>
       <div className={styles.Header}>
+        <DatePopUp
+          className={`${styles.DatePopUp} ${
+            datePopUp.isActive ? styles.DatePopUpActive : ''
+          }`}
+          txtContent={datePopUp.txtContent}
+        />
         <div className={styles.HeaderContent}>
           <div
             className={styles.BackArrowSvg}
@@ -266,7 +287,7 @@ function ChatRoom(props) {
       <div
         className={styles.MessageArea}
         ref={msgArea}
-        onScroll={throttledScroll}>
+        onWheel={throttledScroll}>
         {messages.map((msg) => (
           <Message
             {...msg}
