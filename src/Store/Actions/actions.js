@@ -42,4 +42,20 @@ const addMessage = (obj) => {
   };
 };
 
-export { logIn, logOut, updateProfile, fillChats, addMessage };
+const updateLastSeenMsg = (obj) => {
+  return {
+    type: 'UPDATE_LAST_SEEN_MSG',
+    payload: {
+      ...obj,
+    },
+  };
+};
+
+export {
+  logIn,
+  logOut,
+  updateProfile,
+  fillChats,
+  addMessage,
+  updateLastSeenMsg,
+};

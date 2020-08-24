@@ -2,6 +2,20 @@
 $chat-background: whitesmoke;
 $contact-box-shadow-color: theme-color('delta');
 $found-msg-color: theme-color('epsilon');
+$new-msg-color: theme-color('beta');
+
+@mixin roundedNumberPopUp {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 50%;
+  transform: translateX(-50%);
+  color: $font-color-main;
+  min-width: 30px;
+  min-height: 30px;
+  border-radius: 50%;
+}
 
 .Chat {
   cursor: pointer;
@@ -44,17 +58,14 @@ $found-msg-color: theme-color('epsilon');
   font-size: 0.875rem;
 
   .FoundMsgsNum {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include roundedNumberPopUp;
     bottom: -30px;
-    left: 50%;
-    transform: translateX(-50%);
     background-color: $found-msg-color;
-    color: $font-color-main;
-    min-width: 30px;
-    min-height: 30px;
-    border-radius: 50%;
+  }
+
+  .UnreadMsgsNum {
+    @include roundedNumberPopUp;
+    bottom: -30px;
+    background-color: $new-msg-color;
   }
 }

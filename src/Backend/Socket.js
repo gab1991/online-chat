@@ -6,6 +6,7 @@ import {
   updateProfile,
   fillChats,
   logIn,
+  updateLastSeenMsg,
 } from '../Store/Actions/actions';
 import { store, getToken, dispatch } from '../Store/store';
 
@@ -16,6 +17,9 @@ const socket = io(`http://localhost:8000`, {
 
 socket.on('reconnect', () => console.log('reconnect'));
 socket.on('connecting', () => console.log('connecting'));
+socket.on('reconnect_attempt', () => {
+  console.log('recconect attempt');
+});
 socket.on('reconnecting', () => console.log('reconnecting'));
 socket.on('connect_failed', () => console.log('connect_failed'));
 socket.on('reconnect_failed', () => console.log('reconnect_failed'));
@@ -35,21 +39,12 @@ socket.on('connect', () => {
   }
 });
 
-socket.on('disconnect', () => {
-  console.log('client side connected');
-});
-
-socket.on('reconnect', () => {
-  console.log(socket.connected);
-});
-
-socket.on('reconnect_attempt', () => {
-  console.log('recconect attempt');
-});
-
 socket.on('passMsgToConversation', (data) => {
-  console.log(data);
   store.dispatch(addMessage(data));
+});
+
+socket.on('updateLastSeenMsg', (data) => {
+  store.dispatch(updateLastSeenMsg(data));
 });
 
 const sockets = {
