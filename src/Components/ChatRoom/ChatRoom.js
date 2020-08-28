@@ -122,8 +122,11 @@ function ChatRoom(props) {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    Socket.sendMessage(user_id, chatID, inputValue);
-    setInputValue('');
+
+    if (inputValue) {
+      Socket.sendMessage(user_id, chatID, inputValue);
+      setInputValue('');
+    }
   };
 
   const toggleSearchInMsgs = () => {
