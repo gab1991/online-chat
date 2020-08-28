@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import { useDispatch, connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { logIn, updateProfile, fillChats } from './Store/Actions/actions';
 import { getProfileInfo } from './Components/Auth/Login/Login';
 import Socket from './Backend/Socket';
 import PropTypes, { object, bool } from 'prop-types';
-import Backend from '../src/Backend/Backend';
+
 import Messages from '../src/Components/Messages/Messages';
 import FindContact from '../src/Components/FindContact/FindContact';
 import ChatRoom from './Components/ChatRoom/ChatRoom';
 import Auth from './Components/Auth/Auth';
 import UserSettings from './Components/UserSettings/UserSettings';
+import AudioComponent from './Components/AudioComponent/AudioComponent';
 import styles from './App.module.scss';
 
 function App(props) {
@@ -37,6 +37,7 @@ function App(props) {
           <Route path="/" component={Messages} />
         </Switch>
       )}
+      <AudioComponent />
     </div>
   );
 }

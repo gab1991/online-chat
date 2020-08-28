@@ -24,38 +24,11 @@ const updateProfile = (obj) => {
   };
 };
 
-const fillChats = (obj) => {
+const playTrack = (trackname) => {
   return {
-    type: 'FILL_CHATS',
-    payload: {
-      ...obj,
-    },
+    type: 'PLAY_TRACK',
+    payload: { trackname },
   };
 };
 
-const addMessage = (obj) => {
-  return {
-    type: 'ADD_MESSAGE',
-    payload: {
-      ...obj,
-    },
-  };
-};
-
-const updateLastSeenMsg = (obj) => {
-  return {
-    type: 'UPDATE_LAST_SEEN_MSG',
-    payload: {
-      ...obj,
-    },
-  };
-};
-
-export {
-  logIn,
-  logOut,
-  updateProfile,
-  fillChats,
-  addMessage,
-  updateLastSeenMsg,
-};
+export { logIn, logOut, updateProfile, playTrack };

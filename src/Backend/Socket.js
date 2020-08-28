@@ -1,15 +1,10 @@
 import io from 'socket.io-client';
-import Backend from './Backend';
 import { getProfileInfo } from '../Components/Auth/Login/Login';
-import {
-  addMessage,
-  updateProfile,
-  fillChats,
-  logIn,
-  updateLastSeenMsg,
-} from '../Store/Actions/actions';
+import { logIn } from '../Store/Actions/actions';
+import { addMessage, updateLastSeenMsg } from '../Store/Actions/chatActions';
 import { store, getToken, dispatch } from '../Store/store';
 
+//Inner setup
 const socket = io(`http://localhost:8000`, {
   reconnectionDelay: 500,
   reconnectionDelayMax: 1000,
@@ -47,7 +42,12 @@ socket.on('updateLastSeenMsg', (data) => {
   store.dispatch(updateLastSeenMsg(data));
 });
 
+// OuterMethods
 const sockets = {
+  getProfileId: () => {
+    return store.getState().profile.id;
+  },
+
   subscribeToConversations: (arrConversations = {}) => {
     socket.emit('subscribeToConversations', arrConversations);
   },
@@ -57,6 +57,14 @@ const sockets = {
       user_id,
       chatID,
       message,
+    });
+  },
+
+  markMsgAsRead: (chatID) => {
+    const userId = sockets.getProfileId();
+    socket.emit('markMsgAsRead', {
+      userId,
+      chatID,
     });
   },
 };

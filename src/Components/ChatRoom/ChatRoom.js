@@ -42,6 +42,10 @@ function ChatRoom(props) {
   });
 
   useEffect(() => {
+    Socket.markMsgAsRead(chatID);
+  }, [messages.length]);
+
+  useEffect(() => {
     if (!datePopUp.isActive) return;
     const popUpTimer = setTimeout(() => {
       setDatePopUp((prev) => {

@@ -1,4 +1,5 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
 import rootReducer from './Reducers/ReducerCombined';
 
 const reduxDevTools =
@@ -7,7 +8,8 @@ const reduxDevTools =
       window.__REDUX_DEVTOOLS_EXTENSION__()
     : '';
 
-const store = createStore(rootReducer, reduxDevTools);
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(rootReducer, composeEnhancer(applyMiddleware(thunk)));
 
 const getToken = () => {
   const state = store.getState();

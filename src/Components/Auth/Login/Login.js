@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import {
-  logIn,
-  updateProfile,
-  fillChats,
-} from '../../../Store/Actions/actions';
+import { logIn, updateProfile } from '../../../Store/Actions/actions';
+import { fillChats } from '../../../Store/Actions/chatActions';
 import { useDispatch } from 'react-redux';
 import Backend from '../../../Backend/Backend';
 import Checkbox from '../../UI/Inputs/Checkbox/Checkbox';
