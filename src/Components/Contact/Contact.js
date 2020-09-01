@@ -6,7 +6,6 @@ import styles from './Contact.module.scss';
 export default function Contact(props) {
   const {
     username,
-    id,
     displayed_name: displayedName,
     avatar_path: avatarPath,
     onClick,

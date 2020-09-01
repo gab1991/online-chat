@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, connect } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { getProfileInfo } from './Components/Auth/Login/Login';
 import Socket from './Backend/Socket';
 import PropTypes, { object, bool } from 'prop-types';
-
 import Messages from '../src/Components/Messages/Messages';
 import FindContact from '../src/Components/FindContact/FindContact';
 import ChatRoom from './Components/ChatRoom/ChatRoom';
@@ -24,7 +23,7 @@ function App(props) {
   useEffect(() => {
     if (!token) return;
     getProfileInfo(token, dispatch);
-  }, [token]);
+  }, [token, dispatch]);
 
   return (
     <div className={styles.App}>

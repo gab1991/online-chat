@@ -42,7 +42,7 @@ function Messages(props) {
   const findMessage = (searchStr, conversations) => {
     const foundConvs = {};
 
-    if (searchStr.length == 0) {
+    if (searchStr.length === 0) {
       setMatchedConvs(foundConvs);
       setIsSearching(false);
 
@@ -167,6 +167,8 @@ function Messages(props) {
                   onClick={() => enterChat(conversation.id)}
                 />
               );
+            } else {
+              return null;
             }
           })}
         {isEmptyObj(displConvs) && (

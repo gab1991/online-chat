@@ -42,6 +42,7 @@ export default function Input(props) {
         onKeyPress={keyPressCallBack ? (e) => keyPressExecut(e) : onKeyPress}
         data-name={name}
         autoComplete={autoComplete}
+        disabled={disabled}
       />
       {inValid && <div className={styles.InValidMessage}>{inValidMessage}</div>}
     </div>

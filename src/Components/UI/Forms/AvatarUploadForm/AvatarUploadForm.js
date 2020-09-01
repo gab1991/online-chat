@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import AvatarEditor from 'react-avatar-editor';
 import { updateProfile } from '../../../../Store/Actions/actions';
@@ -7,6 +8,11 @@ import Button from '../../../UI/Buttons/Button/Button';
 import ExclamationSvg from '../../../UI/SvgIcons/Exclamation';
 import styles from './AvatarUploadForm.module.scss';
 import btnStyles from '../../../UI/Buttons/Button/Button.module.scss';
+
+FileUploadForm.prototypes = {
+  loggedUser: PropTypes.object.isRequired,
+  hideForm: PropTypes.func.isRequired,
+};
 
 function FileUploadForm(props) {
   const { loggedUser, hideForm } = props;
@@ -20,6 +26,7 @@ function FileUploadForm(props) {
 
     //get the cropped img
     const canvasScaled = avatarRef.current.getImageScaledToCanvas();
+
     canvasScaled.toBlob((blob) => {
       const file = new File([blob], 'avatar.jpeg');
 
@@ -31,7 +38,6 @@ function FileUploadForm(props) {
 
       Backend.uploadAvatar(formData).then((res) => {
         const avatarPath = res.data.avatar_path;
-        // setShowAvatarEditor(false);
         hideForm();
         if (avatarPath) {
           dispatch(updateProfile({ avatar_path: avatarPath }));
@@ -45,7 +51,6 @@ function FileUploadForm(props) {
     setFile(file);
   };
 
-  console.log(file);
   return (
     <div className={styles.AvatarUploadForm}>
       {!file && (

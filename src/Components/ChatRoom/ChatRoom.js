@@ -43,7 +43,7 @@ function ChatRoom(props) {
 
   useEffect(() => {
     Socket.markMsgAsRead(chatID);
-  }, [messages.length]);
+  }, [messages.length, chatID]);
 
   useEffect(() => {
     if (!datePopUp.isActive) return;

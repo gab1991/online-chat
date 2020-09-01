@@ -13,10 +13,11 @@ function AudioComponent(props) {
   useEffect(() => {
     for (let trackname in audio) {
       if (audio[trackname]) {
+        console.log('playing');
         soundBank[trackname]();
       }
     }
-  }, [audio]);
+  }, [audio, soundBank]);
 
   return null;
 }

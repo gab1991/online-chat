@@ -1,5 +1,5 @@
 import React from 'react';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 import MainPlanet from '../../../UI/SvgBackgroundComponents/MainPlanet';
 import MiddlePlanet from '../../../UI/SvgBackgroundComponents/MiddlePlanet';
 import Ring from '../../../UI/SvgBackgroundComponents/Ring';

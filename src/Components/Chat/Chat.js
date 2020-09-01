@@ -6,8 +6,6 @@ import styles from './Chat.module.scss';
 
 export default function Chat(props) {
   const {
-    type,
-    id: chatId,
     participants,
     onClick,
     matchedMsgs,
