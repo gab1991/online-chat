@@ -5,6 +5,7 @@ $input-color: theme-color('beta');
 $input-placeholder-clr: theme-color('epsilon');
 
 .SignUp {
+  z-index: 2;
   min-height: 100vh;
   position: relative;
   display: flex;
@@ -109,6 +110,8 @@ $input-placeholder-clr: theme-color('epsilon');
 
 .appearDone,
 .enterDone {
+  opacity: 1;
+  transition: opacity 1s;
 }
 
 .exit {

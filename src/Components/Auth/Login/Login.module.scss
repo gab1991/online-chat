@@ -6,6 +6,7 @@ $input-placeholder-clr: $font-color-main;
 $signUp-link-color: theme-color('beta');
 
 .Login {
+  z-index: 2;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

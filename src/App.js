@@ -26,7 +26,6 @@ function App(props) {
   }, [token, dispatch]);
 
   return (
-    // remove modileRestrainer
     <div className={styles.modileRestrainer}>
       <div className={styles.App}>
         {!isLogged && <Route path="/" component={Auth} />}

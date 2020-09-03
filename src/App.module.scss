@@ -6,10 +6,13 @@
   padding: 0;
 }
 
+$main-background-clr: theme-color('background');
+
 .App {
   font-family: $ff-main;
-
+  background-color: $main-background-clr;
   // mobile view restrainer remove lines below after adding desktop
+  // background-color: $font-color-main;
   max-width: 600px;
   margin: auto;
   overflow: hidden;
