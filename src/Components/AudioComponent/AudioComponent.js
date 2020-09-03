@@ -5,8 +5,10 @@ import incomeMsgSound from '../../Assests/Sounds/Pop-sound-effect.mp3';
 
 function AudioComponent(props) {
   const { audio } = props;
+  const volumeRate = 0.2;
+
   const soundBank = {
-    incomeMsg: useSound(incomeMsgSound)[0],
+    incomeMsg: useSound(incomeMsgSound, { volume: volumeRate })[0],
   };
 
   useEffect(() => {

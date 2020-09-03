@@ -5,9 +5,7 @@ $background-middle-color: theme-color('delta');
 $background-bottom-color: theme-color('epsilon');
 
 .Menu {
-  position: relative;
   color: $font-color-main;
-
   display: grid;
   grid-template-columns: 50px 1fr 50px;
   grid-template-rows: min-content min-content 1fr;

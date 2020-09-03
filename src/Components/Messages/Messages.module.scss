@@ -19,6 +19,7 @@ $svg-rect-side: 2rem;
   display: flex;
   flex-direction: column;
   background: $background-color;
+  position: relative;
 }
 
 .Header {
