@@ -26,17 +26,19 @@ function App(props) {
   }, [token, dispatch]);
 
   return (
-    <div className={styles.App}>
-      {!isLogged && <Route path="/" component={Auth} />}
-      {isLogged && (
-        <Switch>
-          <Route path="/chats/:chatID?" component={ChatRoom} />
-          <Route path="/findContact" component={FindContact} />
-          <Route path="/userSettings" component={UserSettings} />
-          <Route path="/" component={Messages} />
-        </Switch>
-      )}
-      <AudioComponent />
+    <div className={styles.modileRestrainer}>
+      <div className={styles.App}>
+        {!isLogged && <Route path="/" component={Auth} />}
+        {isLogged && (
+          <Switch>
+            <Route path="/chats/:chatID?" component={ChatRoom} />
+            <Route path="/findContact" component={FindContact} />
+            <Route path="/userSettings" component={UserSettings} />
+            <Route path="/" component={Messages} />
+          </Switch>
+        )}
+        <AudioComponent />
+      </div>
     </div>
   );
 }
