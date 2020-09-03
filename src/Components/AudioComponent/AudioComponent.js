@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import useSound from 'use-sound';
 import incomeMsgSound from '../../Assests/Sounds/Pop-sound-effect.mp3';
 
 function AudioComponent(props) {
   const { audio } = props;
-
   const soundBank = {
     incomeMsg: useSound(incomeMsgSound)[0],
   };
@@ -13,11 +12,10 @@ function AudioComponent(props) {
   useEffect(() => {
     for (let trackname in audio) {
       if (audio[trackname]) {
-        console.log('playing');
         soundBank[trackname]();
       }
     }
-  }, [audio, soundBank]);
+  }, [audio]);
 
   return null;
 }
