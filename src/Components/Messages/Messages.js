@@ -10,7 +10,7 @@ import LookUpIcon from '../UI/SvgIcons/LookUp';
 import styles from '../Messages/Messages.module.scss';
 
 function sortConvByTime(convObj) {
-  return Object.keys(convObj).sort((chatId1, chatId2) => {
+  const sortedIds = Object.keys(convObj).sort((chatId1, chatId2) => {
     const messageArr1 = convObj[chatId1].messages;
     const messageArr2 = convObj[chatId2].messages;
     const lastMsg1Date = Date.parse(
@@ -28,34 +28,39 @@ function sortConvByTime(convObj) {
       return 0;
     }
   });
+
+  const sortedConvArr = [];
+  sortedIds.forEach((id) => {
+    sortedConvArr.push(convObj[id]);
+  });
+
+  return sortedConvArr;
 }
 
 function Messages(props) {
   const { conversations } = props;
   const inputRef = useRef();
-  const [displConvs, setDisplConvs] = useState({});
-  const [convSortedByTime, setConvSortedByTime] = useState([]);
+  const [displConvs, setDisplConvs] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
   const [showSearchTab, setSearchTab] = useState(false);
   const [searchInputValue, setSearchInputValue] = useState('');
   const [matchedConvs, setMatchedConvs] = useState({});
   const [isSearching, setIsSearching] = useState(false);
 
-  useEffect(() => {
-    const convSortedByTime = sortConvByTime(displConvs);
-    setConvSortedByTime(convSortedByTime);
-  }, [displConvs]);
-
-  useEffect(() => {
-    if (
-      (isEmptyObj(matchedConvs) && searchInputValue.length !== 0) ||
-      !isEmptyObj(matchedConvs)
-    ) {
-      setDisplConvs(matchedConvs);
+  const displayedConvHandler = () => {
+    let sortedConvArr;
+    if (!isEmptyObj(matchedConvs)) {
+      sortedConvArr = sortConvByTime(matchedConvs);
+    } else if (searchInputValue.length !== 0) {
+      sortedConvArr = [];
     } else {
-      setDisplConvs(conversations);
+      sortedConvArr = sortConvByTime(conversations);
     }
-  }, [conversations, matchedConvs, searchInputValue.length]);
+
+    setDisplConvs(sortedConvArr);
+  };
+
+  useEffect(displayedConvHandler, [conversations, matchedConvs]);
 
   const findMessage = (searchStr, conversations) => {
     const foundConvs = {};
@@ -90,6 +95,7 @@ function Messages(props) {
 
   useEffect(() => {
     setIsSearching(true);
+
     delayedSearch(searchInputValue, conversations);
   }, [searchInputValue, delayedSearch, conversations]);
 
@@ -148,9 +154,8 @@ function Messages(props) {
         </div>
       </div>
       <div className={styles.ChatsContainer}>
-        {!isEmptyObj(displConvs) &&
-          convSortedByTime.map((key) => {
-            const conversation = displConvs[key];
+        {!!displConvs.length &&
+          displConvs.map((conversation) => {
             if (conversation.messages.length) {
               return (
                 <Chat
@@ -163,7 +168,7 @@ function Messages(props) {
               return null;
             }
           })}
-        {isEmptyObj(displConvs) && (
+        {!displConvs.length && (
           <p className={styles.NothingFound}>Nothing found</p>
         )}
       </div>

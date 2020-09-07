@@ -27,7 +27,7 @@ export default function Chat(props) {
     size: 65,
   };
 
-  console.log(matchedMsgs);
+  // console.log(matchedMsgs);
 
   return (
     <div className={styles.Chat} onClick={onClick}>
