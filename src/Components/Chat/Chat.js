@@ -27,6 +27,8 @@ export default function Chat(props) {
     size: 65,
   };
 
+  console.log(matchedMsgs);
+
   return (
     <div className={styles.Chat} onClick={onClick}>
       <Avatar {...privateAvatarProps} className={styles.Avatar} />
@@ -40,14 +42,12 @@ export default function Chat(props) {
         <p>
           {hours}:{minutes}
         </p>
-
         {matchedMsgs && (
           <div className={styles.FoundMsgsNum}>
             <p>{matchedMsgs.length}</p>
           </div>
         )}
-
-        {!!unreadMsgs && (
+        {!matchedMsgs && !!unreadMsgs && (
           <div className={styles.UnreadMsgsNum}>
             <p>{unreadMsgs}</p>
           </div>

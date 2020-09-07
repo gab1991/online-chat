@@ -12,15 +12,42 @@ import HamburgerIcon from '../UI/SvgIcons/Hamburger';
 import LookUpIcon from '../UI/SvgIcons/LookUp';
 import styles from '../Messages/Messages.module.scss';
 
+function sortConvByTime(convObj) {
+  return Object.keys(convObj).sort((chatId1, chatId2) => {
+    const messageArr1 = convObj[chatId1].messages;
+    const messageArr2 = convObj[chatId2].messages;
+    const lastMsg1Date = Date.parse(
+      messageArr1[messageArr1.length - 1].created_at
+    );
+    const lastMsg2Date = Date.parse(
+      messageArr2[messageArr2.length - 1].created_at
+    );
+
+    if (lastMsg1Date < lastMsg2Date) {
+      return 1;
+    } else if (lastMsg2Date < lastMsg1Date) {
+      return -1;
+    } else {
+      return 0;
+    }
+  });
+}
+
 function Messages(props) {
   const { conversations } = props;
   const inputRef = useRef();
   const [displConvs, setDisplConvs] = useState({});
+  const [convSortedByTime, setConvSortedByTime] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
   const [showInput, setShowInput] = useState(false);
   const [searchInputValue, setSearchInputValue] = useState('');
   const [matchedConvs, setMatchedConvs] = useState({});
   const [isSearching, setIsSearching] = useState(false);
+
+  useEffect(() => {
+    const convSortedByTime = sortConvByTime(displConvs);
+    setConvSortedByTime(convSortedByTime);
+  }, [displConvs]);
 
   useEffect(() => {
     if (
@@ -31,13 +58,7 @@ function Messages(props) {
     } else {
       setDisplConvs(conversations);
     }
-  }, [conversations, matchedConvs]);
-
-  useEffect(() => {
-    setIsSearching(true);
-
-    delayedSearch(searchInputValue, conversations);
-  }, [searchInputValue]);
+  }, [conversations, matchedConvs, searchInputValue.length]);
 
   const findMessage = (searchStr, conversations) => {
     const foundConvs = {};
@@ -65,7 +86,15 @@ function Messages(props) {
     setMatchedConvs(foundConvs);
   };
 
-  const delayedSearch = useCallback(debounce(findMessage, 500), []);
+  const delayedSearch = useCallback(debounce(findMessage, 500), [
+    searchInputValue,
+    conversations,
+  ]);
+
+  useEffect(() => {
+    setIsSearching(true);
+    delayedSearch(searchInputValue, conversations);
+  }, [searchInputValue, delayedSearch, conversations]);
 
   const enterChat = (conversationID) => {
     props.history.push(`/chats/${conversationID}`);
@@ -90,25 +119,6 @@ function Messages(props) {
     setSearchInputValue('');
     inputRef.current.focus();
   };
-
-  const convSortedByTime = Object.keys(displConvs).sort((chatId1, chatId2) => {
-    const messageArr1 = displConvs[chatId1].messages;
-    const messageArr2 = displConvs[chatId2].messages;
-    const lastMsg1Date = Date.parse(
-      messageArr1[messageArr1.length - 1].created_at
-    );
-    const lastMsg2Date = Date.parse(
-      messageArr2[messageArr2.length - 1].created_at
-    );
-
-    if (lastMsg1Date < lastMsg2Date) {
-      return 1;
-    } else if (lastMsg2Date < lastMsg1Date) {
-      return -1;
-    } else {
-      return 0;
-    }
-  });
 
   return (
     <div className={styles.Messages}>

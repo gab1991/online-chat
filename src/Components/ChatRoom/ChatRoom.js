@@ -80,16 +80,33 @@ function ChatRoom(props) {
         msgId: null,
       });
     }
-  }, [matchedMsgs.length]);
+  }, [matchedMsgs]);
 
   useEffect(() => {
     msgArea.current.scrollTop = msgArea.current.scrollHeight;
   }, [messages.length]);
 
+  const findMessage = (searchStr, messages) => {
+    if (searchStr.length === 0) {
+      setIsSearching(false);
+      return;
+    }
+
+    const resullt = messages.filter((message) => {
+      return message.message.toLowerCase().includes(searchStr.toLowerCase());
+    });
+    setMatchedMsgs(resullt.reverse());
+    setIsSearching(false);
+  };
+
+  const delayedSearch = useCallback(debounce(findMessage, 500), [
+    searchInputValue,
+    messages,
+  ]);
   useEffect(() => {
     setIsSearching(true);
     delayedSearch(searchInputValue, messages);
-  }, [searchInputValue]);
+  }, [searchInputValue, delayedSearch, messages]);
 
   const getlastVisibleMsg = (containerRef, msgRefsObj) => {
     if (!containerRef || !msgRefsObj) return;
@@ -131,19 +148,6 @@ function ChatRoom(props) {
 
   const toggleSearchInMsgs = () => {
     setShowSearch((prevState) => !prevState);
-  };
-
-  const findMessage = (searchStr, messages) => {
-    if (searchStr.length === 0) {
-      setIsSearching(false);
-      return;
-    }
-
-    const resullt = messages.filter((message) => {
-      return message.message.toLowerCase().includes(searchStr.toLowerCase());
-    });
-    setMatchedMsgs(resullt.reverse());
-    setIsSearching(false);
   };
 
   const SeacrhinputChangeHandler = (e) => {
@@ -225,8 +229,6 @@ function ChatRoom(props) {
     const formattedTime = formatPopUpScroll(lastVisibleMsgDate);
     setDatePopUp({ isActive: true, txtContent: formattedTime });
   };
-
-  const delayedSearch = useCallback(debounce(findMessage, 500), []);
 
   const throttledScroll = useCallback(
     throttle(() => msgAreaScrollHandler(msgArea, messageRefs, messages), 500),
