@@ -2,12 +2,9 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { debounce, isEmptyObj } from '../../Utils/Utils';
 import Menu from '../Menu/Menu';
-import EscIcon from '../UI/SvgIcons/Esc';
-import BackArrowIcon from '../UI/SvgIcons/BackArrow';
-import Input from '../UI/Inputs/Input/Input';
 import { connect } from 'react-redux';
 import Chat from '../Chat/Chat';
-import CircularSpinner from '../UI/SvgSpinners/Circular';
+import SearchTab from '../SearchTab/SearchTab';
 import HamburgerIcon from '../UI/SvgIcons/Hamburger';
 import LookUpIcon from '../UI/SvgIcons/LookUp';
 import styles from '../Messages/Messages.module.scss';
@@ -39,7 +36,7 @@ function Messages(props) {
   const [displConvs, setDisplConvs] = useState({});
   const [convSortedByTime, setConvSortedByTime] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
-  const [showInput, setShowInput] = useState(false);
+  const [showSearchTab, setSearchTab] = useState(false);
   const [searchInputValue, setSearchInputValue] = useState('');
   const [matchedConvs, setMatchedConvs] = useState({});
   const [isSearching, setIsSearching] = useState(false);
@@ -101,7 +98,7 @@ function Messages(props) {
   };
 
   const toggleSearchInMsgs = () => {
-    setShowInput((prev) => {
+    setSearchTab((prev) => {
       if (prev) {
         setMatchedConvs({});
         setSearchInputValue('');
@@ -110,7 +107,7 @@ function Messages(props) {
     });
   };
 
-  const SeacrhinputChangeHandler = (e) => {
+  const seacrhinputChangeHandler = (e) => {
     const searchStr = e.target.value;
     setSearchInputValue(searchStr);
   };
@@ -124,7 +121,7 @@ function Messages(props) {
     <div className={styles.Messages}>
       <div className={styles.Header}>
         <div className={styles.HeaderContent}>
-          {!showInput && (
+          {!showSearchTab && (
             <>
               <HamburgerIcon
                 className={styles.HamburgerSvg}
@@ -138,30 +135,15 @@ function Messages(props) {
               </div>
             </>
           )}
-          {showInput && (
-            <>
-              <div className={styles.BackArrowSvg} onClick={toggleSearchInMsgs}>
-                <BackArrowIcon className={styles.BackArrowSvg} />
-              </div>
-              <Input
-                onChange={SeacrhinputChangeHandler}
-                placeholder={'Search message'}
-                type={'text'}
-                value={searchInputValue}
-                className={styles.Input}
-                inputRef={inputRef}
-              />
-              {isSearching && (
-                <div className={styles.EscIconContainer} onClick={clearInput}>
-                  <CircularSpinner className={styles.EscIconSvg} />
-                </div>
-              )}
-              {!isSearching && (
-                <div className={styles.EscIconContainer} onClick={clearInput}>
-                  <EscIcon className={styles.EscIconSvg} />
-                </div>
-              )}
-            </>
+          {showSearchTab && (
+            <SearchTab
+              inputRef={inputRef}
+              isSearching={isSearching}
+              toggleSearchInMsgs={toggleSearchInMsgs}
+              seacrhinputChangeHandler={seacrhinputChangeHandler}
+              searchInputValue={searchInputValue}
+              clearInput={clearInput}
+            />
           )}
         </div>
       </div>

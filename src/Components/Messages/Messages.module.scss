@@ -62,32 +62,6 @@ $svg-rect-side: 2rem;
   }
 }
 
-.BackArrowSvg {
-  cursor: pointer;
-  margin-right: 24px;
-  height: $svg-arrow-side;
-  width: $svg-arrow-side;
-}
-
-.Input {
-  &::placeholder {
-    color: $font-color-main;
-    opacity: 0.5;
-  }
-}
-
-.EscIconContainer {
-  width: 2rem;
-  height: 2rem;
-  position: relative;
-  margin-left: 12px;
-  svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-}
-
 .HideMenu {
   transform: translateX(-100%);
   transition: all 300ms ease;

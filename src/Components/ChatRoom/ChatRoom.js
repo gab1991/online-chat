@@ -4,13 +4,12 @@ import { debounce, throttle } from '../../Utils/Utils';
 import { formatPopUpScroll } from '../../Utils/timeFormatter';
 import PropTypes from 'prop-types';
 import Socket from '../../Backend/Socket';
+import SearchTab from '../SearchTab/SearchTab';
 import DatePopUp from '../UI/PopUps/DatePopUp/DatePopUp';
 import KeyBoardIcon from '../UI/SvgIcons/Keyboard';
 import LookUpIcon from '../UI/SvgIcons/LookUp';
 import ArrowHeadSvg from '../UI/SvgIcons/ArrowHead';
-import CircularSpinner from '../UI/SvgSpinners/Circular';
 import Avatar from '../UI/Avatar/Avatar';
-import EscIcon from '../UI/SvgIcons/Esc';
 import Message from '../Message/Message';
 import Input from '../UI/Inputs/Input/Input';
 import BackArrowIcon from '../UI/SvgIcons/BackArrow';
@@ -150,7 +149,7 @@ function ChatRoom(props) {
     setShowSearch((prevState) => !prevState);
   };
 
-  const SeacrhinputChangeHandler = (e) => {
+  const seacrhinputChangeHandler = (e) => {
     const searchStr = e.target.value;
     setSearchInputValue(searchStr);
   };
@@ -245,13 +244,13 @@ function ChatRoom(props) {
           txtContent={datePopUp.txtContent}
         />
         <div className={styles.HeaderContent}>
-          <div
-            className={styles.BackArrowSvg}
-            onClick={showSearch ? hideSearch : goBackHandler}>
-            <BackArrowIcon className={styles.BackArrowSvg} />
-          </div>
           {!showSearch && (
             <>
+              <div
+                className={styles.BackArrowSvg}
+                onClick={showSearch ? hideSearch : goBackHandler}>
+                <BackArrowIcon className={styles.BackArrowSvg} />
+              </div>
               <div className={styles.AvatarName}>
                 <Avatar {...privateChatAvatarProps} className={styles.Avatar} />
                 <h3>
@@ -266,30 +265,14 @@ function ChatRoom(props) {
             </>
           )}
           {showSearch && (
-            <>
-              <Input
-                onChange={SeacrhinputChangeHandler}
-                placeholder={'Search message'}
-                type={'text'}
-                value={searchInputValue}
-                className={styles.Input}
-                inputRef={inputRef}
-              />
-              {isSearching && (
-                <div
-                  className={styles.EscIconContainer}
-                  onClick={clearSearchInput}>
-                  <CircularSpinner className={styles.EscIconSvg} />
-                </div>
-              )}
-              {!isSearching && (
-                <div
-                  className={styles.EscIconContainer}
-                  onClick={clearSearchInput}>
-                  <EscIcon className={styles.EscIconSvg} />
-                </div>
-              )}
-            </>
+            <SearchTab
+              inputRef={inputRef}
+              isSearching={isSearching}
+              toggleSearchInMsgs={toggleSearchInMsgs}
+              seacrhinputChangeHandler={seacrhinputChangeHandler}
+              searchInputValue={searchInputValue}
+              clearInput={clearSearchInput}
+            />
           )}
         </div>
       </div>
