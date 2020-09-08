@@ -38,4 +38,8 @@ const isEmptyObj = (obj) => {
   return !obj || Object.keys(obj).length === 0;
 };
 
-export { debounce, throttle, isEmptyObj };
+const scrollToBottom = (el) => {
+  return (el.scrollTop = el.scrollHeight);
+};
+
+export { debounce, throttle, isEmptyObj, scrollToBottom };

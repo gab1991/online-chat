@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { connect, useSelector } from 'react-redux';
-import { debounce, throttle } from '../../Utils/Utils';
+import { debounce, throttle, scrollToBottom } from '../../Utils/Utils';
 import { formatPopUpScroll } from '../../Utils/timeFormatter';
 import PropTypes from 'prop-types';
 import Socket from '../../Backend/Socket';
@@ -82,7 +82,7 @@ function ChatRoom(props) {
   }, [matchedMsgs]);
 
   useEffect(() => {
-    msgArea.current.scrollTop = msgArea.current.scrollHeight;
+    scrollToBottom(msgArea.current);
   }, [messages.length]);
 
   const findMessage = (searchStr, messages) => {
@@ -129,7 +129,7 @@ function ChatRoom(props) {
   };
 
   const goBackHandler = () => {
-    props.history.goBack();
+    props.history.push('/');
   };
 
   const inputChangeHandler = (e) => {
@@ -147,6 +147,7 @@ function ChatRoom(props) {
 
   const toggleSearchInMsgs = () => {
     setShowSearch((prevState) => !prevState);
+    scrollToBottom(msgArea.current);
   };
 
   const seacrhinputChangeHandler = (e) => {
@@ -190,6 +191,7 @@ function ChatRoom(props) {
 
   const clearSearchInput = () => {
     setSearchInputValue('');
+    scrollToBottom(msgArea.current);
     inputRef.current.focus();
     setMatchedMsgs([]);
   };
@@ -211,6 +213,7 @@ function ChatRoom(props) {
   };
 
   const msgAreaScrollHandler = (msgAreaRef, msgsRefs, msgArr) => {
+    console.log('scrolling');
     const lastVisibleMsgId = getlastVisibleMsg(
       msgAreaRef.current,
       msgsRefs.current

@@ -40,7 +40,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Message);
+const MemoMessage = React.memo(Message);
+export default connect(mapStateToProps)(MemoMessage);
 
 Message.propTypes = {
   message: PropTypes.string,
