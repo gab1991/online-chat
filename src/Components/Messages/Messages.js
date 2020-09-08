@@ -142,7 +142,13 @@ function Messages(props) {
   }, [showSearchTab]);
 
   const enterChat = (conversationID) => {
-    props.history.push(`/chats/${conversationID}`);
+    const matchedMsgs = matchedConvs[conversationID]
+      ? matchedConvs[conversationID].matchedMsgs
+      : [];
+    props.history.push({
+      pathname: `/chats/${conversationID}`,
+      state: { matchedMsgs, searchInputValue },
+    });
   };
 
   const toggleSearchInMsgs = () => {
@@ -198,6 +204,7 @@ function Messages(props) {
               return (
                 <Chat
                   key={conversation.id}
+                  matchedMsgs={matchedConvs.id}
                   {...conversation}
                   onClick={() => enterChat(conversation.id)}
                 />

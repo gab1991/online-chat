@@ -6,7 +6,12 @@ import React, {
   useReducer,
 } from 'react';
 import { connect, useSelector } from 'react-redux';
-import { debounce, throttle, scrollToBottom } from '../../Utils/Utils';
+import {
+  debounce,
+  throttle,
+  scrollToBottom,
+  clearRouterLocationState,
+} from '../../Utils/Utils';
 import { formatPopUpScroll } from '../../Utils/timeFormatter';
 import PropTypes from 'prop-types';
 import Socket from '../../Backend/Socket';
@@ -92,6 +97,7 @@ function reducer(state, action) {
 }
 function ChatRoom(props) {
   const { chatID } = props.match.params;
+  const forwardedInputValue = props.location.state.searchInputValue;
   const { user_id } = props;
   const inputRef = useRef();
   const msgArea = useRef();
@@ -114,6 +120,8 @@ function ChatRoom(props) {
     chatID: chatID,
     userID: user_id,
     messages: [],
+    type: null,
+    convPartner: null,
     inputValue: '',
     matchedMsgs: [],
     selectedMatchedMsg: {
@@ -126,9 +134,6 @@ function ChatRoom(props) {
       isActive: false,
       content: '',
     },
-    messages: [],
-    type: null,
-    convPartner: null,
   });
   const [showSearch, setShowSearch] = useState(false);
 
@@ -152,6 +157,8 @@ function ChatRoom(props) {
     messages,
   ]);
 
+  console.log(props);
+
   useEffect(() => {
     dispatchLocal({ type: 'UPDATE_USER_ID', payload: user_id });
   }, [user_id]);
@@ -159,6 +166,17 @@ function ChatRoom(props) {
   useEffect(() => {
     dispatchLocal({ type: 'UPDATE_CHAT_DATA', payload: chatData });
   }, [chatData]);
+
+  useEffect(() => {
+    if (forwardedInputValue) {
+      setShowSearch(true);
+      dispatchLocal({
+        type: 'SET_SEARCH_INPUT_VALUE',
+        payload: forwardedInputValue,
+      });
+      clearRouterLocationState(props.history);
+    }
+  }, [forwardedInputValue]);
 
   useEffect(() => {
     Socket.markMsgAsRead(chatID);

@@ -42,4 +42,17 @@ const scrollToBottom = (el) => {
   return (el.scrollTop = el.scrollHeight);
 };
 
-export { debounce, throttle, isEmptyObj, scrollToBottom };
+const clearRouterLocationState = (history) => {
+  history.replace({
+    pathname: history.location.pathname,
+    state: {},
+  });
+};
+
+export {
+  debounce,
+  throttle,
+  isEmptyObj,
+  scrollToBottom,
+  clearRouterLocationState,
+};

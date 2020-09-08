@@ -27,8 +27,6 @@ export default function Chat(props) {
     size: 65,
   };
 
-  // console.log(matchedMsgs);
-
   return (
     <div className={styles.Chat} onClick={onClick}>
       <Avatar {...privateAvatarProps} className={styles.Avatar} />
