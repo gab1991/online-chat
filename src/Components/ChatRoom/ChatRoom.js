@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useReducer,
+} from 'react';
 import { connect, useSelector } from 'react-redux';
 import { debounce, throttle, scrollToBottom } from '../../Utils/Utils';
 import { formatPopUpScroll } from '../../Utils/timeFormatter';
@@ -16,29 +22,143 @@ import BackArrowIcon from '../UI/SvgIcons/BackArrow';
 import sassVars from '../../Configs/Variables.scss';
 import styles from './ChatRoom.module.scss';
 
+function reducer(state, action) {
+  switch (action.type) {
+    case 'UPDATE_USER_ID': {
+      return { ...state, userID: action.payload };
+    }
+    case 'UPDATE_CHAT_DATA': {
+      if (!action.payload) return { ...state };
+      const { messages, type } = action.payload;
+      const convPartner = action.payload.participants[0];
+      return { ...state, messages, type, convPartner };
+    }
+    case 'SEND_MESSAGE': {
+      const { chatID, userID } = state;
+      const messageTxt = action.payload;
+
+      Socket.sendMessage(userID, chatID, messageTxt);
+      return { ...state, inputValue: '' };
+    }
+    case 'CHANGE_MSG_INPUT_VALUE': {
+      const value = action.payload;
+      return { ...state, inputValue: value };
+    }
+    case 'SET_MATCHED_MSGS': {
+      const matchedMsgs = action.payload;
+      return { ...state, matchedMsgs };
+    }
+    case 'SET_SELECTED_MATCHED_MSG': {
+      const selectedMatchedMsg = action.payload;
+      return { ...state, selectedMatchedMsg };
+    }
+    case 'SELECT_PREVIOUS_MATCHED_MSG': {
+      const matchedMsgs = [...state.matchedMsgs];
+      const curMatchedMsg = { ...state.selectedMatchedMsg };
+      const prevMatchedMsg = {
+        index: curMatchedMsg.index - 1,
+        msgId: matchedMsgs[curMatchedMsg.index - 2].id,
+      };
+      return { ...state, selectedMatchedMsg: prevMatchedMsg };
+    }
+    case 'SELECT_NEXT_MATCHED_MSG': {
+      const matchedMsgs = [...state.matchedMsgs];
+      const curMatchedMsg = { ...state.selectedMatchedMsg };
+      const nextMatchedMsg = {
+        index: curMatchedMsg.index + 1,
+        msgId: matchedMsgs[curMatchedMsg.index].id,
+      };
+      return { ...state, selectedMatchedMsg: nextMatchedMsg };
+    }
+    case 'SET_SEARCH_INPUT_VALUE': {
+      const value = action.payload;
+      return { ...state, searchInputValue: value };
+    }
+    case 'SET_IS_SEARCHING': {
+      return { ...state, isSearching: action.payload };
+    }
+    case 'SET_DATE_POP_UP': {
+      return { ...state, datePopUp: action.payload };
+    }
+    case 'HIDE_DATE_POP_UP': {
+      const datePopUp = { ...state.datePopUp };
+      datePopUp.isActive = false;
+      return { ...state, datePopUp };
+    }
+
+    default:
+      return state;
+  }
+}
 function ChatRoom(props) {
   const { chatID } = props.match.params;
   const { user_id } = props;
   const inputRef = useRef();
-  const chatData = useSelector((state) => state.chats[chatID]);
-  const messages = chatData ? chatData.messages : [];
-  const type = chatData && chatData.type;
-  const convPartner = chatData && chatData.participants[0];
-  const [inputValue, setInputValue] = useState('');
-  const [matchedMsgs, setMatchedMsgs] = useState([]);
-  const [selectedMatchedMsg, setSelectedMatchedMsg] = useState({
-    index: 1,
-    msgId: null,
-  });
-  const [showSearch, setShowSearch] = useState(false);
-  const [searchInputValue, setSearchInputValue] = useState('');
-  const [isSearching, setIsSearching] = useState(false);
   const msgArea = useRef();
   const messageRefs = useRef({});
-  const [datePopUp, setDatePopUp] = useState({
-    isActive: false,
-    content: '',
+  const chatData = useSelector((state) => state.chats[chatID]);
+  const [
+    {
+      inputValue,
+      matchedMsgs,
+      selectedMatchedMsg,
+      searchInputValue,
+      isSearching,
+      datePopUp,
+      messages,
+      type,
+      convPartner,
+    },
+    dispatchLocal,
+  ] = useReducer(reducer, {
+    chatID: chatID,
+    userID: user_id,
+    messages: [],
+    inputValue: '',
+    matchedMsgs: [],
+    selectedMatchedMsg: {
+      index: 1,
+      msgId: null,
+    },
+    searchInputValue: '',
+    isSearching: false,
+    datePopUp: {
+      isActive: false,
+      content: '',
+    },
+    messages: [],
+    type: null,
+    convPartner: null,
   });
+  const [showSearch, setShowSearch] = useState(false);
+
+  const findMessage = (searchStr, messages) => {
+    if (searchStr.length === 0) {
+      dispatchLocal({ type: 'SET_IS_SEARCHING', payload: false });
+      dispatchLocal({ type: 'SET_MATCHED_MSGS', payload: [] });
+      scrollToBottom(msgArea.current);
+      return;
+    }
+
+    const resullt = messages.filter((message) => {
+      return message.message.toLowerCase().includes(searchStr.toLowerCase());
+    });
+    dispatchLocal({ type: 'SET_MATCHED_MSGS', payload: resullt.reverse() });
+    dispatchLocal({ type: 'SET_IS_SEARCHING', payload: false });
+  };
+
+  const delayedSearch = useCallback(debounce(findMessage, 500), [
+    searchInputValue,
+    messages,
+  ]);
+
+  useEffect(() => {
+    dispatchLocal({ type: 'UPDATE_USER_ID', payload: user_id });
+  }, [user_id]);
+
+  useEffect(() => {
+    dispatchLocal({ type: 'UPDATE_CHAT_DATA', payload: chatData });
+  }, [chatData]);
 
   useEffect(() => {
     Socket.markMsgAsRead(chatID);
@@ -47,9 +167,7 @@ function ChatRoom(props) {
   useEffect(() => {
     if (!datePopUp.isActive) return;
     const popUpTimer = setTimeout(() => {
-      setDatePopUp((prev) => {
-        return { ...prev, isActive: false };
-      });
+      dispatchLocal({ type: 'HIDE_DATE_POP_UP' });
     }, 1000);
     return () => clearTimeout(popUpTimer);
   }, [datePopUp]);
@@ -68,15 +186,20 @@ function ChatRoom(props) {
 
   useEffect(() => {
     if (matchedMsgs.length) {
-      setSelectedMatchedMsg((prev) => {
-        const updState = { ...prev };
-        updState.msgId = matchedMsgs[0].id;
-        return updState;
+      dispatchLocal({
+        type: 'SET_SELECTED_MATCHED_MSG',
+        payload: {
+          index: 1,
+          msgId: matchedMsgs[0].id,
+        },
       });
     } else {
-      setSelectedMatchedMsg({
-        index: 1,
-        msgId: null,
+      dispatchLocal({
+        type: 'SET_SELECTED_MATCHED_MSG',
+        payload: {
+          index: 1,
+          msgId: null,
+        },
       });
     }
   }, [matchedMsgs]);
@@ -85,25 +208,10 @@ function ChatRoom(props) {
     scrollToBottom(msgArea.current);
   }, [messages.length]);
 
-  const findMessage = (searchStr, messages) => {
-    if (searchStr.length === 0) {
-      setIsSearching(false);
-      return;
-    }
-
-    const resullt = messages.filter((message) => {
-      return message.message.toLowerCase().includes(searchStr.toLowerCase());
-    });
-    setMatchedMsgs(resullt.reverse());
-    setIsSearching(false);
-  };
-
-  const delayedSearch = useCallback(debounce(findMessage, 500), [
-    searchInputValue,
-    messages,
-  ]);
   useEffect(() => {
-    setIsSearching(true);
+    if (searchInputValue) {
+      dispatchLocal({ type: 'SET_IS_SEARCHING', payload: true });
+    }
     delayedSearch(searchInputValue, messages);
   }, [searchInputValue, delayedSearch, messages]);
 
@@ -133,26 +241,25 @@ function ChatRoom(props) {
   };
 
   const inputChangeHandler = (e) => {
-    setInputValue(e.target.value);
+    dispatchLocal({ type: 'CHANGE_MSG_INPUT_VALUE', payload: e.target.value });
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
-
     if (inputValue) {
-      Socket.sendMessage(user_id, chatID, inputValue);
-      setInputValue('');
+      dispatchLocal({ type: 'SEND_MESSAGE', payload: inputValue });
     }
   };
 
   const toggleSearchInMsgs = () => {
     setShowSearch((prevState) => !prevState);
+    dispatchLocal({ type: 'SET_SEARCH_INPUT_VALUE', payload: '' });
     scrollToBottom(msgArea.current);
   };
 
   const seacrhinputChangeHandler = (e) => {
     const searchStr = e.target.value;
-    setSearchInputValue(searchStr);
+    dispatchLocal({ type: 'SET_SEARCH_INPUT_VALUE', payload: searchStr });
   };
 
   const focusOnMsg = (id) => {
@@ -169,20 +276,14 @@ function ChatRoom(props) {
     switch (direction) {
       case 'down':
         if (selectedMatchedMsg.index <= 1) return;
-        setSelectedMatchedMsg((prev) => {
-          const upd = { ...prev };
-          upd.index--;
-          upd.msgId = matchedMsgs[prev.index - 2].id;
-          return upd;
+        dispatchLocal({
+          type: 'SELECT_PREVIOUS_MATCHED_MSG',
         });
         break;
       case 'up':
         if (selectedMatchedMsg.index >= matchedMsgs.length) return;
-        setSelectedMatchedMsg((prev) => {
-          const upd = { ...prev };
-          upd.index++;
-          upd.msgId = matchedMsgs[prev.index++].id;
-          return upd;
+        dispatchLocal({
+          type: 'SELECT_NEXT_MATCHED_MSG',
         });
         break;
       default:
@@ -190,16 +291,16 @@ function ChatRoom(props) {
   };
 
   const clearSearchInput = () => {
-    setSearchInputValue('');
     scrollToBottom(msgArea.current);
     inputRef.current.focus();
-    setMatchedMsgs([]);
+    dispatchLocal({ type: 'SET_SEARCH_INPUT_VALUE', payload: '' });
+    dispatchLocal({ type: 'SET_MATCHED_MSGS', payload: [] });
   };
 
   const hideSearch = () => {
     setShowSearch(false);
-    setSearchInputValue('');
-    setMatchedMsgs([]);
+    dispatchLocal({ type: 'SET_SEARCH_INPUT_VALUE', payload: '' });
+    dispatchLocal({ type: 'SET_MATCHED_MSGS', payload: [] });
   };
 
   const privateChatAvatarProps = {
@@ -229,12 +330,15 @@ function ChatRoom(props) {
     }
 
     const formattedTime = formatPopUpScroll(lastVisibleMsgDate);
-    setDatePopUp({ isActive: true, txtContent: formattedTime });
+    dispatchLocal({
+      type: 'SET_DATE_POP_UP',
+      payload: { isActive: true, txtContent: formattedTime },
+    });
   };
 
   const throttledScroll = useCallback(
     throttle(() => msgAreaScrollHandler(msgArea, messageRefs, messages), 500),
-    [msgArea, messageRefs, chatData]
+    [msgArea, messageRefs, messages]
   );
 
   return (

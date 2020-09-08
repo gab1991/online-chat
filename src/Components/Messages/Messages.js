@@ -135,6 +135,12 @@ function Messages(props) {
     delayedSearch(searchInputValue, conversations);
   }, [searchInputValue, conversations, delayedSearch]);
 
+  useEffect(() => {
+    if (showSearchTab) {
+      inputRef.current.focus();
+    }
+  }, [showSearchTab]);
+
   const enterChat = (conversationID) => {
     props.history.push(`/chats/${conversationID}`);
   };
