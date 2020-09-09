@@ -112,6 +112,8 @@ $svg-icon-color: theme-color('gamma');
 .MessageArea {
   flex: 1;
   overflow: auto;
+  @include customScrollBar(10px);
+  animation: appear 200ms ease-in forwards;
 }
 
 .TypeArea {
@@ -183,4 +185,13 @@ $svg-icon-color: theme-color('gamma');
   grid-template-columns: 1fr;
   grid-auto-rows: 100px;
   row-gap: 2px;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

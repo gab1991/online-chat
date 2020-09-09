@@ -50,6 +50,24 @@ $breakpoints: (
   }
 }
 
+@mixin customScrollBar($width, $custom-color...) {
+  &::-webkit-scrollbar {
+    width: $width;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  &::-webkit-scrollbar-thumb {
+    @if length($custom-color) != 0 {
+      background-color: $custom-color;
+    } @else {
+      background-color: theme-color('beta');
+    }
+
+    border-radius: 4px;
+  }
+}
+
 :export {
   breakpoints : {
     tablet: map-get($breakpoints, 'tablet');

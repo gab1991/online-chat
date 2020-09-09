@@ -157,8 +157,6 @@ function ChatRoom(props) {
     messages,
   ]);
 
-  console.log(props);
-
   useEffect(() => {
     dispatchLocal({ type: 'UPDATE_USER_ID', payload: user_id });
   }, [user_id]);
@@ -176,7 +174,7 @@ function ChatRoom(props) {
       });
       clearRouterLocationState(props.history);
     }
-  }, [forwardedInputValue]);
+  }, [forwardedInputValue, props.history]);
 
   useEffect(() => {
     Socket.markMsgAsRead(chatID);

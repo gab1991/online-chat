@@ -89,10 +89,20 @@ $svg-rect-side: 2rem;
   grid-template-columns: 1fr;
   grid-auto-rows: 100px;
   row-gap: 2px;
+  opacity: 0;
+  animation: appear 200ms ease-in forwards;
 
   .NothingFound {
     font-size: 1.4rem;
     text-align: center;
     margin: auto;
+  }
+  @keyframes appear {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 }
