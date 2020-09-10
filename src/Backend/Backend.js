@@ -1,8 +1,9 @@
 import axios_base from 'axios';
 import { getToken } from '../Store/store';
+import { server_adress } from '../Configs/sever.config';
 
 const axios = axios_base.create({
-  baseURL: 'http://localhost:8000',
+  baseURL: server_adress,
   timeout: 4000,
 });
 
