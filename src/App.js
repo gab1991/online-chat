@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch, connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { getProfileInfo } from './Components/Auth/Login/Login';
 import Socket from './Backend/Socket';
@@ -13,7 +13,6 @@ import AudioComponent from './Components/AudioComponent/AudioComponent';
 import styles from './App.module.scss';
 
 function App(props) {
-  const dispatch = useDispatch();
   const { isLogged, conversations, token } = props;
 
   useEffect(() => {
@@ -22,8 +21,8 @@ function App(props) {
 
   useEffect(() => {
     if (!token) return;
-    getProfileInfo(token, dispatch);
-  }, [token, dispatch]);
+    getProfileInfo(token);
+  }, [token]);
 
   return (
     <div className={styles.modileRestrainer}>

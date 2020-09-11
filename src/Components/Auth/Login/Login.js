@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { dispatch } from '../../../Store/store';
 import { logIn, updateProfile } from '../../../Store/Actions/actions';
 import { fillChats } from '../../../Store/Actions/chatActions';
 import { useDispatch } from 'react-redux';
@@ -13,7 +14,7 @@ import validate from '../../../Validation/Validation';
 import FadingLinesSpinner from '../../UI/SvgSpinners/FadingLines';
 import styles from '../Login/Login.module.scss';
 
-function getProfileInfo(token, dispatch) {
+function getProfileInfo(token) {
   Backend.getProfile(token).then((res) => {
     const profile = {
       avatar_path: res.data.avatar_path,

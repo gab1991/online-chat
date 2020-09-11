@@ -30,7 +30,7 @@ socket.on('connect', () => {
 
   if (token && username) {
     dispatch(logInIfValid(username, token));
-    getProfileInfo(token, dispatch);
+    getProfileInfo(token);
   }
 });
 
