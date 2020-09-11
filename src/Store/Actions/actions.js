@@ -1,3 +1,5 @@
+import Backend from '../../Backend/Backend';
+
 const logIn = (username, token) => {
   return {
     type: 'LOG_IN',
@@ -8,8 +10,20 @@ const logIn = (username, token) => {
   };
 };
 
+const logInIfValid = (username, token) => {
+  return (dispatch) => {
+    Backend.checkTokenValidity(username, token)
+      .then((res) => {
+        return dispatch(logIn(username, token));
+      })
+      .catch((err) => {
+        localStorage.clear();
+      });
+    return null;
+  };
+};
+
 const logOut = () => {
-  console.log('in actions');
   return {
     type: 'LOG_OUT',
   };
@@ -31,4 +45,4 @@ const playTrack = (trackname) => {
   };
 };
 
-export { logIn, logOut, updateProfile, playTrack };
+export { logIn, logOut, updateProfile, playTrack, logInIfValid };

@@ -8,6 +8,7 @@ $chat-section-background: theme-color('delta');
 $header-context-margin: 24px;
 $svg-arrow-side: 1.5rem;
 $svg-rect-side: 2rem;
+$spinner-color: theme-color('beta');
 
 @mixin chat-container-font {
   color: theme-color('gamma');
@@ -96,6 +97,26 @@ $svg-rect-side: 2rem;
     font-size: 1.4rem;
     text-align: center;
     margin: auto;
+  }
+
+  .FindFriendBtn {
+    font-size: 1.2rem;
+    font-weight: 600;
+    font-family: $ff-main;
+    width: minmax(250px, 50%);
+    margin: auto;
+    height: 60px;
+  }
+
+  .SpinnerContainer {
+    margin: 30px auto;
+    height: 80px;
+    width: 80px;
+    svg {
+      path {
+        fill: $spinner-color;
+      }
+    }
   }
   @keyframes appear {
     from {

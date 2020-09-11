@@ -41,6 +41,24 @@ const Backend = {
         .catch((err) => reject(err));
     });
   },
+  checkTokenValidity: (username, token) => {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: `/api/users/checkTokenValidity`,
+        method: 'POST',
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+        data: {
+          username,
+        },
+      })
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => reject(err));
+    });
+  },
   uploadAvatar: (formData) => {
     const token = formData.get('token');
 

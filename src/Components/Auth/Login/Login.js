@@ -93,16 +93,20 @@ export default function Login(props) {
         .catch((err) => {
           setSending(false);
 
-          const errMessage = err.response.data.err_message;
-          const errInput = err.response.data.field;
+          if (!err?.response) {
+            alert('service unavailable! Try again later');
+          } else {
+            const errMessage = err.response.data.err_message;
+            const errInput = err.response.data.field;
 
-          if (errInput && errMessage) {
-            setInputs((prevState) => {
-              const updState = { ...prevState };
-              updState[errInput].errMessage = errMessage;
-              updState[errInput].valid = false;
-              return updState;
-            });
+            if (errInput && errMessage) {
+              setInputs((prevState) => {
+                const updState = { ...prevState };
+                updState[errInput].errMessage = errMessage;
+                updState[errInput].valid = false;
+                return updState;
+              });
+            }
           }
         });
     }

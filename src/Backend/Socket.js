@@ -1,9 +1,9 @@
 import io from 'socket.io-client';
 import { server_adress } from '../Configs/sever.config';
 import { getProfileInfo } from '../Components/Auth/Login/Login';
-import { logIn } from '../Store/Actions/actions';
+import { logInIfValid } from '../Store/Actions/actions';
 import { addMessage, updateLastSeenMsg } from '../Store/Actions/chatActions';
-import { store, getToken, dispatch } from '../Store/store';
+import { store, dispatch } from '../Store/store';
 
 //Inner setup
 const socket = io(server_adress, {
@@ -29,9 +29,8 @@ socket.on('connect', () => {
   const username = localStorage.username;
 
   if (token && username) {
-    dispatch(logIn(username, token));
-
-    getProfileInfo(getToken(), dispatch);
+    dispatch(logInIfValid(username, token));
+    getProfileInfo(token, dispatch);
   }
 });
 

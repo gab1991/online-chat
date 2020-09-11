@@ -42,7 +42,7 @@ const updateLastSeenMsg = (obj) => {
 };
 
 const calculateUnreadMsgs = (lastSeenMsgId, messages) => {
-  const lastMsgId = messages[messages.length - 1].id;
+  const lastMsgId = messages[messages.length - 1]?.id || 0;
 
   if (lastMsgId <= lastSeenMsgId) return 0;
 

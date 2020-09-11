@@ -10,9 +10,11 @@ import { debounce, isEmptyObj } from '../../Utils/Utils';
 import Menu from '../Menu/Menu';
 import { connect } from 'react-redux';
 import Chat from '../Chat/Chat';
+import Button from '../UI/Buttons/Button/Button';
 import SearchTab from '../SearchTab/SearchTab';
 import HamburgerIcon from '../UI/SvgIcons/Hamburger';
 import LookUpIcon from '../UI/SvgIcons/LookUp';
+import FadingLinesSpinner from '../UI/SvgSpinners/FadingLines';
 import styles from '../Messages/Messages.module.scss';
 
 function sortConvByTime(convObj) {
@@ -58,7 +60,10 @@ function reducer(state, action) {
         displConvs = sortConvByTime(conversations);
       }
 
-      return { ...state, displConvs };
+      return { ...state, displConvs, isUpdatingDisplConvs: false };
+    }
+    case 'SET_IS_UPD_DISPL_CONVS': {
+      return { ...state, isUpdatingDisplConvs: action.payload };
     }
     case 'CHANGE_INPUT_VALUE': {
       const value = action.payload;
@@ -81,10 +86,17 @@ function Messages(props) {
   const { conversations } = props;
   const inputRef = useRef();
   const [
-    { displConvs, matchedConvs, searchInputValue, isSearching },
+    {
+      displConvs,
+      matchedConvs,
+      searchInputValue,
+      isSearching,
+      isUpdatingDisplConvs,
+    },
     dispatchLocal,
   ] = useReducer(reducer, {
     displConvs: [],
+    isUpdatingDisplConvs: false,
     matchedConvs: {},
     isSearching: false,
     searchInputValue: '',
@@ -125,6 +137,7 @@ function Messages(props) {
   ]);
 
   useEffect(() => {
+    dispatchLocal({ type: 'SET_IS_UPD_DISPL_CONVS', payload: true });
     dispatchLocal({ type: 'FILL_DISPLAYED_CONVS', payload: conversations });
   }, [conversations, matchedConvs]);
 
@@ -165,6 +178,10 @@ function Messages(props) {
   const clearInput = () => {
     dispatchLocal({ type: 'CHANGE_INPUT_VALUE', payload: '' });
     inputRef.current.focus();
+  };
+
+  const goToContactSearch = () => {
+    props.history.push('/findContact');
   };
 
   return (
@@ -210,11 +227,29 @@ function Messages(props) {
                 />
               );
             } else {
-              return null;
+              return (
+                <p className={styles.NothingFound} key={conversation.id}>
+                  No chats yet! Find a friend to chat with
+                </p>
+              );
             }
           })}
-        {!displConvs.length && (
-          <p className={styles.NothingFound}>Nothing found</p>
+        {!displConvs.length && !isUpdatingDisplConvs && (
+          <>
+            <p className={styles.NothingFound}>
+              No chats yet! Find a friend to chat with
+            </p>
+            <Button
+              txtContent={'Go to find a friend'}
+              onClick={goToContactSearch}
+              className={styles.FindFriendBtn}
+            />
+          </>
+        )}
+        {!displConvs.length && isUpdatingDisplConvs && (
+          <div className={styles.SpinnerContainer}>
+            <FadingLinesSpinner />
+          </div>
         )}
       </div>
       {showMenu && (

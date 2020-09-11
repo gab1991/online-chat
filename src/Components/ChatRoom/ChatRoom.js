@@ -97,7 +97,7 @@ function reducer(state, action) {
 }
 function ChatRoom(props) {
   const { chatID } = props.match.params;
-  const forwardedInputValue = props.location.state.searchInputValue;
+  const forwardedInputValue = props.location.state?.searchInputValue;
   const { user_id } = props;
   const inputRef = useRef();
   const msgArea = useRef();
