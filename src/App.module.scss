@@ -11,6 +11,8 @@ $main-background-clr: theme-color('background');
 .App {
   font-family: $ff-main;
   background-color: $main-background-clr;
+  @include appHeight;
+
   // mobile view restrainer remove lines below after adding desktop
   // background-color: $font-color-main;
   max-width: 600px;
@@ -20,6 +22,6 @@ $main-background-clr: theme-color('background');
 
 // mobile view restrainer remove lines below after adding desktop
 .modileRestrainer {
-  height: 100vh;
+  @include appHeight;
   background: linear-gradient(to bottom, #2c3e50, #bdc3c7);
 }

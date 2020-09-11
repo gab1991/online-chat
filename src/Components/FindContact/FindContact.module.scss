@@ -11,7 +11,7 @@ $svg-rect-side: 2rem;
 }
 
 .FindContact {
-  min-height: 100vh;
+  @include appHeight;
   display: flex;
   flex-direction: column;
 }

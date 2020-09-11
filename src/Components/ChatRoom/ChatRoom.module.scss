@@ -18,7 +18,7 @@ $svg-icon-color: theme-color('gamma');
 }
 
 .ChatRoom {
-  height: 100vh;
+  @include appHeight;
   display: flex;
   flex-direction: column;
   background-color: $background-color;

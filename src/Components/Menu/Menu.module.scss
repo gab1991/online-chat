@@ -16,7 +16,7 @@ $background-bottom-color: theme-color('epsilon');
   justify-items: center;
   position: absolute;
   width: 280px;
-  height: 100vh;
+  @include appHeight;
   background: linear-gradient(
     180deg,
     $background-top-color 1.56%,
