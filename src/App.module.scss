@@ -16,6 +16,7 @@ $main-background-clr: theme-color('background');
   // mobile view restrainer remove lines below after adding desktop
   // background-color: $font-color-main;
   max-width: 600px;
+  min-width: 320px;
   margin: auto;
   overflow: hidden;
 }

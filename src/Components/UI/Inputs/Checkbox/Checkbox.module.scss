@@ -4,7 +4,7 @@ $background-color: transparent;
 $border-color: theme-color('gamma');
 $input-border-color: $font-color-main;
 $box-shadow-color: theme-color('alpha');
-$wrong-input-color: #ff6f91;
+$wrong-input-color: theme-color('alpha');
 
 .CheckBoxContainer {
   position: relative;
@@ -25,6 +25,10 @@ $wrong-input-color: #ff6f91;
   height: $input-side;
   background-color: $font-color-main;
   position: relative;
+
+  &:focus {
+    animation: beat 200ms cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+  }
   &:checked {
     outline: none;
     background-color: none;
@@ -47,4 +51,13 @@ $wrong-input-color: #ff6f91;
   cursor: pointer;
   margin-left: 10px;
   font-size: 0.9rem;
+}
+
+@keyframes beat {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1.2);
+  }
 }
