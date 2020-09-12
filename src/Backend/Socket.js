@@ -1,6 +1,5 @@
 import io from 'socket.io-client';
 import { server_adress } from '../Configs/sever.config';
-import { getProfileInfo } from '../Components/Auth/Login/Login';
 import { logInIfValid } from '../Store/Actions/actions';
 import { addMessage, updateLastSeenMsg } from '../Store/Actions/chatActions';
 import { store, dispatch } from '../Store/store';
@@ -30,7 +29,6 @@ socket.on('connect', () => {
 
   if (token && username) {
     dispatch(logInIfValid(username, token));
-    getProfileInfo(token);
   }
 });
 
@@ -62,6 +60,7 @@ const sockets = {
 
   markMsgAsRead: (chatID) => {
     const userId = sockets.getProfileId();
+    if (!userId) return;
     socket.emit('markMsgAsRead', {
       userId,
       chatID,
