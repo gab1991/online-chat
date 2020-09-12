@@ -5,6 +5,7 @@ $border-color: theme-color('gamma');
 $input-border-color: $font-color-main;
 $box-shadow-color: theme-color('alpha');
 $wrong-input-color: theme-color('alpha');
+$wrong-inpuit-background-color: theme-color('epsilon');
 
 .InputContainer {
   position: relative;
@@ -37,6 +38,10 @@ $wrong-input-color: theme-color('alpha');
 }
 
 .InValidMessage {
+  background: $wrong-inpuit-background-color;
+  padding: 0.2rem;
+  border-radius: 7px;
+  text-align: center;
   font-size: 0.9rem;
   font-weight: 700;
   z-index: 2;

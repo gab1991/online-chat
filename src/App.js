@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { getProfileInfo } from './Components/Auth/Login/Login';
 import Socket from './Backend/Socket';
+import { isEmptyObj } from './Utils/Utils';
 import PropTypes, { object, bool } from 'prop-types';
 import Messages from '../src/Components/Messages/Messages';
 import FindContact from '../src/Components/FindContact/FindContact';
@@ -16,6 +17,7 @@ function App(props) {
   const { isLogged, conversations, token } = props;
 
   useEffect(() => {
+    if (isEmptyObj(conversations)) return;
     Socket.subscribeToConversations(conversations);
   }, [conversations]);
 

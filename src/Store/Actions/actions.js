@@ -17,9 +17,13 @@ const logInIfValid = (username, token) => {
         return dispatch(logIn(username, token));
       })
       .catch((err) => {
-        localStorage.clear();
+        if (err?.response?.status === 401) {
+          localStorage.clear();
+          dispatch(logOut());
+        }
+        console.log(err);
       });
-    return null;
+    return;
   };
 };
 
