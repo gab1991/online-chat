@@ -14,8 +14,15 @@ import styles from '../FindContact/FindContact.module.scss';
 function FindContact(props) {
   const { user_id } = props;
   const inputRef = useRef();
+  const isMounted = useRef(true);
   const [contacts, setContacts] = useState([]);
-  const [typing, showTyping] = useState(false);
+  const [typing, setShowTyping] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  });
 
   useEffect(() => {
     inputRef.current.focus();
@@ -25,11 +32,13 @@ function FindContact(props) {
     Backend.findProfiles(searchStr)
       .then((res) => {
         const profiles = res.data;
+        if (!isMounted.current) return;
         setContacts(profiles);
-        showTyping(false);
+        setShowTyping(false);
       })
       .catch((err) => {
-        showTyping(false);
+        if (!isMounted.current) return;
+        setShowTyping(false);
         setContacts([]);
       });
   };
@@ -37,7 +46,7 @@ function FindContact(props) {
   const delayedSearch = useCallback(debounce(findProfiles, 1000));
 
   const onChangeHandler = (e) => {
-    showTyping(true);
+    setShowTyping(true);
     const searchStr = e.target.value;
     delayedSearch(searchStr);
   };

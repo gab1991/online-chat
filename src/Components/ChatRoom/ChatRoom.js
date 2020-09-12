@@ -345,7 +345,10 @@ function ChatRoom(props) {
       }
     }
 
+    if (!lastVisibleMsgDate) return;
+
     const formattedTime = formatPopUpScroll(lastVisibleMsgDate);
+
     dispatchLocal({
       type: 'SET_DATE_POP_UP',
       payload: { isActive: true, txtContent: formattedTime },
