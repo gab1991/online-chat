@@ -102,6 +102,7 @@ function ChatRoom(props) {
   const inputRef = useRef();
   const msgArea = useRef();
   const messageRefs = useRef({});
+  const isMounted = useRef(true);
   const chatData = useSelector((state) => state.chats[chatID]);
   const [
     {
@@ -138,6 +139,7 @@ function ChatRoom(props) {
   const [showSearch, setShowSearch] = useState(false);
 
   const findMessage = (searchStr, messages) => {
+    if (!isMounted.current) return;
     if (searchStr.length === 0) {
       dispatchLocal({ type: 'SET_IS_SEARCHING', payload: false });
       dispatchLocal({ type: 'SET_MATCHED_MSGS', payload: [] });
@@ -158,6 +160,12 @@ function ChatRoom(props) {
   ]);
 
   useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
     dispatchLocal({ type: 'UPDATE_USER_ID', payload: user_id });
   }, [user_id]);
 
@@ -168,6 +176,7 @@ function ChatRoom(props) {
   }, [chatData]);
 
   useEffect(() => {
+    if (!isMounted.current) return;
     if (forwardedInputValue) {
       setShowSearch(true);
       dispatchLocal({
@@ -224,6 +233,7 @@ function ChatRoom(props) {
   }, [matchedMsgs]);
 
   useEffect(() => {
+    if (!isMounted.current) return;
     scrollToBottom(msgArea.current);
   }, [messages.length]);
 
@@ -272,9 +282,10 @@ function ChatRoom(props) {
   };
 
   const toggleSearchInMsgs = () => {
-    setShowSearch((prevState) => !prevState);
+    if (!isMounted.current) return;
     dispatchLocal({ type: 'SET_SEARCH_INPUT_VALUE', payload: '' });
     scrollToBottom(msgArea.current);
+    setShowSearch((prevState) => !prevState);
   };
 
   const seacrhinputChangeHandler = (e) => {
@@ -311,6 +322,7 @@ function ChatRoom(props) {
   };
 
   const clearSearchInput = () => {
+    if (!isMounted.current) return;
     scrollToBottom(msgArea.current);
     inputRef.current.focus();
     dispatchLocal({ type: 'SET_SEARCH_INPUT_VALUE', payload: '' });
@@ -318,7 +330,9 @@ function ChatRoom(props) {
   };
 
   const hideSearch = () => {
-    setShowSearch(false);
+    if (isMounted.current) {
+      setShowSearch(false);
+    }
     dispatchLocal({ type: 'SET_SEARCH_INPUT_VALUE', payload: '' });
     dispatchLocal({ type: 'SET_MATCHED_MSGS', payload: [] });
   };
@@ -334,7 +348,6 @@ function ChatRoom(props) {
   };
 
   const msgAreaScrollHandler = (msgAreaRef, msgsRefs, msgArr) => {
-    console.log('scrolling');
     const lastVisibleMsgId = getlastVisibleMsg(
       msgAreaRef.current,
       msgsRefs.current
