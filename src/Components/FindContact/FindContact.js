@@ -111,7 +111,7 @@ function FindContact(props) {
           <CSSTransition
             key={contact.username}
             timeout={1000}
-            classNames={'list-transition'}>
+            classNames={{ ...styles }}>
             <Contact {...contact} onClick={() => enterChat(contact.id)} />
           </CSSTransition>
         ))}

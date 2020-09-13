@@ -106,8 +106,9 @@ $spinner-color: theme-color('delta');
 }
 
 .enterActive {
-  opacity: 0.5;
   transition: all 400ms;
+
+  opacity: 1;
 }
 
 .enterDone {
