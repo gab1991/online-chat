@@ -1,4 +1,5 @@
 import Backend from '../../Backend/Backend';
+import { fillChats } from './chatActions';
 
 const logIn = (username, token) => {
   return {
@@ -42,6 +43,29 @@ const updateProfile = (obj) => {
   };
 };
 
+const getProfile = (token) => {
+  return async (dispatch) => {
+    const res = await Backend.getProfile(token).catch((err) =>
+      console.log(err)
+    );
+
+    if (res) {
+      const profile = {
+        avatar_path: res.data?.avatar_path,
+        id: res.data?.id,
+        username: res.data?.username,
+        displayed_name: res.data?.displayed_name,
+      };
+      const conversations = {
+        ...res.data?.conversations,
+      };
+      dispatch(updateProfile(profile));
+      dispatch(fillChats(conversations));
+    }
+    return;
+  };
+};
+
 const playTrack = (trackname) => {
   return {
     type: 'PLAY_TRACK',
@@ -49,4 +73,4 @@ const playTrack = (trackname) => {
   };
 };
 
-export { logIn, logOut, updateProfile, playTrack, logInIfValid };
+export { logIn, logOut, updateProfile, playTrack, logInIfValid, getProfile };

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
-import { getProfileInfo } from './Components/Auth/Login/Login';
+import { getProfile } from './Store/Actions/actions';
 import Socket from './Backend/Socket';
 import { isEmptyObj } from './Utils/Utils';
 import PropTypes, { object, bool } from 'prop-types';
@@ -15,6 +15,7 @@ import styles from './App.module.scss';
 
 function App(props) {
   const { isLogged, conversations, token } = props;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (isEmptyObj(conversations)) return;
@@ -23,7 +24,7 @@ function App(props) {
 
   useEffect(() => {
     if (!token) return;
-    getProfileInfo(token);
+    dispatch(getProfile(token));
   }, [token]);
 
   return (

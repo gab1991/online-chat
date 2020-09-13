@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect, useRef } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getProfileInfo } from '../../Components/Auth/Login/Login';
+import { getProfile } from '../../Store/Actions/actions';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Contact from '../Contact/Contact';
 import { debounce } from '../../Utils/Utils';
@@ -17,6 +17,7 @@ function FindContact(props) {
   const { user_id, token } = props;
   const inputRef = useRef();
   const isMounted = useRef(true);
+  const dispatch = useDispatch();
   const [contacts, setContacts] = useState([]);
   const [typing, setShowTyping] = useState(false);
   const [isEnteringChat, setIsEnteringChat] = useState(false);
@@ -64,7 +65,7 @@ function FindContact(props) {
 
         if (conversation_id) {
           if (isNewConversation) {
-            await getProfileInfo(token);
+            dispatch(getProfile(token));
           }
           props.history.push(`/chats/${res.data.conversation_id}`);
         }

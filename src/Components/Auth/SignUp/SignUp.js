@@ -101,8 +101,8 @@ export default function SignUp(props) {
         .catch((err) => {
           setSending(false);
 
-          if (!err?.response) {
-            alert('service unavailable! Try again later');
+          if (!err.response?.data?.field) {
+            alert('something went wrong! Try again later');
           } else {
             const errMessage = err.response.data.err_message;
             const errInput = err.response.data.field;
