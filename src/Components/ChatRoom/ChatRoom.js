@@ -162,7 +162,9 @@ function ChatRoom(props) {
   }, [user_id]);
 
   useEffect(() => {
-    dispatchLocal({ type: 'UPDATE_CHAT_DATA', payload: chatData });
+    if (chatData) {
+      dispatchLocal({ type: 'UPDATE_CHAT_DATA', payload: chatData });
+    }
   }, [chatData]);
 
   useEffect(() => {
@@ -172,6 +174,7 @@ function ChatRoom(props) {
         type: 'SET_SEARCH_INPUT_VALUE',
         payload: forwardedInputValue,
       });
+
       clearRouterLocationState(props.history);
     }
   }, [forwardedInputValue, props.history]);
