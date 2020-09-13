@@ -47,6 +47,17 @@ function sortConvByTime(convObj) {
   return sortedConvArr;
 }
 
+function removeConvWithoutMsgs(convObj) {
+  const emptyConvsRemoved = {};
+
+  for (let id in convObj) {
+    if (convObj[id]?.messages.length > 0) {
+      emptyConvsRemoved[id] = { ...convObj[id] };
+    }
+  }
+  return emptyConvsRemoved;
+}
+
 function reducer(state, action) {
   switch (action.type) {
     case 'FILL_DISPLAYED_CONVS': {
@@ -57,7 +68,8 @@ function reducer(state, action) {
       if (!isEmptyObj(matchedConvs) || searchInputValue.length !== 0) {
         displConvs = sortConvByTime(matchedConvs);
       } else {
-        displConvs = sortConvByTime(conversations);
+        const emptyConvsRemoved = removeConvWithoutMsgs(conversations);
+        displConvs = sortConvByTime(emptyConvsRemoved);
       }
 
       return { ...state, displConvs, isUpdatingDisplConvs: false };
@@ -103,6 +115,7 @@ function Messages(props) {
   });
   const [showMenu, setShowMenu] = useState(false);
   const [showSearchTab, setSearchTab] = useState(false);
+
   const findMessage = (searchStr, conversations) => {
     const foundConvs = {};
     if (searchStr.length === 0) {
@@ -217,33 +230,27 @@ function Messages(props) {
       <div className={styles.ChatsContainer}>
         {!!displConvs.length &&
           displConvs.map((conversation) => {
-            if (conversation.messages.length) {
-              return (
-                <Chat
-                  key={conversation.id}
-                  matchedMsgs={matchedConvs.id}
-                  {...conversation}
-                  onClick={() => enterChat(conversation.id)}
-                />
-              );
-            } else {
-              return (
-                <p className={styles.NothingFound} key={conversation.id}>
-                  No chats yet! Find a friend to chat with
-                </p>
-              );
-            }
+            return (
+              <Chat
+                key={conversation.id}
+                matchedMsgs={matchedConvs.id}
+                {...conversation}
+                onClick={() => enterChat(conversation.id)}
+              />
+            );
           })}
         {!displConvs.length && !isUpdatingDisplConvs && (
           <>
             <p className={styles.NothingFound}>
-              No chats yet! Find a friend to chat with
+              {showSearchTab ? 'No messages found' : 'No chats yet!'}
             </p>
-            <Button
-              txtContent={'Go to find a friend'}
-              onClick={goToContactSearch}
-              className={styles.FindFriendBtn}
-            />
+            {!showSearchTab && (
+              <Button
+                txtContent={'Go to find a friend'}
+                onClick={goToContactSearch}
+                className={styles.FindFriendBtn}
+              />
+            )}
           </>
         )}
         {!displConvs.length && isUpdatingDisplConvs && (
