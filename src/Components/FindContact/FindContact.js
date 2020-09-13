@@ -1,28 +1,31 @@
 import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { getProfileInfo } from '../../Components/Auth/Login/Login';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Contact from '../Contact/Contact';
 import { debounce } from '../../Utils/Utils';
 import Backend from '../../Backend/Backend';
 import BackArrowIcon from '../UI/SvgIcons/BackArrow';
+import FadingLInesSpinner from '../UI/SvgSpinners/FadingLines';
 import CircularSpinner from '../UI/SvgSpinners/Circular';
 import Input from '../UI/Inputs/Input/Input';
 import LookUpIcon from '../UI/SvgIcons/LookUp';
 import styles from '../FindContact/FindContact.module.scss';
 
 function FindContact(props) {
-  const { user_id } = props;
+  const { user_id, token } = props;
   const inputRef = useRef();
   const isMounted = useRef(true);
   const [contacts, setContacts] = useState([]);
   const [typing, setShowTyping] = useState(false);
+  const [isEnteringChat, setIsEnteringChat] = useState(false);
 
   useEffect(() => {
     return () => {
       isMounted.current = false;
     };
-  });
+  }, []);
 
   useEffect(() => {
     inputRef.current.focus();
@@ -52,12 +55,25 @@ function FindContact(props) {
   };
 
   const enterChat = (contactName) => {
-    Backend.conversationEnter(user_id, contactName).then((res) => {
-      console.log(res.data);
-      if (res.data.conversation_id) {
-        props.history.push(`/chats/${res.data.conversation_id}`);
-      }
-    });
+    setIsEnteringChat(true);
+
+    Backend.conversationEnter(user_id, contactName)
+      .then(async (res) => {
+        const conversation_id = res?.data?.conversation_id;
+        const isNewConversation = res?.data?.isNewConversation;
+
+        if (conversation_id) {
+          if (isNewConversation) {
+            await getProfileInfo(token);
+          }
+          props.history.push(`/chats/${res.data.conversation_id}`);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        if (!isMounted.current) return;
+        setIsEnteringChat(false);
+      });
   };
 
   const goBackHandler = () => {
@@ -65,7 +81,10 @@ function FindContact(props) {
   };
 
   return (
-    <div className={styles.FindContact}>
+    <div
+      className={`${styles.FindContact} ${
+        isEnteringChat ? styles.blured : ''
+      }`}>
       <div className={styles.Header}>
         <div className={styles.HeaderContent}>
           <BackArrowIcon
@@ -96,16 +115,22 @@ function FindContact(props) {
           </CSSTransition>
         ))}
       </TransitionGroup>
+      {isEnteringChat && (
+        <div className={styles.SpinnerContainer}>
+          <FadingLInesSpinner />
+        </div>
+      )}
     </div>
   );
 }
 
 function mapStateToProps(state) {
-  return { user_id: state.profile.id };
+  return { user_id: state.profile.id, token: state.logged.token };
 }
 
 export default connect(mapStateToProps)(FindContact);
 
 FindContact.propTypes = {
   username: PropTypes.string,
+  token: PropTypes.string,
 };

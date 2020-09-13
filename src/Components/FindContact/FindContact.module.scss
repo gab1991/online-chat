@@ -5,6 +5,8 @@ $header-color-middle: theme-color('delta');
 $header-color-bottom: theme-color('epsilon');
 $chat-section-background: theme-color('background');
 $svg-rect-side: 2rem;
+$spinner-color: theme-color('delta');
+
 @mixin chat-container-font {
   color: theme-color('gamma');
   font-weight: 600;
@@ -14,6 +16,14 @@ $svg-rect-side: 2rem;
   @include appHeight;
   display: flex;
   flex-direction: column;
+
+  &.blured {
+    pointer-events: none;
+    .Header,
+    .ChatsContainer {
+      filter: blur(2px);
+    }
+  }
 }
 
 .Header {
@@ -77,6 +87,18 @@ $svg-rect-side: 2rem;
   row-gap: 2px;
 }
 
+.SpinnerContainer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 120px;
+  svg {
+    path {
+      fill: $spinner-color;
+    }
+  }
+}
 /* TRANSITIONS */
 
 .enter {
