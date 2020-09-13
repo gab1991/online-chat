@@ -25,7 +25,7 @@ function App(props) {
   useEffect(() => {
     if (!token) return;
     dispatch(getProfile(token));
-  }, [token]);
+  }, [token, dispatch]);
 
   return (
     <div className={styles.modileRestrainer}>
