@@ -256,7 +256,7 @@ function ChatRoom(props) {
   };
 
   const goBackHandler = () => {
-    props.history.push('/');
+    props.history.goBack();
   };
 
   const inputChangeHandler = (e) => {
@@ -265,6 +265,7 @@ function ChatRoom(props) {
 
   const submitHandler = (e) => {
     e.preventDefault();
+
     if (inputValue) {
       dispatchLocal({ type: 'SEND_MESSAGE', payload: inputValue });
     }
