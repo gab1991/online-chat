@@ -34,15 +34,6 @@ function App(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isLogged.initialLoading) return;
-    ChatRoom.preload();
-    FindContact.preload();
-    Auth.preload();
-    UserSettings.preload();
-    Messages.preload();
-  }, [isLogged.initialLoading]);
-
-  useEffect(() => {
     if (isEmptyObj(conversations)) return;
     Socket.subscribeToConversations(conversations);
   }, [conversations]);
