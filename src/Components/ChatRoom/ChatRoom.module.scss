@@ -173,6 +173,14 @@ $svg-icon-color: theme-color('gamma');
       height: 35px;
       width: auto;
       margin-right: 26px;
+      animation: appear 400ms forwards;
+    }
+    .SendSvg {
+      transition: all 400ms;
+      &:hover {
+        transform: scale(1.3);
+        cursor: pointer;
+      }
     }
   }
 }

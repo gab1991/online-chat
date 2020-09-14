@@ -20,6 +20,7 @@ import DatePopUp from '../UI/PopUps/DatePopUp/DatePopUp';
 import KeyBoardIcon from '../UI/SvgIcons/Keyboard';
 import LookUpIcon from '../UI/SvgIcons/LookUp';
 import ArrowHeadSvg from '../UI/SvgIcons/ArrowHead';
+import SendSvg from '../UI/SvgIcons/Send';
 import Avatar from '../UI/Avatar/Avatar';
 import Message from '../Message/Message';
 import Input from '../UI/Inputs/Input/Input';
@@ -99,7 +100,8 @@ function ChatRoom(props) {
   const { chatID } = props.match.params;
   const forwardedInputValue = props.location.state?.searchInputValue;
   const { user_id } = props;
-  const inputRef = useRef();
+  const searchInputRef = useRef();
+  const msgInputRef = useRef();
   const msgArea = useRef();
   const messageRefs = useRef({});
   const isMounted = useRef(true);
@@ -202,7 +204,10 @@ function ChatRoom(props) {
 
   useEffect(() => {
     if (showSearch) {
-      inputRef.current.focus();
+      searchInputRef.current.focus();
+    }
+    if (msgInputRef) {
+      msgInputRef.current.focus();
     }
   }, [showSearch]);
 
@@ -279,6 +284,7 @@ function ChatRoom(props) {
     if (inputValue) {
       dispatchLocal({ type: 'SEND_MESSAGE', payload: inputValue });
     }
+    msgInputRef.current.focus();
   };
 
   const toggleSearchInMsgs = () => {
@@ -324,7 +330,7 @@ function ChatRoom(props) {
   const clearSearchInput = () => {
     if (!isMounted.current) return;
     scrollToBottom(msgArea.current);
-    inputRef.current.focus();
+    searchInputRef.current.focus();
     dispatchLocal({ type: 'SET_SEARCH_INPUT_VALUE', payload: '' });
     dispatchLocal({ type: 'SET_MATCHED_MSGS', payload: [] });
   };
@@ -409,7 +415,7 @@ function ChatRoom(props) {
           )}
           {showSearch && (
             <SearchTab
-              inputRef={inputRef}
+              inputRef={searchInputRef}
               isSearching={isSearching}
               toggleSearchInMsgs={toggleSearchInMsgs}
               seacrhinputChangeHandler={seacrhinputChangeHandler}
@@ -472,8 +478,16 @@ function ChatRoom(props) {
               value={inputValue}
               type={'text'}
               className={styles.Input}
+              inputRef={msgInputRef}
             />
-            <KeyBoardIcon className={styles.SvgIcon} />
+            {!!inputValue.length ? (
+              <SendSvg
+                className={`${styles.SvgIcon} ${styles.SendSvg} `}
+                onClick={submitHandler}
+              />
+            ) : (
+              <KeyBoardIcon className={styles.SvgIcon} />
+            )}
           </div>
         )}
       </form>
