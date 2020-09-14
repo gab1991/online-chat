@@ -112,7 +112,7 @@ $signUp-link-color: theme-color('beta');
     opacity: 0;
   }
   [data-name='main-planet'] {
-    transform: translate3d(0, 0, 0) scale(0.2);
+    transform: translateY(0) translateX(0) scale(0.2);
   }
 }
 
@@ -127,7 +127,7 @@ $signUp-link-color: theme-color('beta');
     transition: opacity 1s 1s;
   }
   [data-name='main-planet'] {
-    transform: translate3d(-22%, -50%, 0) scale(1);
+    transform: translateY(-50%) translateX(-22%) scale(1);
     transition: transform 2s;
   }
 }
@@ -135,13 +135,13 @@ $signUp-link-color: theme-color('beta');
 .appearDone,
 .enterDone {
   [data-name='main-planet'] {
-    transform: translate3d(-22%, -50%, 0);
+    transform: translateY(-50%) translateX(-22%) scale(1);
   }
 }
 
 .exit {
   [data-name='main-planet'] {
-    transform: translate3d(-22%, -50%, 0);
+    transform: translateY(-50%) translateX(-22%);
   }
 }
 
@@ -152,7 +152,7 @@ $signUp-link-color: theme-color('beta');
     transition: opacity 1s;
   }
   [data-name='main-planet'] {
-    transform: translate3d(-22%, -50%, 0) translateX(100%);
+    transform: translateY(-50%) translateX(122%);
     transition: all 1s;
   }
 }
@@ -164,6 +164,6 @@ $signUp-link-color: theme-color('beta');
   }
 
   [data-name='main-planet'] {
-    transform: translate3d(-22%, -50%, 0) translateX(100%);
+    transform: translateY(-50%) translateX(122%);
   }
 }
