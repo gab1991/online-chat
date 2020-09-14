@@ -47,9 +47,9 @@ function Menu(props) {
   }, [showNameInput]);
 
   const sendLogOut = () => {
+    localStorage.clear();
     dispatch(logOut());
     props.history.push('/');
-    localStorage.clear();
   };
 
   const toContacts = () => {

@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 import { server_adress } from '../Configs/sever.config';
-import { logInIfValid } from '../Store/Actions/actions';
+import { logInIfValid, finishInitialLogIn } from '../Store/Actions/actions';
 import { addMessage, updateLastSeenMsg } from '../Store/Actions/chatActions';
 import { store, dispatch } from '../Store/store';
 
@@ -29,6 +29,9 @@ socket.on('connect', () => {
 
   if (token && username) {
     dispatch(logInIfValid(username, token));
+  } else {
+    localStorage.clear();
+    dispatch(finishInitialLogIn());
   }
 });
 

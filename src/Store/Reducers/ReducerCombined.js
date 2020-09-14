@@ -14,7 +14,7 @@ const appReducer = combineReducers({
 const rootReducer = (state, action) => {
   if (action.type === 'LOG_OUT') {
     state = undefined;
-    console.log('logged out');
+    localStorage.setItem('isLoggedOut', true);
   }
   return appReducer(state, action);
 };

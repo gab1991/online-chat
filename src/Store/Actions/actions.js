@@ -28,6 +28,12 @@ const logInIfValid = (username, token) => {
   };
 };
 
+const finishInitialLogIn = () => {
+  return {
+    type: 'FINISH_INITIAL_LOG_IN',
+  };
+};
+
 const logOut = () => {
   return {
     type: 'LOG_OUT',
@@ -73,4 +79,12 @@ const playTrack = (trackname) => {
   };
 };
 
-export { logIn, logOut, updateProfile, playTrack, logInIfValid, getProfile };
+export {
+  logIn,
+  logOut,
+  updateProfile,
+  playTrack,
+  logInIfValid,
+  getProfile,
+  finishInitialLogIn,
+};
