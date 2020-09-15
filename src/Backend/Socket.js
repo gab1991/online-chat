@@ -1,6 +1,10 @@
 import io from 'socket.io-client';
 import { server_adress } from '../Configs/sever.config';
-import { logInIfValid, finishInitialLogIn } from '../Store/Actions/actions';
+import {
+  logInIfValid,
+  finishInitialLogIn,
+  logOut,
+} from '../Store/Actions/actions';
 import { addMessage, updateLastSeenMsg } from '../Store/Actions/chatActions';
 import { store, dispatch } from '../Store/store';
 
@@ -33,6 +37,11 @@ socket.on('connect', () => {
     localStorage.clear();
     dispatch(finishInitialLogIn());
   }
+});
+
+socket.on('connect_error', () => {
+  dispatch(finishInitialLogIn());
+  dispatch(logOut());
 });
 
 socket.on('passMsgToConversation', (data) => {
