@@ -205,8 +205,7 @@ function ChatRoom(props) {
   useEffect(() => {
     if (showSearch) {
       searchInputRef.current.focus();
-    }
-    if (msgInputRef) {
+    } else if (msgInputRef) {
       msgInputRef.current.focus();
     }
   }, [showSearch]);
