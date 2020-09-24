@@ -5,7 +5,11 @@ import {
   finishInitialLogIn,
   logOut,
 } from '../Store/Actions/actions';
-import { addMessage, updateLastSeenMsg } from '../Store/Actions/chatActions';
+import {
+  addMessage,
+  updateLastSeenMsg,
+  uploadNewConv,
+} from '../Store/Actions/chatActions';
 import { store, dispatch } from '../Store/store';
 
 //Inner setup
@@ -44,6 +48,10 @@ socket.on('connect_error', () => {
   dispatch(logOut());
 });
 
+socket.on('needToUpdChatObj', (data) => {
+  dispatch(uploadNewConv(data));
+});
+
 socket.on('passMsgToConversation', (data) => {
   store.dispatch(addMessage(data));
 });
@@ -58,8 +66,12 @@ const sockets = {
     return store.getState().profile.id;
   },
 
-  subscribeToConversations: (arrConversations = {}) => {
-    socket.emit('subscribeToConversations', arrConversations);
+  setIsOnline: (username) => {
+    socket.emit('setIsOnline', username);
+  },
+
+  subscribeToConversations: (conversations = {}) => {
+    socket.emit('subscribeToConversations', conversations);
   },
 
   sendMessage: (user_id, chatID, message) => {

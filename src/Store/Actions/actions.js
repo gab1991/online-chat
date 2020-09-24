@@ -1,13 +1,17 @@
 import Backend from '../../Backend/Backend';
+import Socket from '../../Backend/Socket';
 import { fillChats } from './chatActions';
 
 const logIn = (username, token) => {
-  return {
-    type: 'LOG_IN',
-    payload: {
-      username,
-      token,
-    },
+  return (dispatch) => {
+    Socket.setIsOnline(username);
+    return dispatch({
+      type: 'LOG_IN',
+      payload: {
+        username,
+        token,
+      },
+    });
   };
 };
 

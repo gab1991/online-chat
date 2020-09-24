@@ -1,4 +1,5 @@
 import { playTrack } from '../Actions/actions';
+import Backend from '../../Backend/Backend';
 
 const FILL_CHATS = (chats) => {
   return {
@@ -55,9 +56,27 @@ const calculateUnreadMsgs = (lastSeenMsgId, messages) => {
   return unreadCounter;
 };
 
+const uploadNewConv = (data) => {
+  return (dispatch, getState) => {
+    const user_id = getState().profile.id;
+    const { chatID, sender_id } = data;
+
+    Backend.uploadNewConv(user_id, chatID)
+      .then((res) => {
+        dispatch(FILL_CHATS(res.data));
+        //Play sound if sender is not me
+        if (sender_id !== user_id) {
+          dispatch(playTrack('incomeMsg'));
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+};
+
 export {
   FILL_CHATS as fillChats,
   addMessage,
   updateLastSeenMsg,
   calculateUnreadMsgs,
+  uploadNewConv,
 };

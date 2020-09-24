@@ -123,6 +123,21 @@ const Backend = {
         .catch((err) => reject(err));
     });
   },
+  uploadNewConv: (user_id, chatID) => {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: `/api/conversation/uploadNewConv/${user_id}/${chatID}`,
+        method: 'GET',
+        headers: {
+          authorization: `Bearer ${getToken()}`,
+        },
+      })
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => reject(err));
+    });
+  },
   updateDispName: (dispName) => {
     return new Promise((resolve, reject) => {
       axios({
