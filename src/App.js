@@ -44,7 +44,7 @@ function App(props) {
   }, [token, dispatch]);
 
   return (
-    <div className={styles.modileRestrainer}>
+    <div className={styles.mobileRestrainer}>
       <div className={styles.App}>
         <Suspense fallback={<Loading />}>
           {!isLogged.status && !isLogged.initialLoading && (
