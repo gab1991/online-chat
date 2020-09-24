@@ -84,7 +84,9 @@ $spinner-color: theme-color('beta');
 }
 
 .ChatsContainer {
+  overflow: auto;
   flex: 1;
+  @include customScrollBar(6px);
   @include chat-container-font;
   display: grid;
   grid-template-columns: 1fr;
