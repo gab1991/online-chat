@@ -5,7 +5,7 @@ import React, {
   useCallback,
   useReducer,
 } from 'react';
-import { connect, useSelector } from 'react-redux';
+import { connect, useSelector, useDispatch } from 'react-redux';
 import {
   debounce,
   throttle,
@@ -15,6 +15,7 @@ import {
 import { formatPopUpScroll } from '../../Utils/timeFormatter';
 import PropTypes from 'prop-types';
 import Socket from '../../Backend/Socket';
+import { sendMsg } from '../../Store/Actions/chatActions';
 import SearchTab from '../SearchTab/SearchTab';
 import DatePopUp from '../UI/PopUps/DatePopUp/DatePopUp';
 import KeyBoardIcon from '../UI/SvgIcons/Keyboard';
@@ -40,10 +41,6 @@ function reducer(state, action) {
       return { ...state, messages, type, convPartner };
     }
     case 'SEND_MESSAGE': {
-      const { chatID, userID } = state;
-      const messageTxt = action.payload;
-
-      Socket.sendMessage(userID, chatID, messageTxt);
       return { ...state, inputValue: '' };
     }
     case 'CHANGE_MSG_INPUT_VALUE': {
@@ -138,6 +135,7 @@ function ChatRoom(props) {
       content: '',
     },
   });
+  const dispatchGlobal = useDispatch();
   const [showSearch, setShowSearch] = useState(false);
 
   const findMessage = (searchStr, messages) => {
@@ -282,6 +280,7 @@ function ChatRoom(props) {
 
     if (inputValue) {
       dispatchLocal({ type: 'SEND_MESSAGE', payload: inputValue });
+      dispatchGlobal(sendMsg(chatID, inputValue));
     }
     msgInputRef.current.focus();
   };

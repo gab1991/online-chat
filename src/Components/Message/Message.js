@@ -13,6 +13,7 @@ function Message(props) {
     refCb,
     onClick,
     focused,
+    isDummy,
   } = props;
   const side = user_id === sender_id ? 'right' : 'left';
   const [hours, minutes] = getHoursMinutes(created_at);
@@ -26,6 +27,7 @@ function Message(props) {
         className={`${styles.MessageContainer} 
         ${side === 'right' ? styles.RightSide : styles.LeftSide}
         ${focused ? styles.Focused : ''}
+        ${isDummy ? styles.Dummy : ''}
         `}>
         <p>{message}</p>
         <span>{`${hours}:${minutes}`}</span>

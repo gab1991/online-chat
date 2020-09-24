@@ -33,6 +33,32 @@ const chatReducer = (state = {}, action) => {
       return updChats;
     }
 
+    case 'CREATE_DUMMY_MSG': {
+      const dummyMsgBody = action.payload;
+      const updChats = { ...state };
+
+      updChats[dummyMsgBody.conversation_id].messages.push(dummyMsgBody);
+      updChats[dummyMsgBody.conversation_id].unreadCounter = 0;
+      return updChats;
+    }
+
+    case 'SWAP_DUMMY_MSG_TO_DELIVERED': {
+      const { newMsg, dummyID } = action.payload;
+      const { conversation_id } = newMsg;
+      const updChats = { ...state };
+
+      const msgsArr = updChats[conversation_id].messages;
+
+      for (let i = msgsArr.length - 1; i >= 0; i--) {
+        if (msgsArr[i].id === dummyID) {
+          msgsArr[i] = newMsg;
+          break;
+        }
+      }
+
+      return updChats;
+    }
+
     case 'UPDATE_LAST_SEEN_MSG': {
       const { conversation_id, last_seen_msg_id } = { ...action.payload };
       const updChats = {

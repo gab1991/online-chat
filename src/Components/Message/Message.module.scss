@@ -6,6 +6,7 @@ $right-side-msg-font-color: $font-color-main;
 $left-side-msg-background: theme-color('background');
 $left-side-msg-font-color: theme-color('gamma');
 $msg-background-focused: theme-color('beta');
+$msg-background-dummy: lighten($right-side-msg-background, 20%);
 
 .Message {
   display: flex;
@@ -54,5 +55,8 @@ $msg-background-focused: theme-color('beta');
   &.Focused {
     background-color: $msg-background-focused;
     color: $font-color-main;
+  }
+  &.Dummy {
+    background-color: $msg-background-dummy;
   }
 }

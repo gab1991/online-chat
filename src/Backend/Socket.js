@@ -9,6 +9,7 @@ import {
   addMessage,
   updateLastSeenMsg,
   uploadNewConv,
+  swapDummyMsgToDelivered,
 } from '../Store/Actions/chatActions';
 import { store, dispatch } from '../Store/store';
 
@@ -52,12 +53,16 @@ socket.on('needToUpdChatObj', (data) => {
   dispatch(uploadNewConv(data));
 });
 
-socket.on('passMsgToConversation', (data) => {
+socket.on('newMsgArrived', (data) => {
   store.dispatch(addMessage(data));
 });
 
 socket.on('updateLastSeenMsg', (data) => {
   store.dispatch(updateLastSeenMsg(data));
+});
+
+socket.on('myMsgCreated', (data) => {
+  store.dispatch(swapDummyMsgToDelivered(data));
 });
 
 // OuterMethods
@@ -74,11 +79,12 @@ const sockets = {
     socket.emit('subscribeToConversations', conversations);
   },
 
-  sendMessage: (user_id, chatID, message) => {
+  sendMessage: (user_id, chatID, message, dummyID) => {
     socket.emit('sendMessage', {
       user_id,
       chatID,
       message,
+      dummyID,
     });
   },
 
