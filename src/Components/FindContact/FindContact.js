@@ -107,14 +107,18 @@ function FindContact(props) {
         </div>
       </div>
       <TransitionGroup className={styles.ChatsContainer}>
-        {contacts.map((contact) => (
-          <CSSTransition
-            key={contact.username}
-            timeout={1000}
-            classNames={{ ...styles }}>
-            <Contact {...contact} onClick={() => enterChat(contact.id)} />
-          </CSSTransition>
-        ))}
+        {contacts.map((contact) => {
+          //block myself from search
+          if (contact.id === user_id) return null;
+          return (
+            <CSSTransition
+              key={contact.username}
+              timeout={1000}
+              classNames={{ ...styles }}>
+              <Contact {...contact} onClick={() => enterChat(contact.id)} />
+            </CSSTransition>
+          );
+        })}
       </TransitionGroup>
       {isEnteringChat && (
         <div className={styles.SpinnerContainer}>
