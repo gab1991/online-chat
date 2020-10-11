@@ -87,20 +87,20 @@ const calculateUnreadMsgs = (lastSeenMsgId, messages) => {
   return unreadCounter;
 };
 
-const uploadNewConv = (data) => {
-  return (dispatch, getState) => {
+const uploadNewConv = (chatData) => {
+  return async (dispatch, getState) => {
     const user_id = getState().profile.id;
-    const { chatID, sender_id } = data;
+    const { chatID, sender_id } = chatData;
 
-    Backend.uploadNewConv(user_id, chatID)
-      .then((res) => {
-        dispatch(FILL_CHATS(res.data));
-        //Play sound if sender is not me
-        if (sender_id !== user_id) {
-          dispatch(playTrack('incomeMsg'));
-        }
-      })
-      .catch((err) => console.log(err));
+    const { data } = await Backend.uploadNewConv(user_id, chatID);
+    if (!data) return;
+
+    dispatch(FILL_CHATS(data));
+    //Play sound if sender is not me
+
+    if (sender_id !== user_id) {
+      dispatch(playTrack('incomeMsg'));
+    }
   };
 };
 

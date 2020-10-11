@@ -16,19 +16,15 @@ const logIn = (username, token) => {
 };
 
 const logInIfValid = (username, token) => {
-  return (dispatch) => {
-    Backend.checkTokenValidity(username, token)
-      .then((res) => {
-        return dispatch(logIn(username, token));
-      })
-      .catch((err) => {
-        if (err?.response?.status === 401) {
-          localStorage.clear();
-          dispatch(logOut());
-        }
-        console.log(err);
-      });
-    return;
+  return async (dispatch) => {
+    await Backend.checkTokenValidity(username, token, (err) => {
+      if (err?.response?.status === 401) {
+        localStorage.clear();
+        dispatch(logOut());
+      }
+    });
+
+    dispatch(logIn(username, token));
   };
 };
 
@@ -53,26 +49,23 @@ const updateProfile = (obj) => {
   };
 };
 
-const getProfile = (token) => {
+const getProfile = () => {
   return async (dispatch) => {
-    const res = await Backend.getProfile(token).catch((err) =>
-      console.log(err)
-    );
+    const { data } = await Backend.getProfile();
+    if (!data) return;
 
-    if (res) {
-      const profile = {
-        avatar_path: res.data?.avatar_path,
-        id: res.data?.id,
-        username: res.data?.username,
-        displayed_name: res.data?.displayed_name,
-      };
-      const conversations = {
-        ...res.data?.conversations,
-      };
-      dispatch(updateProfile(profile));
-      dispatch(fillChats(conversations));
-    }
-    return;
+    const profile = {
+      avatar_path: data?.avatar_path,
+      id: data?.id,
+      username: data?.username,
+      displayed_name: data?.displayed_name,
+    };
+    const conversations = {
+      ...data?.conversations,
+    };
+
+    dispatch(updateProfile(profile));
+    dispatch(fillChats(conversations));
   };
 };
 

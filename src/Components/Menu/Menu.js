@@ -64,7 +64,7 @@ function Menu(props) {
     setShowNameInput((prev) => !prev);
   };
 
-  const changeDisplayedName = (dispName) => {
+  const changeDisplayedName = async (dispName) => {
     if (!dispName) {
       setWrongInput({ state: true, invalidMsg: 'Write at least 1 char' });
       return;
@@ -80,16 +80,16 @@ function Menu(props) {
 
     setIsSendingDispName(true);
 
-    Backend.updateDispName(dispName)
-      .then((res) => {
-        dispatch(updateProfile({ displayed_name: dispName }));
-        setShowNameInput(false);
-        setIsSendingDispName(false);
-      })
-      .catch((err) => {
-        setWrongInput({ state: true, invalidMsg: 'something went wrong' });
-        setIsSendingDispName(false);
-      });
+    const { status = null } = await Backend.updateDispName(dispName, () => {
+      setWrongInput({ state: true, invalidMsg: 'something went wrong' });
+      setIsSendingDispName(false);
+    });
+
+    if (status === 200) {
+      dispatch(updateProfile({ displayed_name: dispName }));
+      setShowNameInput(false);
+      setIsSendingDispName(false);
+    }
   };
 
   const hideInput = (e) => {

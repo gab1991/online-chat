@@ -32,19 +32,22 @@ function FindContact(props) {
     inputRef.current.focus();
   }, [inputRef]);
 
-  const findProfiles = (searchStr) => {
-    Backend.findProfiles(searchStr)
-      .then((res) => {
-        const profiles = res.data;
-        if (!isMounted.current) return;
-        setContacts(profiles);
-        setShowTyping(false);
-      })
-      .catch((err) => {
+  const findProfiles = async (searchStr) => {
+    const { data: profiles = null } = await Backend.findProfiles(
+      searchStr,
+      () => {
+        //error handling
         if (!isMounted.current) return;
         setShowTyping(false);
         setContacts([]);
-      });
+      }
+    );
+
+    if (!profiles) return;
+    if (!isMounted.current) return;
+
+    setContacts(profiles);
+    setShowTyping(false);
   };
 
   const delayedSearch = useCallback(debounce(findProfiles, 1000));
@@ -55,26 +58,26 @@ function FindContact(props) {
     delayedSearch(searchStr);
   };
 
-  const enterChat = (contactName) => {
+  const enterChat = async (contactName) => {
     setIsEnteringChat(true);
 
-    Backend.conversationEnter(user_id, contactName)
-      .then(async (res) => {
-        const conversation_id = res?.data?.conversation_id;
-        const isNewConversation = res?.data?.isNewConversation;
+    const {
+      data: { conversation_id, isNewConversation } = {
+        conversation_id: null,
+        isNewConversation: null,
+      },
+    } = await Backend.conversationEnter(user_id, contactName, () => {
+      if (!isMounted.current) return;
+      setIsEnteringChat(false);
+    });
 
-        if (conversation_id) {
-          if (isNewConversation) {
-            dispatch(getProfile(token));
-          }
-          props.history.push(`/chats/${res.data.conversation_id}`);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        if (!isMounted.current) return;
-        setIsEnteringChat(false);
-      });
+    if (!conversation_id) return;
+
+    if (isNewConversation) {
+      dispatch(getProfile());
+    }
+
+    props.history.push(`/chats/${conversation_id}`);
   };
 
   const goBackHandler = () => {

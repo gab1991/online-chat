@@ -27,22 +27,26 @@ function FileUploadForm(props) {
     //get the cropped img
     const canvasScaled = avatarRef.current.getImageScaledToCanvas();
 
+    const uploadHandler = async (formDataObj) => {
+      const {
+        data: { avatar_path } = { avatar_path: null },
+      } = await Backend.uploadAvatar(formDataObj);
+
+      hideForm();
+      if (avatar_path) {
+        dispatch(updateProfile({ avatar_path }));
+      }
+    };
+
     canvasScaled.toBlob((blob) => {
       const file = new File([blob], 'avatar.jpeg');
 
       //sending formdata to server
       const formData = new FormData();
-      formData.append('token', loggedUser.token);
       formData.append('username', loggedUser.username);
       formData.append('avatar', file);
 
-      Backend.uploadAvatar(formData).then((res) => {
-        const avatarPath = res.data.avatar_path;
-        hideForm();
-        if (avatarPath) {
-          dispatch(updateProfile({ avatar_path: avatarPath }));
-        }
-      });
+      uploadHandler(formData);
     }, 'image/jpeg');
   };
 

@@ -67,7 +67,7 @@ export default function SignUp(props) {
     return validate(name, value);
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
     let isEntireFormValid = true;
@@ -88,34 +88,37 @@ export default function SignUp(props) {
         email: inputs.email.value,
       };
       setSending(true);
-      Backend.postSignUp({ ...sendObj })
-        .then((res) => {
-          setSending(false);
+      const res = await Backend.postSignUp({ ...sendObj }, (err) => {
+        setSending(false);
 
-          const username = res.data.username;
-          const authToken = res.headers['auth-token'];
-          dispatch(logIn(username, authToken));
-          localStorage.setItem('token', authToken);
-          localStorage.setItem('username', username);
-        })
-        .catch((err) => {
-          setSending(false);
+        if (!err.response?.data?.field) {
+          alert('something went wrong! Try again later');
+        } else {
+          const errMessage = err.response.data.err_message;
+          const errInput = err.response.data.field;
 
-          if (!err.response?.data?.field) {
-            alert('something went wrong! Try again later');
-          } else {
-            const errMessage = err.response.data.err_message;
-            const errInput = err.response.data.field;
-            if (errInput && errMessage) {
-              setInputs((prevState) => {
-                const updState = { ...prevState };
-                updState[errInput].errMessage = errMessage;
-                updState[errInput].valid = false;
-                return updState;
-              });
-            }
+          if (errInput && errMessage) {
+            setInputs((prevState) => {
+              const updState = { ...prevState };
+              updState[errInput].errMessage = errMessage;
+              updState[errInput].valid = false;
+              return updState;
+            });
           }
-        });
+        }
+      });
+
+      setSending(false);
+
+      if (res?.data?.username || !res.headers['auth-token']) return;
+
+      const username = res.data.username;
+      const authToken = res.headers['auth-token'];
+
+      dispatch(logIn(username, authToken));
+
+      localStorage.setItem('token', authToken);
+      localStorage.setItem('username', username);
     }
   };
 

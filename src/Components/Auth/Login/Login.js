@@ -38,7 +38,7 @@ export default function Login(props) {
   const [sending, setSending] = useState(false);
   const [saveUser, setSaveUser] = useState(false);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
     let isEntireFormValid = true;
@@ -60,38 +60,39 @@ export default function Login(props) {
       };
 
       setSending(true);
-      Backend.postLogin({ ...sendObj })
-        .then((res) => {
-          setSending(false);
 
-          const username = res.data.username;
-          const authToken = res.headers['auth-token'];
+      const res = await Backend.postLogin({ ...sendObj }, (err) => {
+        setSending(false);
 
-          dispatch(logIn(username, authToken));
-          if (saveUser) {
-            localStorage.setItem('token', authToken);
-            localStorage.setItem('username', username);
+        if (!err.response?.data?.field) {
+          alert('something went wrong! Try again later');
+        } else {
+          const errMessage = err.response.data.err_message;
+          const errInput = err.response.data.field;
+
+          if (errInput && errMessage) {
+            setInputs((prevState) => {
+              const updState = { ...prevState };
+              updState[errInput].errMessage = errMessage;
+              updState[errInput].valid = false;
+              return updState;
+            });
           }
-        })
-        .catch((err) => {
-          setSending(false);
+        }
+      });
 
-          if (!err.response?.data?.field) {
-            alert('something went wrong! Try again later');
-          } else {
-            const errMessage = err.response.data.err_message;
-            const errInput = err.response.data.field;
+      setSending(false);
 
-            if (errInput && errMessage) {
-              setInputs((prevState) => {
-                const updState = { ...prevState };
-                updState[errInput].errMessage = errMessage;
-                updState[errInput].valid = false;
-                return updState;
-              });
-            }
-          }
-        });
+      if (res?.data?.username || !res.headers['auth-token']) return;
+
+      const username = res.data.username;
+      const authToken = res.headers['auth-token'];
+
+      dispatch(logIn(username, authToken));
+      if (saveUser) {
+        localStorage.setItem('token', authToken);
+        localStorage.setItem('username', username);
+      }
     }
   };
   const checkValidity = (name, value) => {

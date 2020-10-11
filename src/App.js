@@ -40,7 +40,7 @@ function App(props) {
 
   useEffect(() => {
     if (!token) return;
-    dispatch(getProfile(token));
+    dispatch(getProfile());
   }, [token, dispatch]);
 
   return (

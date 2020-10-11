@@ -1,16 +1,30 @@
 import axios_base from 'axios';
 import { getToken } from '../Store/store';
 import { server_adress } from '../Configs/sever.config';
+import resolve from 'resolve';
 
 const axios = axios_base.create({
   baseURL: server_adress,
   timeout: 4000,
 });
 
+const axiosExecute = async (options = {}, errCb) => {
+  try {
+    const res = await axios(options);
+
+    return res;
+  } catch (err) {
+    console.log('ERROR', err);
+
+    if (typeof errCb === 'function') errCb(err);
+    return { ...err };
+  }
+};
+
 const Backend = {
-  postSignUp: ({ username, password, email }) => {
-    return new Promise((resolve, reject) => {
-      axios({
+  postSignUp: ({ username, password, email }, errCb) => {
+    return axiosExecute(
+      {
         url: `/api/users/sign_up`,
         method: 'POST',
         data: {
@@ -18,32 +32,27 @@ const Backend = {
           password,
           email,
         },
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
-  postLogin: ({ username_email, password }) => {
-    return new Promise((resolve, reject) => {
-      axios({
+
+  postLogin: ({ username_email, password }, errCb) => {
+    return axiosExecute(
+      {
         url: `/api/users/login`,
         method: 'POST',
         data: {
           username_email,
           password: password,
         },
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
-  checkTokenValidity: (username, token) => {
-    return new Promise((resolve, reject) => {
-      axios({
+  checkTokenValidity: (username, token, errCb) => {
+    return axiosExecute(
+      {
         url: `/api/users/checkTokenValidity`,
         method: 'POST',
         headers: {
@@ -52,95 +61,78 @@ const Backend = {
         data: {
           username,
         },
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
-  uploadAvatar: (formData) => {
-    const token = formData.get('token');
 
-    return new Promise((resolve, reject) => {
-      axios({
+  uploadAvatar: (formData, errCb) => {
+    return axiosExecute(
+      {
         url: `/api/img_upload/avatar`,
         headers: {
           'content-type': 'multipart/form-data',
-          authorization: `Bearer ${token}`,
+          authorization: `Bearer ${getToken()}`,
         },
         method: 'POST',
         data: formData,
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
-  getProfile: (token) => {
-    return new Promise((resolve, reject) => {
-      axios({
+  getProfile: (errCb) => {
+    return axiosExecute(
+      {
         url: `/api/profiles`,
         method: 'GET',
         headers: {
-          authorization: `Bearer ${token}`,
+          authorization: `Bearer ${getToken()}`,
         },
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
-  findProfiles: (searchStr) => {
-    return new Promise((resolve, reject) => {
-      axios({
+  findProfiles: (searchStr, errCb) => {
+    return axiosExecute(
+      {
         url: `/api/profiles/findProfiles?search=${searchStr}`,
         method: 'GET',
         headers: {
           authorization: `Bearer ${getToken()}`,
         },
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
-  conversationEnter: (user_id, contactName) => {
-    return new Promise((resolve, reject) => {
-      axios({
+  conversationEnter: (user_id, contactName, errCb) => {
+    return axiosExecute(
+      {
         url: `/api/conversation/conversationEnter/${user_id}/${contactName}`,
         method: 'GET',
         headers: {
           authorization: `Bearer ${getToken()}`,
         },
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
-  uploadNewConv: (user_id, chatID) => {
-    return new Promise((resolve, reject) => {
-      axios({
+
+  uploadNewConv: (user_id, chatID, errCb) => {
+    return axiosExecute(
+      {
         url: `/api/conversation/uploadNewConv/${user_id}/${chatID}`,
         method: 'GET',
         headers: {
           authorization: `Bearer ${getToken()}`,
         },
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
-  updateDispName: (dispName) => {
-    return new Promise((resolve, reject) => {
-      axios({
+
+  updateDispName: (dispName, errCb) => {
+    return axiosExecute(
+      {
         url: `/api/profiles/updateDispName`,
         method: 'POST',
         headers: {
@@ -150,12 +142,9 @@ const Backend = {
           token: getToken(),
           dispName: dispName,
         },
-      })
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => reject(err));
-    });
+      },
+      errCb
+    );
   },
 };
 
