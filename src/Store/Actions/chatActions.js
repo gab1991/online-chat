@@ -2,18 +2,24 @@ import { playTrack } from '../Actions/actions';
 import Socket from '../../Backend/Socket';
 import Backend from '../../Backend/Backend';
 
-const FILL_CHATS = (chats) => {
+const FILL_CHATS = 'FILL_CHATS';
+const ADD_MESSAGE = 'ADD_MESSAGE';
+const CREATE_DUMMY_MSG = 'CREATE_DUMMY_MSG';
+const SWAP_DUMMY_MSG_TO_DELIVERED = 'SWAP_DUMMY_MSG_TO_DELIVERED';
+const UPDATE_LAST_SEEN_MSG = 'UPDATE_LAST_SEEN_MSG';
+
+const fillChats = (chats) => {
   return {
-    type: 'FILL_CHATS',
+    type: FILL_CHATS,
     payload: {
       ...chats,
     },
   };
 };
 
-const ADD_MESSAGE = (message, user_id) => {
+const addMessageBase = (message, user_id) => {
   return {
-    type: 'ADD_MESSAGE',
+    type: ADD_MESSAGE,
     payload: {
       message,
       user_id,
@@ -21,16 +27,16 @@ const ADD_MESSAGE = (message, user_id) => {
   };
 };
 
-const CREATE_DUMMY_MSG = (dummyMsgBody) => {
+const createDummyMsg = (dummyMsgBody) => {
   return {
-    type: 'CREATE_DUMMY_MSG',
+    type: CREATE_DUMMY_MSG,
     payload: dummyMsgBody,
   };
 };
 
-const SWAP_DUMMY_MSG_TO_DELIVERED = ({ newMsg, dummyID }) => {
+const swapDummyMsgToDelivered = ({ newMsg, dummyID }) => {
   return {
-    type: 'SWAP_DUMMY_MSG_TO_DELIVERED',
+    type: SWAP_DUMMY_MSG_TO_DELIVERED,
     payload: { newMsg, dummyID },
   };
 };
@@ -41,7 +47,7 @@ const addMessage = (message) => {
 
     dispatch(playTrack('incomeMsg'));
 
-    return dispatch(ADD_MESSAGE(message, user_id));
+    return dispatch(addMessageBase(message, user_id));
   };
 };
 
@@ -60,13 +66,13 @@ const sendMsg = (chatID, messageTxt) => {
 
     Socket.sendMessage(user_id, chatID, messageTxt, dummyMsgBody.id);
 
-    return dispatch(CREATE_DUMMY_MSG(dummyMsgBody));
+    return dispatch(createDummyMsg(dummyMsgBody));
   };
 };
 
 const updateLastSeenMsg = (obj) => {
   return {
-    type: 'UPDATE_LAST_SEEN_MSG',
+    type: UPDATE_LAST_SEEN_MSG,
     payload: {
       ...obj,
     },
@@ -105,11 +111,19 @@ const uploadNewConv = (chatData) => {
 };
 
 export {
-  FILL_CHATS as fillChats,
+  fillChats,
   addMessage,
   updateLastSeenMsg,
   calculateUnreadMsgs,
   uploadNewConv,
   sendMsg,
-  SWAP_DUMMY_MSG_TO_DELIVERED as swapDummyMsgToDelivered,
+  swapDummyMsgToDelivered,
+};
+
+export {
+  ADD_MESSAGE,
+  CREATE_DUMMY_MSG,
+  UPDATE_LAST_SEEN_MSG,
+  FILL_CHATS,
+  SWAP_DUMMY_MSG_TO_DELIVERED,
 };

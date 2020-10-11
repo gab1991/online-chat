@@ -1,8 +1,15 @@
 import { calculateUnreadMsgs } from '../Actions/chatActions';
+import {
+  ADD_MESSAGE,
+  CREATE_DUMMY_MSG,
+  SWAP_DUMMY_MSG_TO_DELIVERED,
+  UPDATE_LAST_SEEN_MSG,
+  FILL_CHATS,
+} from '../Actions/chatActions';
 
 const chatReducer = (state = {}, action) => {
   switch (action.type) {
-    case 'FILL_CHATS': {
+    case FILL_CHATS: {
       const updChats = { ...state, ...action.payload };
 
       for (let chatId in updChats) {
@@ -14,7 +21,7 @@ const chatReducer = (state = {}, action) => {
       return { ...state, ...action.payload };
     }
 
-    case 'ADD_MESSAGE': {
+    case ADD_MESSAGE: {
       const { user_id, message } = action.payload;
       const { conversation_id } = message;
       const updChats = { ...state };
@@ -33,7 +40,7 @@ const chatReducer = (state = {}, action) => {
       return updChats;
     }
 
-    case 'CREATE_DUMMY_MSG': {
+    case CREATE_DUMMY_MSG: {
       const dummyMsgBody = action.payload;
       const updChats = { ...state };
 
@@ -42,7 +49,7 @@ const chatReducer = (state = {}, action) => {
       return updChats;
     }
 
-    case 'SWAP_DUMMY_MSG_TO_DELIVERED': {
+    case SWAP_DUMMY_MSG_TO_DELIVERED: {
       const { newMsg, dummyID } = action.payload;
       const { conversation_id } = newMsg;
       const updChats = { ...state };
@@ -59,7 +66,7 @@ const chatReducer = (state = {}, action) => {
       return updChats;
     }
 
-    case 'UPDATE_LAST_SEEN_MSG': {
+    case UPDATE_LAST_SEEN_MSG: {
       const { conversation_id, last_seen_msg_id } = { ...action.payload };
       const updChats = {
         ...state,

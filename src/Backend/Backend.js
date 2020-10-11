@@ -1,7 +1,6 @@
 import axios_base from 'axios';
 import { getToken } from '../Store/store';
 import { server_adress } from '../Configs/sever.config';
-import resolve from 'resolve';
 
 const axios = axios_base.create({
   baseURL: server_adress,

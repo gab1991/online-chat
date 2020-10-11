@@ -2,11 +2,17 @@ import Backend from '../../Backend/Backend';
 import Socket from '../../Backend/Socket';
 import { fillChats } from './chatActions';
 
+const LOG_IN = 'LOG_IN';
+const LOG_OUT = 'LOG_OUT';
+const UPDATE_PROFILE = 'UPDATE_PROFILE';
+const FINISH_INITIAL_LOG_IN = 'FINISH_INITIAL_LOG_IN';
+const PLAY_TRACK = 'PLAY_TRACK';
+
 const logIn = (username, token) => {
   return (dispatch) => {
     Socket.setIsOnline(username);
     return dispatch({
-      type: 'LOG_IN',
+      type: LOG_IN,
       payload: {
         username,
         token,
@@ -30,19 +36,19 @@ const logInIfValid = (username, token) => {
 
 const finishInitialLogIn = () => {
   return {
-    type: 'FINISH_INITIAL_LOG_IN',
+    type: FINISH_INITIAL_LOG_IN,
   };
 };
 
 const logOut = () => {
   return {
-    type: 'LOG_OUT',
+    type: LOG_OUT,
   };
 };
 
 const updateProfile = (obj) => {
   return {
-    type: 'UPDATE_PROFILE',
+    type: UPDATE_PROFILE,
     payload: {
       ...obj,
     },
@@ -71,7 +77,7 @@ const getProfile = () => {
 
 const playTrack = (trackname) => {
   return {
-    type: 'PLAY_TRACK',
+    type: PLAY_TRACK,
     payload: { trackname },
   };
 };
@@ -85,3 +91,5 @@ export {
   getProfile,
   finishInitialLogIn,
 };
+
+export { LOG_IN, LOG_OUT, UPDATE_PROFILE, FINISH_INITIAL_LOG_IN, PLAY_TRACK };

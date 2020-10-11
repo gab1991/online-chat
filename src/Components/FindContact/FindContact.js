@@ -14,7 +14,7 @@ import LookUpIcon from '../UI/SvgIcons/LookUp';
 import styles from '../FindContact/FindContact.module.scss';
 
 function FindContact(props) {
-  const { user_id, token } = props;
+  const { user_id } = props;
   const inputRef = useRef();
   const isMounted = useRef(true);
   const dispatch = useDispatch();
