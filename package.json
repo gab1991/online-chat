@@ -147,5 +147,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "snowpack": "^3.3.5"
   }
 }
