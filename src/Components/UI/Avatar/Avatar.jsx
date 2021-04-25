@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Elipse from '../SvgIcons/Elipse';
 import { randomizePalette } from '../../../Utils/colorWorks';
-import sassVars from '../../../Configs/Variables.scss';
+import sassVars from '../../../Configs/Variables.module.scss';
 import styles from './Avatar.module.scss';
 
 const palette = [

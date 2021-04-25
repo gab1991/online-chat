@@ -1,28 +1,28 @@
-@import './Configs/Variables.scss';
+@import './Configs/Variables.module.scss';
 
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
 $main-background-clr: theme-color('background');
 
 .App {
-  font-family: $ff-main;
-  background-color: $main-background-clr;
-  @include appHeight;
+	font-family: $ff-main;
+	background-color: $main-background-clr;
+	@include appHeight;
 
-  // mobile view restrainer remove lines below after adding desktop
-  // background-color: $font-color-main;
-  max-width: 600px;
-  min-width: 320px;
-  margin: auto;
-  overflow: hidden;
+	// mobile view restrainer remove lines below after adding desktop
+	// background-color: $font-color-main;
+	max-width: 600px;
+	min-width: 320px;
+	margin: auto;
+	overflow: hidden;
 }
 
 // mobile view restrainer remove lines below after adding desktop
 .mobileRestrainer {
-  @include appHeight;
-  background: linear-gradient(to bottom, #2c3e50, #bdc3c7);
+	@include appHeight;
+	background: linear-gradient(to bottom, #2c3e50, #bdc3c7);
 }

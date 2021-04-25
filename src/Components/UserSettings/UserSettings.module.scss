@@ -1,4 +1,4 @@
-@import '../../Configs/Variables.scss';
+@import '../../Configs/Variables.module.scss';
 
 $background-top-color: theme-color('gamma');
 $background-middle-color: theme-color('delta');
@@ -6,73 +6,73 @@ $background-bottom-color: theme-color('epsilon');
 $goBackBtn-color: theme-color('alpha');
 
 .UserSettings {
-  @include appHeight;
-  background: linear-gradient(
-    180deg,
-    $background-top-color 1.56%,
-    $background-middle-color 39.06%,
-    $background-bottom-color 100%
-  );
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: $font-color-main;
+	@include appHeight;
+	background: linear-gradient(
+		180deg,
+		$background-top-color 1.56%,
+		$background-middle-color 39.06%,
+		$background-bottom-color 100%
+	);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	color: $font-color-main;
 }
 
 .UserNameSection {
-  margin-top: 10px;
-  p {
-    font-size: 1.1rem;
-  }
+	margin-top: 10px;
+	p {
+		font-size: 1.1rem;
+	}
 }
 
 .AvatarSection {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  .AvatarChangeBtn {
-    margin-top: 20px;
-  }
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	.AvatarChangeBtn {
+		margin-top: 20px;
+	}
 }
 
 .ChangeDispNameSection {
-  flex-grow: 1;
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+	flex-grow: 1;
+	margin-top: 30px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
 
-  span {
-    font-size: 1.4rem;
-    white-space: nowrap;
-  }
-  .DispNameInput {
-    &::placeholder {
-      color: $font-color-main;
-      opacity: 0.4;
-    }
-  }
+	span {
+		font-size: 1.4rem;
+		white-space: nowrap;
+	}
+	.DispNameInput {
+		&::placeholder {
+			color: $font-color-main;
+			opacity: 0.4;
+		}
+	}
 
-  .ChangeDispNameBtn {
-    margin-top: 20px;
-  }
-  .DispNameSpinnerWrapper {
-    width: 40px;
-    height: 40px;
-  }
-  .BtnSection {
-    margin-top: 20px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 10px;
-  }
+	.ChangeDispNameBtn {
+		margin-top: 20px;
+	}
+	.DispNameSpinnerWrapper {
+		width: 40px;
+		height: 40px;
+	}
+	.BtnSection {
+		margin-top: 20px;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		column-gap: 10px;
+	}
 }
 
 .GoBackBtn {
-  justify-self: flex-end;
-  margin: 15px;
-  background-color: $goBackBtn-color;
+	justify-self: flex-end;
+	margin: 15px;
+	background-color: $goBackBtn-color;
 }

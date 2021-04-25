@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as sassVars from '../../../Configs/Variables.scss';
+import sassVars from '../../../Configs/Variables.module.scss';
 
 function MiddlePlanet(props) {
 	return (
