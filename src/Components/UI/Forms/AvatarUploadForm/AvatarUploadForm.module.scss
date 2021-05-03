@@ -1,27 +1,27 @@
-@import '../../../../Configs/Variables.scss';
+@import '../../../../Configs/Variables.module.scss';
 
 .AvatarUploadForm {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: $font-color-main;
-  h3 {
-    margin-top: 5px;
-  }
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: $font-color-main;
+	h3 {
+		margin-top: 5px;
+	}
 }
 
 .SvgExclamationContainer {
-  fill: $font-color-main;
+	fill: $font-color-main;
 }
 .FileInputForm {
-  margin-top: 30px;
-  input {
-    height: 0;
-    overflow: hidden;
-    width: 0;
-  }
-  button {
-    margin-left: 15px;
-  }
+	margin-top: 30px;
+	input {
+		height: 0;
+		overflow: hidden;
+		width: 0;
+	}
+	button {
+		margin-left: 15px;
+	}
 }
