@@ -25,6 +25,8 @@ function App(props) {
 	const { isLogged, conversations, token } = props;
 	const dispatch = useDispatch();
 
+	console.log(isLogged.status);
+
 	useEffect(() => {
 		if (isEmptyObj(conversations)) return;
 		Socket.subscribeToConversations(conversations);
@@ -39,7 +41,8 @@ function App(props) {
 		<div className={styles.mobileRestrainer}>
 			<div className={styles.App}>
 				<Suspense fallback={<Loading />}>
-					{!isLogged.status && !isLogged.initialLoading && <Route path="/" component={Auth} />}
+					{/* {!isLogged.status && !isLogged.initialLoading && <Route path="/" component={Auth} />} */}
+					{!isLogged.status && <Route path="/" component={Auth} />}
 					{isLogged.status && (
 						<Switch>
 							<Route path="/chats/:chatID?" component={ChatRoom} />
