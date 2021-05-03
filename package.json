@@ -13,7 +13,7 @@
 		"react-transition-group": "^4.4.1",
 		"redux": "^4.0.5",
 		"redux-thunk": "^2.3.0",
-		"socket.io-client": "^2.3.0",
+		"socket.io-client": "^4.0.1",
 		"use-sound": "^1.0.2"
 	},
 	"scripts": {
