@@ -8,9 +8,12 @@ import PropTypes, { object, bool } from 'prop-types';
 import AudioComponent from './Components/AudioComponent/AudioComponent';
 import Loading from './Components/Loading/Loading';
 import styles from './App.module.scss';
+import GridLayout from 'react-grid-layout';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
 
-const ReactLazyPreload = (importStatement) => {
-	const Component = lazy(importStatement);
+const ReactLazyPreload = (importStatement: any) => {
+	const Component: any = lazy(importStatement);
 	Component.preload = importStatement;
 	return Component;
 };
@@ -21,10 +24,15 @@ const Auth = ReactLazyPreload(() => import('./Components/Auth/Auth'));
 const UserSettings = ReactLazyPreload(() => import('./Components/UserSettings/UserSettings'));
 const Messages = ReactLazyPreload(() => import('./Components/Messages/Messages'));
 
-function App(props) {
+function App(props: any) {
 	const { isLogged, conversations, token } = props;
 	const dispatch = useDispatch();
 
+	const layout = [
+		{ i: 'a', x: 0, y: 0, w: 1, h: 2, static: true },
+		{ i: 'b', x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4 },
+		{ i: 'c', x: 4, y: 0, w: 1, h: 2 },
+	];
 	console.log(isLogged.status);
 
 	useEffect(() => {
@@ -52,13 +60,19 @@ function App(props) {
 						</Switch>
 					)}
 				</Suspense>
+
 				<AudioComponent />
+				<GridLayout className="layout" layout={layout} cols={12} rowHeight={30} width={1200}>
+					<div key="a">a</div>
+					<div key="b">b</div>
+					<div key="c">c</div>
+				</GridLayout>
 			</div>
 		</div>
 	);
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
 	return {
 		isLogged: state.logged,
 		conversations: state.chats,

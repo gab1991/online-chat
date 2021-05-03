@@ -7,7 +7,7 @@ export default defineConfig({
 	plugins: [
 		reactRefresh(),
 		legacy({
-			targets: ['IE 11'],
+			targets: ['defaults'],
 		}),
 	],
 });

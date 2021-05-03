@@ -1,3 +1,4 @@
+//@ts-ignore
 import { io } from 'socket.io-client';
 import { server_adress } from '../Configs/sever.config';
 import { logInIfValid, finishInitialLogIn, logOut } from '../Store/Actions/actions';
