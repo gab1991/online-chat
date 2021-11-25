@@ -1,130 +1,130 @@
-@import '../../../Configs/Variables.scss';
+@import '../../../Configs/Variables.module.scss';
 
 $component-background-clr: theme-color('background');
 $input-color: theme-color('beta');
 $input-placeholder-clr: theme-color('epsilon');
 
 .SignUp {
-  z-index: 2;
-  min-height: 100vh;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	z-index: 2;
+	min-height: 100vh;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .HeaderSection {
-  margin: auto 0;
-  min-height: 200px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: $font-color-main;
-  h1 {
-    font-size: 2.813rem;
-  }
-  h3 {
-    font-size: 1.5rem;
-    font-weight: normal;
-  }
+	margin: auto 0;
+	min-height: 200px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	color: $font-color-main;
+	h1 {
+		font-size: 2.813rem;
+	}
+	h3 {
+		font-size: 1.5rem;
+		font-weight: normal;
+	}
 }
 
 .SignUpForm {
-  margin-top: auto;
-  margin-bottom: 20px;
-  height: 330px;
-  max-width: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+	margin-top: auto;
+	margin-bottom: 20px;
+	height: 330px;
+	max-width: 300px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .InputContainer {
-  width: 90%;
-  border-bottom: 1px solid $input-color;
-  display: flex;
-  margin-top: 20px;
+	width: 90%;
+	border-bottom: 1px solid $input-color;
+	display: flex;
+	margin-top: 20px;
 
-  .IconContainer {
-    width: 33px;
-    height: 33px;
-    color: $input-color;
-  }
-  .Input {
-    color: $input-color;
-    margin-left: 20px;
-    padding-bottom: 0;
-    border: 0;
-    &::placeholder {
-      color: $input-placeholder-clr;
-    }
-  }
+	.IconContainer {
+		width: 33px;
+		height: 33px;
+		color: $input-color;
+	}
+	.Input {
+		color: $input-color;
+		margin-left: 20px;
+		padding-bottom: 0;
+		border: 0;
+		&::placeholder {
+			color: $input-placeholder-clr;
+		}
+	}
 }
 
 .ButtonContainer {
-  margin-top: auto;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  .Button {
-    font-size: 1.625rem;
-    font-weight: bold;
-    width: 100%;
-  }
+	margin-top: auto;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	.Button {
+		font-size: 1.625rem;
+		font-weight: bold;
+		width: 100%;
+	}
 }
 
 .SpinnerContainer {
-  height: 60px;
-  width: 60px;
-  svg {
-    path {
-      fill: $input-color;
-    }
-  }
+	height: 60px;
+	width: 60px;
+	svg {
+		path {
+			fill: $input-color;
+		}
+	}
 }
 
 .AccountCreation {
-  border: none;
-  background: none;
-  font: inherit;
-  cursor: pointer;
-  margin-top: 5px;
-  font-weight: 600;
-  color: $input-color;
+	border: none;
+	background: none;
+	font: inherit;
+	cursor: pointer;
+	margin-top: 5px;
+	font-weight: 600;
+	color: $input-color;
 }
 
 /* Transitions */
 .appear,
 .enter {
-  opacity: 0;
+	opacity: 0;
 }
 
 .appearActive,
 .enterActive {
-  opacity: 1;
-  transition: opacity 1s;
+	opacity: 1;
+	transition: opacity 1s;
 }
 
 .appearDone,
 .enterDone {
-  opacity: 1;
-  transition: opacity 1s;
+	opacity: 1;
+	transition: opacity 1s;
 }
 
 .exit {
 }
 
 .exitActive {
-  opacity: 0;
-  transition: opacity 1s;
+	opacity: 0;
+	transition: opacity 1s;
 }
 
 .exitDone {
-  .Form,
-  .HeaderSection {
-    opacity: 0;
-  }
+	.Form,
+	.HeaderSection {
+		opacity: 0;
+	}
 }

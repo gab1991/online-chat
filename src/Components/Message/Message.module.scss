@@ -1,4 +1,4 @@
-@import '../../Configs/Variables';
+@import '../../Configs/Variables.module.scss';
 
 $message-background: theme-color('background');
 $right-side-msg-background: theme-color('gamma');
@@ -9,54 +9,54 @@ $msg-background-focused: theme-color('beta');
 $msg-background-dummy: lighten($right-side-msg-background, 20%);
 
 .Message {
-  display: flex;
+	display: flex;
 }
 
 .MessageContainer {
-  min-height: 50px;
-  max-width: 80%;
-  box-shadow: 0 0 6px 2px rgba($color: #000000, $alpha: 0.3);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 1.375rem 1.1rem;
-  margin: 0.4rem 0;
-  background-color: $message-background;
+	min-height: 50px;
+	max-width: 80%;
+	box-shadow: 0 0 6px 2px rgba($color: #000000, $alpha: 0.3);
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.5rem 1.375rem 1.1rem;
+	margin: 0.4rem 0;
+	background-color: $message-background;
 
-  p {
-    font-size: 1rem;
-    overflow-wrap: anywhere;
-  }
+	p {
+		font-size: 1rem;
+		overflow-wrap: anywhere;
+	}
 
-  span {
-    font-size: 0.8rem;
-    opacity: 0.7;
-    bottom: 0.2rem;
-    position: absolute;
-    right: 0.7rem;
-  }
+	span {
+		font-size: 0.8rem;
+		opacity: 0.7;
+		bottom: 0.2rem;
+		position: absolute;
+		right: 0.7rem;
+	}
 
-  &.RightSide {
-    background-color: $right-side-msg-background;
-    color: $right-side-msg-font-color;
-    margin-right: 0.5rem;
-    border-radius: 15px 15px 0px 15px;
-    margin-left: auto;
-  }
-  &.LeftSide {
-    background-color: $left-side-msg-background;
-    color: $left-side-msg-font-color;
-    margin-right: 1rem;
-    margin-left: 0.5rem;
-    border-radius: 15px 15px 15px 0px;
-    margin-right: auto;
-  }
-  &.Focused {
-    background-color: $msg-background-focused;
-    color: $font-color-main;
-  }
-  &.Dummy {
-    background-color: $msg-background-dummy;
-  }
+	&.RightSide {
+		background-color: $right-side-msg-background;
+		color: $right-side-msg-font-color;
+		margin-right: 0.5rem;
+		border-radius: 15px 15px 0px 15px;
+		margin-left: auto;
+	}
+	&.LeftSide {
+		background-color: $left-side-msg-background;
+		color: $left-side-msg-font-color;
+		margin-right: 1rem;
+		margin-left: 0.5rem;
+		border-radius: 15px 15px 15px 0px;
+		margin-right: auto;
+	}
+	&.Focused {
+		background-color: $msg-background-focused;
+		color: $font-color-main;
+	}
+	&.Dummy {
+		background-color: $msg-background-dummy;
+	}
 }
