@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, { Suspense, lazy, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
