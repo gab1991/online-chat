@@ -64,7 +64,7 @@ export default function Login(props) {
 				setSending(false);
 
 				if (!err.response?.data?.field) {
-					alert('something went wrong! Try again later');
+					// alert('something went wrong! Try again later');
 				} else {
 					const errMessage = err.response.data.err_message;
 					const errInput = err.response.data.field;

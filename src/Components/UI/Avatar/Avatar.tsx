@@ -4,6 +4,7 @@ import Elipse from '../SvgIcons/Elipse';
 import { randomizePalette } from '../../../Utils/colorWorks';
 import sassVars from '../../../Configs/Variables.module.scss';
 import styles from './Avatar.module.scss';
+import { makeAvatarUrlPath } from '../../../Backend/Backend';
 
 const palette = [
 	sassVars['palette-gamma'],
@@ -17,6 +18,8 @@ function Avatar(props) {
 	const name = text.slice(0, 2);
 	const randColor = randomizePalette(palette, 10);
 
+	console.log(imgSrc);
+
 	return (
 		<div
 			className={`${styles.Avatar} ${className}`}
@@ -26,7 +29,7 @@ function Avatar(props) {
 				width: size,
 				height: size,
 			}}>
-			{imgSrc && <img src={imgSrc} alt={text}></img>}
+			{imgSrc && <img src={makeAvatarUrlPath(imgSrc)} alt={text}></img>}
 			{!imgSrc && (
 				<>
 					<Elipse className={styles.ElipseSvg} strokeclr={color || randColor} />

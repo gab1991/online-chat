@@ -1,8 +1,7 @@
-//@ts-nocheck
 import React, { Suspense, lazy, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
-import { getProfile } from './Store/Actions/actions';
+import { fetchCurrentUserProfile } from './Store/Actions/actions';
 import Socket from './Backend/Socket';
 import { isEmptyObj } from './Utils/Utils';
 import PropTypes, { object, bool } from 'prop-types';
@@ -42,8 +41,8 @@ function App(props: any) {
 	}, [conversations]);
 
 	useEffect(() => {
-		if (!token) return;
-		dispatch(getProfile());
+		// if (!token) return;
+		dispatch(fetchCurrentUserProfile());
 	}, [token, dispatch]);
 
 	return (

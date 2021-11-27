@@ -3,7 +3,7 @@ import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getProfile } from '../../Store/Actions/actions';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import Contact from '../Contact/Contact';
+import { Contact } from '../Contact/Contact';
 import { debounce } from '../../Utils/Utils';
 import Backend from '../../Backend/Backend';
 import BackArrowIcon from '../UI/SvgIcons/BackArrow';
@@ -14,131 +14,125 @@ import LookUpIcon from '../UI/SvgIcons/LookUp';
 import styles from '../FindContact/FindContact.module.scss';
 
 function FindContact(props) {
-  const { user_id } = props;
-  const inputRef = useRef();
-  const isMounted = useRef(true);
-  const dispatch = useDispatch();
-  const [contacts, setContacts] = useState([]);
-  const [typing, setShowTyping] = useState(false);
-  const [isEnteringChat, setIsEnteringChat] = useState(false);
+	const { user_id } = props;
+	const inputRef = useRef();
+	const isMounted = useRef(true);
+	const dispatch = useDispatch();
+	const [contacts, setContacts] = useState([]);
+	const [typing, setShowTyping] = useState(false);
+	const [isEnteringChat, setIsEnteringChat] = useState(false);
 
-  useEffect(() => {
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
+	useEffect(() => {
+		return () => {
+			isMounted.current = false;
+		};
+	}, []);
 
-  useEffect(() => {
-    inputRef.current.focus();
-  }, [inputRef]);
+	useEffect(() => {
+		inputRef.current.focus();
+	}, [inputRef]);
 
-  const findProfiles = async (searchStr) => {
-    const { data: profiles = null } = await Backend.findProfiles(
-      searchStr,
-      () => {
-        //error handling
-        if (!isMounted.current) return;
-        setShowTyping(false);
-        setContacts([]);
-      }
-    );
+	const findProfiles = async (searchStr) => {
+		const { data } = await Backend.findProfiles(searchStr, () => {
+			//error handling
+			if (!isMounted.current) return;
+			setShowTyping(false);
+			setContacts(data);
+		});
 
-    if (!profiles) return;
-    if (!isMounted.current) return;
+		// console.log(data);
 
-    setContacts(profiles);
-    setShowTyping(false);
-  };
+		setContacts(data);
+		setShowTyping(false);
 
-  const delayedSearch = useCallback(debounce(findProfiles, 1000));
+		// if (!profiles) return;
+		// if (!isMounted.current) return;
 
-  const onChangeHandler = (e) => {
-    setShowTyping(true);
-    const searchStr = e.target.value;
-    delayedSearch(searchStr);
-  };
+		// console.log(profiles);
+	};
 
-  const enterChat = async (contactName) => {
-    setIsEnteringChat(true);
+	const delayedSearch = useCallback(debounce(findProfiles, 1000));
 
-    const {
-      data: { conversation_id, isNewConversation } = {
-        conversation_id: null,
-        isNewConversation: null,
-      },
-    } = await Backend.conversationEnter(user_id, contactName, () => {
-      if (!isMounted.current) return;
-      setIsEnteringChat(false);
-    });
+	const onChangeHandler = (e) => {
+		setShowTyping(true);
+		const searchStr = e.target.value;
+		delayedSearch(searchStr);
+	};
 
-    if (!conversation_id) return;
+	const enterChat = async (contactName) => {
+		setIsEnteringChat(true);
 
-    if (isNewConversation) {
-      dispatch(getProfile());
-    }
+		const {
+			data: { conversation_id, isNewConversation } = {
+				conversation_id: null,
+				isNewConversation: null,
+			},
+		} = await Backend.conversationEnter(user_id, contactName, () => {
+			if (!isMounted.current) return;
+			setIsEnteringChat(false);
+		});
 
-    props.history.push(`/chats/${conversation_id}`);
-  };
+		if (!conversation_id) return;
 
-  const goBackHandler = () => {
-    props.history.goBack();
-  };
+		if (isNewConversation) {
+			dispatch(getProfile());
+		}
 
-  return (
-    <div
-      className={`${styles.FindContact} ${
-        isEnteringChat ? styles.blured : ''
-      }`}>
-      <div className={styles.Header}>
-        <div className={styles.HeaderContent}>
-          <BackArrowIcon
-            className={styles.BackArrowSvg}
-            onClick={goBackHandler}
-          />
-          <Input
-            inputRef={inputRef}
-            type={'text'}
-            className={styles.SearchInput}
-            onChange={onChangeHandler}
-            placeholder={'Find contact'}
-          />
-          {typing ? (
-            <CircularSpinner className={styles.CircularSpinnerSvg} />
-          ) : (
-            <LookUpIcon className={styles.LookUpSvg} />
-          )}
-        </div>
-      </div>
-      <TransitionGroup className={styles.ChatsContainer}>
-        {contacts.map((contact) => {
-          //block myself from search
-          if (contact.id === user_id) return null;
-          return (
-            <CSSTransition
-              key={contact.username}
-              timeout={1000}
-              classNames={{ ...styles }}>
-              <Contact {...contact} onClick={() => enterChat(contact.id)} />
-            </CSSTransition>
-          );
-        })}
-      </TransitionGroup>
-      {isEnteringChat && (
-        <div className={styles.SpinnerContainer}>
-          <FadingLInesSpinner />
-        </div>
-      )}
-    </div>
-  );
+		props.history.push(`/chats/${conversation_id}`);
+	};
+
+	const goBackHandler = () => {
+		props.history.goBack();
+	};
+
+	console.log(contacts);
+
+	return (
+		<div className={`${styles.FindContact} ${isEnteringChat ? styles.blured : ''}`}>
+			<div className={styles.Header}>
+				<div className={styles.HeaderContent}>
+					<BackArrowIcon className={styles.BackArrowSvg} onClick={goBackHandler} />
+					<Input
+						inputRef={inputRef}
+						type={'text'}
+						className={styles.SearchInput}
+						onChange={onChangeHandler}
+						placeholder={'Find contact'}
+					/>
+					{typing ? (
+						<CircularSpinner className={styles.CircularSpinnerSvg} />
+					) : (
+						<LookUpIcon className={styles.LookUpSvg} />
+					)}
+				</div>
+			</div>
+			<TransitionGroup className={styles.ChatsContainer}>
+				{contacts.map((contact) => {
+					//block myself from search
+					// if (contact.id === user_id) return null;
+					return (
+						<CSSTransition key={contact.username} timeout={1000} classNames={{ ...styles }}>
+							<Contact contact={contact} onClick={() => enterChat(contact.id)} />
+						</CSSTransition>
+					);
+				})}
+			</TransitionGroup>
+			{isEnteringChat && (
+				<div className={styles.SpinnerContainer}>
+					<FadingLInesSpinner />
+				</div>
+			)}
+		</div>
+	);
 }
 
 function mapStateToProps(state) {
-  return { user_id: state.profile.id, token: state.logged.token };
+	return { user_id: state.profile.id, token: state.logged.token };
 }
 
 export default connect(mapStateToProps)(FindContact);
 
 FindContact.propTypes = {
-  username: PropTypes.string,
-  token: PropTypes.string,
+	username: PropTypes.string,
+	token: PropTypes.string,
 };
