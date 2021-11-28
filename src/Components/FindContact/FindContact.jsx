@@ -62,23 +62,20 @@ function FindContact(props) {
 	const enterChat = async (contactName) => {
 		setIsEnteringChat(true);
 
-		const {
-			data: { conversation_id, isNewConversation } = {
-				conversation_id: null,
-				isNewConversation: null,
-			},
-		} = await Backend.conversationEnter(user_id, contactName, () => {
+		const { data } = await Backend.conversationEnter(contactName, () => {
 			if (!isMounted.current) return;
 			setIsEnteringChat(false);
 		});
 
-		if (!conversation_id) return;
+		console.log(data);
 
-		if (isNewConversation) {
-			dispatch(getProfile());
-		}
+		if (!data.id) return;
 
-		props.history.push(`/chats/${conversation_id}`);
+		// if (isNewConversation) {
+		// 	dispatch(getProfile());
+		// }
+
+		props.history.push(`/chats/${data.id}`);
 	};
 
 	const goBackHandler = () => {

@@ -47,7 +47,7 @@ const logOut = () => {
 	};
 };
 
-const updateProfile = (profile: CurrentUserProfile) => {
+const updateProfile = (profile: Omit<CurrentUserProfile, 'chats'>) => {
 	return {
 		type: UPDATE_PROFILE,
 		payload: profile,
@@ -60,17 +60,14 @@ const getProfile = () => {
 		if (!data) return;
 
 		const profile = {
-			avatar_path: data?.avatar_path,
+			avatar_path: data?.avatarUrl,
 			id: data?.id,
 			username: data?.username,
-			displayed_name: data?.displayed_name,
-		};
-		const conversations = {
-			...data?.conversations,
+			displayed_name: data?.displayedName,
 		};
 
 		dispatch(updateProfile(profile as any));
-		dispatch(fillChats(conversations));
+		dispatch(fillChats(data.chats));
 	};
 };
 
@@ -84,8 +81,12 @@ const playTrack = (trackname) => {
 const fetchCurrentUserProfile = () => async (dispatch) => {
 	const { data }: { data: CurrentUserProfile } = await Backend.fetchCurrentUserProfile();
 
-	dispatch(updateProfile(data));
+	const { chats, ...profile } = data;
+
 	dispatch(logIn(data.displayedName, 'aaaa'));
+
+	dispatch(updateProfile(profile));
+	dispatch(fillChats(chats));
 };
 
 export {

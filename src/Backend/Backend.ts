@@ -1,6 +1,7 @@
-import axios_base from 'axios';
+import axios_base, { AxiosPromise } from 'axios';
 import { getToken } from '../Store/store';
 import { server_adress } from '../Configs/sever.config';
+import { CurrentUserProfile, IChat } from '../types';
 
 export const makeAvatarUrlPath = (url: string) => {
 	return `${server_adress}/avatars/${url}`;
@@ -12,7 +13,7 @@ const axios = axios_base.create({
 	withCredentials: true,
 });
 
-const axiosExecute = async (options = {}, errCb?: any) => {
+const axiosExecute = async (options = {}, errCb?: any): Promise<AxiosPromise<any>> => {
 	try {
 		const res = await axios(options);
 
@@ -21,7 +22,7 @@ const axiosExecute = async (options = {}, errCb?: any) => {
 		console.log('ERROR', err);
 
 		if (typeof errCb === 'function') errCb(err);
-		return err;
+		throw new Error();
 	}
 };
 
@@ -84,14 +85,11 @@ const Backend = {
 			errCb,
 		);
 	},
-	getProfile: (errCb?: any) => {
+	getProfile: (errCb?: any): Promise<AxiosPromise<CurrentUserProfile>> => {
 		return axiosExecute(
 			{
 				url: `/api/profiles`,
 				method: 'GET',
-				headers: {
-					authorization: `Bearer ${getToken()}`,
-				},
 			},
 			errCb,
 		);
@@ -105,13 +103,13 @@ const Backend = {
 			errCb,
 		);
 	},
-	conversationEnter: (user_id, contactName, errCb) => {
+	conversationEnter: (contactName, errCb): Promise<AxiosPromise<IChat>> => {
 		return axiosExecute(
 			{
-				url: `/api/conversation/conversationEnter/${user_id}/${contactName}`,
-				method: 'GET',
-				headers: {
-					authorization: `Bearer ${getToken()}`,
+				url: `/api/chats/enterChat`,
+				method: 'POST',
+				data: {
+					participantId: contactName,
 				},
 			},
 			errCb,

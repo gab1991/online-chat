@@ -9,7 +9,26 @@ export interface CurrentUserProfile {
 
 	email: string;
 
-	chats: any[];
+	chats: IChat[];
+}
+
+export interface IChat {
+	id: number;
+
+	title: string;
+
+	type: ChatType;
+
+	creatorId: number;
+
+	createdAt: string;
+
+	updatedAt: string;
+}
+
+export enum ChatType {
+	'private' = 'private',
+	'group' = 'group',
 }
 
 export interface IContact {

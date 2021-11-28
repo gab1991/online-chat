@@ -1,41 +1,58 @@
 //@ts-ignore
 import { io } from 'socket.io-client';
 import { server_adress } from '../Configs/sever.config';
-import { logInIfValid, finishInitialLogIn, logOut } from '../Store/Actions/actions';
+import { logInIfValid, finishInitialLogIn, logOut, fetchCurrentUserProfile } from '../Store/Actions/actions';
 import { addMessage, updateLastSeenMsg, uploadNewConv, swapDummyMsgToDelivered } from '../Store/Actions/chatActions';
 import { store, dispatch } from '../Store/store';
 
-console.log(server_adress);
-//Inner setup
+// //Inner setup
 const socket = io(server_adress, {
 	// reconnectionDelay: 500,
 	reconnectionDelayMax: 1000,
 });
 
-socket.on('connect', () => {
+export const chatSocket = io(server_adress + '/chats', {
+	// reconnectionDelay: 500,
+	reconnectionDelayMax: 1000,
+});
+
+chatSocket.on('connect', () => {
 	console.log('client side connected');
-
-	const token = localStorage.token;
-	const username = localStorage.username;
-
-	if (token && username) {
-		dispatch(logInIfValid(username, token));
-	} else {
-		localStorage.clear();
-		dispatch(finishInitialLogIn());
-	}
 });
 
-socket.on('reconnect', () => console.log('reconnect'));
-socket.on('connecting', () => console.log('connecting'));
-socket.on('reconnect_attempt', () => {
-	console.log('recconect attempt');
+chatSocket.io.on('reconnect', () => {
+	console.log('recconected');
+	dispatch(fetchCurrentUserProfile());
 });
-socket.on('reconnecting', () => console.log('reconnecting'));
-socket.on('connect_failed', () => console.log('connect_failed'));
-socket.on('reconnect_failed', () => console.log('reconnect_failed'));
-socket.on('close', () => console.log('close'));
-socket.on('disconnect', () => console.log('disconnect'));
+
+chatSocket.on('setIsOnlineToClient', (id) => {
+	console.log(id, 'is online now');
+});
+
+// socket.on('connect', () => {
+// 	// console.log('client side connected');
+
+// 	const token = localStorage.token;
+// 	const username = localStorage.username;
+
+// 	if (token && username) {
+// 		dispatch(logInIfValid(username, token));
+// 	} else {
+// 		localStorage.clear();
+// 		dispatch(finishInitialLogIn());
+// 	}
+// });
+
+// socket.on('reconnect', () => console.log('reconnect'));
+// socket.on('connecting', () => console.log('connecting'));
+// socket.on('reconnect_attempt', () => {
+// 	console.log('recconect attempt');
+// });
+// socket.on('reconnecting', () => console.log('reconnecting'));
+// socket.on('connect_failed', () => console.log('connect_failed'));
+// socket.on('reconnect_failed', () => console.log('reconnect_failed'));
+// socket.on('close', () => console.log('close'));
+// socket.on('disconnect', () => console.log('disconnect'));
 
 // socket.on('connect_error', () => {
 // 	dispatch(finishInitialLogIn());

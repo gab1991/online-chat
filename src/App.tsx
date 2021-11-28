@@ -2,15 +2,12 @@ import React, { Suspense, lazy, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { fetchCurrentUserProfile } from './Store/Actions/actions';
-import Socket from './Backend/Socket';
+import Socket, { chatSocket } from './Backend/Socket';
 import { isEmptyObj } from './Utils/Utils';
 import PropTypes, { object, bool } from 'prop-types';
 import AudioComponent from './Components/AudioComponent/AudioComponent';
 import Loading from './Components/Loading/Loading';
 import styles from './App.module.scss';
-import GridLayout from 'react-grid-layout';
-import 'react-grid-layout/css/styles.css';
-import 'react-resizable/css/styles.css';
 
 const ReactLazyPreload = (importStatement: any) => {
 	const Component: any = lazy(importStatement);
@@ -25,7 +22,7 @@ const UserSettings = ReactLazyPreload(() => import('./Components/UserSettings/Us
 const Messages = ReactLazyPreload(() => import('./Components/Messages/Messages'));
 
 function App(props: any) {
-	const { isLogged, conversations, token } = props;
+	const { isLogged, conversations, token, profile } = props;
 	const dispatch = useDispatch();
 
 	const layout = [
@@ -37,8 +34,16 @@ function App(props: any) {
 
 	useEffect(() => {
 		if (isEmptyObj(conversations)) return;
-		Socket.subscribeToConversations(conversations);
 	}, [conversations]);
+
+	useEffect(() => {
+		if (!profile.id) {
+			return;
+		}
+		console.log(profile);
+		chatSocket.emit('subscribeToChats', profile.id);
+		chatSocket.emit('setIsOnlineToServer', profile.id);
+	}, [profile.id]);
 
 	useEffect(() => {
 		// if (!token) return;
@@ -60,13 +65,7 @@ function App(props: any) {
 						</Switch>
 					)}
 				</Suspense>
-
 				<AudioComponent />
-				<GridLayout className="layout" layout={layout} cols={12} rowHeight={30} width={1200}>
-					<div key="a">a</div>
-					<div key="b">b</div>
-					<div key="c">c</div>
-				</GridLayout>
 			</div>
 		</div>
 	);
@@ -77,11 +76,8 @@ function mapStateToProps(state: any) {
 		isLogged: state.logged,
 		conversations: state.chats,
 		token: state.logged.token,
+		profile: state.profile,
 	};
 }
 
 export default connect(mapStateToProps)(App);
-App.propTypes = {
-	isLogged: PropTypes.oneOfType([object, bool]),
-	conversations: PropTypes.object,
-};
