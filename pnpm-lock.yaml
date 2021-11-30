@@ -4,6 +4,7 @@ specifiers:
   '@vitejs/plugin-react': ^1.1.0
   axios: ^0.24.0
   cross-env: ^7.0.3
+  mobx: ^6.3.8
   react: ^17.0.2
   react-avatar-editor: ^11.0.9
   react-dom: ^17.0.2
@@ -33,6 +34,7 @@ dependencies:
 devDependencies:
   '@vitejs/plugin-react': 1.1.0
   cross-env: 7.0.3
+  mobx: 6.3.8
   sass: 1.43.5
   typescript: 4.5.2
   vite: 2.6.14_sass@1.43.5
@@ -1071,6 +1073,10 @@ packages:
 
   /minimist/1.2.5:
     resolution: {integrity: sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==}
+    dev: true
+
+  /mobx/6.3.8:
+    resolution: {integrity: sha512-RfG2y766P1o9u9xrQht/HBXEoUPIr4B3Gjri3reLW/TuHm3I/3TfBBS0OaeMbw19RIF0AymqjDNlJgakN4ZK7g==}
     dev: true
 
   /ms/2.1.2:
