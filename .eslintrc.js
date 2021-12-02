@@ -40,6 +40,7 @@ module.exports = {
 		'plugin:jsx-a11y/recommended',
 		'plugin:compat/recommended',
 		'prettier',
+		'plugin:react/jsx-runtime',
 	],
 	rules: {
 		//@ESLINT RULES
