@@ -95,8 +95,15 @@ module.exports = {
 		],
 		// SONAR
 		'sonarjs/cognitive-complexity': ['warn', 20],
-		// Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
-		// e.g. "@typescript-eslint/explicit-function-return-type": "off",
+
+		// JSX-ALLY
+		'jsx-a11y/label-has-associated-control': [
+			'warn',
+			{
+				controlComponents: ['TransparentInput'], // list of custom input components
+				depth: 3,
+			},
+		],
 	},
 	ignorePatterns: ['.eslintrc.js'],
 };
