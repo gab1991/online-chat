@@ -100,7 +100,7 @@ module.exports = {
 		'jsx-a11y/label-has-associated-control': [
 			'warn',
 			{
-				controlComponents: ['TransparentInput'], // list of custom input components
+				controlComponents: ['TransparentInput', 'Checkbox'], // list of custom input components
 				depth: 3,
 			},
 		],
