@@ -10,5 +10,10 @@ export default defineConfig({
 			overlay: true,
 		},
 	},
+	css: {
+		modules: {
+			generateScopedName: '[name]_[local]_[hash:base64:5]',
+		},
+	},
 	plugins: [tsconfigPaths(), reactPlugin(), TsChecker({ typescript: true })],
 });
