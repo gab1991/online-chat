@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { logOut, updateProfile } from '../../Store/Actions/actions';
+// import { logOut, updateProfile } from '../../Store/Actions/actions';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Avatar from '../UI/Avatar/Avatar';
@@ -48,7 +48,7 @@ function Menu(props) {
 
 	const sendLogOut = () => {
 		localStorage.clear();
-		dispatch(logOut());
+		// dispatch(logOut());
 		props.history.push('/');
 	};
 
@@ -86,7 +86,7 @@ function Menu(props) {
 		});
 
 		if (status === 200) {
-			dispatch(updateProfile({ displayed_name: dispName }));
+			// dispatch(updateProfile({ displayed_name: dispName }));
 			setShowNameInput(false);
 			setIsSendingDispName(false);
 		}

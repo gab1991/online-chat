@@ -1,56 +1,59 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { logIn } from '../../../Store/Actions/actions';
-import FadingLinesSpinner from '../../UI/SvgSpinners/FadingLines';
-import Input from '../../UI/Inputs/Input/Input';
-import Button from '../../UI/Buttons/Button/Button';
-import validate from '../../../Validation/Validation';
-import HumanIcon from '../../UI/SvgIcons/Human';
-import EnvelopeIcon from '../../UI/SvgIcons/Envelope';
-import KeyIcon from '../../UI/SvgIcons/Key';
-import ConfirmCheckIcon from '../../UI/SvgIcons/ConfirmCheck';
+
 import Backend from '../../../Backend/Backend';
+import { validate } from '../../../Validation/Validation';
+import Button from '../../UI/Buttons/Button/Button';
+import Input from '../../UI/Inputs/Input/Input';
+import ConfirmCheckIcon from '../../UI/SvgIcons/ConfirmCheck';
+import EnvelopeIcon from '../../UI/SvgIcons/Envelope';
+// import { logIn } from '../../../Store/Actions/actions';
+import FadingLinesSpinner from '../../UI/SvgSpinners/FadingLines';
 import BackDrop from './Backdrop/Backdrop';
+import { HumanSvg, KeySvg } from 'shared/ui';
+
 import styles from './SignUp.module.scss';
 
-export default function SignUp(props) {
-	const dispatch = useDispatch();
+export function SignUp(props) {
+	console.log('in signup');
+
+	// const dispatch = useDispatch();
 	const [inputs, setInputs] = useState({
-		username: {
-			label: 'Username',
-			type: 'text',
-			placeholder: 'Enter Your Username',
-			value: '',
-			valid: false,
-			invalidMessage: 'Only numbers and letters allowed',
-			icon: <HumanIcon />,
-		},
 		email: {
-			label: 'Email',
-			type: 'email',
-			placeholder: 'Enter email',
-			value: '',
-			valid: false,
-			invalidMessage: 'Invalid email',
 			icon: <EnvelopeIcon />,
-		},
-		password: {
-			label: 'Password',
-			type: 'password',
-			placeholder: 'Enter  password',
-			value: '',
+			invalidMessage: 'Invalid email',
+			label: 'Email',
+			placeholder: 'Enter email',
+			type: 'email',
 			valid: false,
-			invalidMessage: 'Must contain 4 to 15 chars and at least one number',
-			icon: <KeyIcon />,
+			value: '',
 		},
 		passConfirm: {
-			label: 'Confirm Password',
-			type: 'password',
-			placeholder: 'Confirm password',
-			value: '',
-			valid: false,
-			invalidMessage: 'Passwords must match',
 			icon: <ConfirmCheckIcon />,
+			invalidMessage: 'Passwords must match',
+			label: 'Confirm Password',
+			placeholder: 'Confirm password',
+			type: 'password',
+			valid: false,
+			value: '',
+		},
+		password: {
+			icon: <KeySvg />,
+			invalidMessage: 'Must contain 4 to 15 chars and at least one number',
+			label: 'Password',
+			placeholder: 'Enter  password',
+			type: 'password',
+			valid: false,
+			value: '',
+		},
+		username: {
+			icon: <HumanSvg />,
+			invalidMessage: 'Only numbers and letters allowed',
+			label: 'Username',
+			placeholder: 'Enter Your Username',
+			type: 'text',
+			valid: false,
+			value: '',
 		},
 	});
 	const [sending, setSending] = useState(false);
@@ -71,7 +74,7 @@ export default function SignUp(props) {
 		e.preventDefault();
 
 		let isEntireFormValid = true;
-		for (let name in inputs) {
+		for (const name in inputs) {
 			if (inputs[name].value.length === 0) {
 				setInputs((prevState) => {
 					const updState = { ...prevState };
@@ -83,9 +86,9 @@ export default function SignUp(props) {
 		}
 		if (isEntireFormValid) {
 			const sendObj = {
-				username: inputs.username.value,
-				password: inputs.password.value,
 				email: inputs.email.value,
+				password: inputs.password.value,
+				username: inputs.username.value,
 			};
 			setSending(true);
 			const res = await Backend.postSignUp({ ...sendObj }, (err) => {
@@ -115,7 +118,7 @@ export default function SignUp(props) {
 			const username = res.data.username;
 			const authToken = res.headers['auth-token'];
 
-			dispatch(logIn(username, authToken));
+			// dispatch(logIn(username, authToken));
 
 			localStorage.setItem('token', authToken);
 			localStorage.setItem('username', username);
@@ -166,21 +169,16 @@ export default function SignUp(props) {
 				<div className={styles.ButtonContainer}>
 					{sending ? (
 						<div className={styles.SpinnerContainer}>
-							<FadingLinesSpinner style={{ position: 'absolute', top: '0', left: '0' }} />
+							<FadingLinesSpinner style={{ left: '0', position: 'absolute', top: '0' }} />
 						</div>
 					) : (
 						<Button txtContent={'create account'} className={styles.Button} />
 					)}
 				</div>
-				<button
-					className={styles.AccountCreation}
-					onClick={(e) => {
-						e.preventDefault();
-						props.changeActiveScreen.apply(this, [...arguments]);
-					}}>
-					Already have an account?
-				</button>
 			</form>
+			<button className={styles.AccountCreation} onClick={() => props.changeActiveScreen.apply()}>
+				Already have an account?
+			</button>
 		</div>
 	);
 }

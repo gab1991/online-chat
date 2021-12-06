@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import AvatarEditor from 'react-avatar-editor';
-import { updateProfile } from '../../../../Store/Actions/actions';
+// import { updateProfile } from '../../../../Store/Actions/actions';
 import Backend from '../../../../Backend/Backend';
 import Button from '../../Buttons/Button/Button';
 import ExclamationSvg from '../../SvgIcons/Exclamation';
@@ -32,7 +32,7 @@ function FileUploadForm(props) {
 
 			hideForm();
 			if (avatar_path) {
-				dispatch(updateProfile({ avatar_path }));
+				// dispatch(updateProfile({ avatar_path }));
 			}
 		};
 

@@ -2,6 +2,7 @@ import Backend from '../../Backend/Backend';
 import Socket from '../../Backend/Socket';
 import { fillChats } from './chatActions';
 import { CurrentUserProfile } from '../../types';
+import { profileStore } from '..';
 
 const LOG_IN = 'LOG_IN';
 const LOG_OUT = 'LOG_OUT';
@@ -65,6 +66,8 @@ const getProfile = () => {
 			username: data?.username,
 			displayed_name: data?.displayedName,
 		};
+
+		profileStore.fillProfile(profile);
 
 		dispatch(updateProfile(profile as any));
 		dispatch(fillChats(data.chats));

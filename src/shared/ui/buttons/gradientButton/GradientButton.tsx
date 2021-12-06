@@ -1,9 +1,9 @@
-import { HTMLAttributes } from 'react';
+import { ButtonHTMLAttributes } from 'react';
 import cn from 'classnames';
 
 import styles from './GradientButton.module.scss';
 
-interface IPropsGradientButton extends HTMLAttributes<HTMLButtonElement> {
+interface IPropsGradientButton extends ButtonHTMLAttributes<HTMLButtonElement> {
 	light?: boolean;
 }
 

@@ -1,5 +1,5 @@
 import axios_base, { AxiosPromise } from 'axios';
-import { getToken } from '../Store/store';
+import { getToken } from '../store/store';
 import { server_adress } from '../Configs/sever.config';
 import { CurrentUserProfile, IChat } from '../types';
 

@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getProfile } from '../../Store/Actions/actions';
+// import { getProfile } from '../../Store/Actions/actions';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { Contact } from '../Contact/Contact';
 import { debounce } from '../../Utils/Utils';

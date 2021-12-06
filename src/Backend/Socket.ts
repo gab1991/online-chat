@@ -1,9 +1,9 @@
 //@ts-ignore
 import { io } from 'socket.io-client';
 import { server_adress } from '../Configs/sever.config';
-import { logInIfValid, finishInitialLogIn, logOut, fetchCurrentUserProfile } from '../Store/Actions/actions';
-import { addMessage, updateLastSeenMsg, uploadNewConv, swapDummyMsgToDelivered } from '../Store/Actions/chatActions';
-import { store, dispatch } from '../Store/store';
+import { logInIfValid, finishInitialLogIn, logOut, fetchCurrentUserProfile } from '../store/Actions/actions';
+import { addMessage, updateLastSeenMsg, uploadNewConv, swapDummyMsgToDelivered } from '../store/Actions/chatActions';
+import { store, dispatch } from '../store/store';
 
 // //Inner setup
 const socket = io(server_adress, {

@@ -4,7 +4,7 @@ import { debounce, throttle, scrollToBottom, clearRouterLocationState } from '..
 import { formatPopUpScroll } from '../../Utils/timeFormatter';
 import PropTypes from 'prop-types';
 import Socket from '../../Backend/Socket';
-import { sendMsg } from '../../Store/Actions/chatActions';
+// import { sendMsg } from '../../Store/Actions/chatActions';
 import SearchTab from '../SearchTab/SearchTab';
 import DatePopUp from '../UI/PopUps/DatePopUp/DatePopUp';
 import KeyBoardIcon from '../UI/SvgIcons/Keyboard';
@@ -266,7 +266,7 @@ function ChatRoom(props) {
 
 		if (inputValue) {
 			dispatchLocal({ type: 'SEND_MESSAGE', payload: inputValue });
-			dispatchGlobal(sendMsg(chatID, inputValue));
+			// dispatchGlobal(sendMsg(chatID, inputValue));
 		}
 		msgInputRef.current.focus();
 	};
