@@ -1,19 +1,22 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 // import { logOut, updateProfile } from '../../Store/Actions/actions';
 import { withRouter } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
+
+import Backend from '../../Backend/Backend';
+import ConfirmTickSvg from '../../shared/ui/icons/ConfirmCheck';
+import validate from '../../Validation/Validation';
 import Avatar from '../UI/Avatar/Avatar';
 import Input from '../UI/Inputs/Input/Input';
-import PencilSvg from '../UI/SvgIcons/Pencil';
-import ConfirmTickSvg from '../../shared/ui/svg/ConfirmCheck';
-import HumanSvg from '../UI/SvgIcons/Human';
 import CogSvg from '../UI/SvgIcons/Cog';
 import ExitSvg from '../UI/SvgIcons/Exit';
+import HumanSvg from '../UI/SvgIcons/Human';
+import PencilSvg from '../UI/SvgIcons/Pencil';
 import CircularSpinner from '../UI/SvgSpinners/Circular';
-import validate from '../../Validation/Validation';
+
 import styles from './Menu.module.scss';
-import Backend from '../../Backend/Backend';
 
 function Menu(props) {
 	const { username, avatar_path, className, displayed_name, isShowed } = props;
@@ -23,8 +26,8 @@ function Menu(props) {
 	const [showNameInput, setShowNameInput] = useState(false);
 	const [isSendingDispName, setIsSendingDispName] = useState(false);
 	const [wrongInput, setWrongInput] = useState({
-		state: false,
 		invalidMsg: '',
+		state: false,
 	});
 	useEffect(() => {
 		if (!isShowed) {
@@ -34,9 +37,9 @@ function Menu(props) {
 
 	useEffect(() => {
 		if (inputValue && inputValue.length > 19) {
-			setWrongInput({ state: true, invalidMsg: 'Too long name' });
+			setWrongInput({ invalidMsg: 'Too long name', state: true });
 		} else {
-			setWrongInput({ state: false, invalidMsg: '' });
+			setWrongInput({ invalidMsg: '', state: false });
 		}
 	}, [inputValue]);
 
@@ -66,22 +69,22 @@ function Menu(props) {
 
 	const changeDisplayedName = async (dispName) => {
 		if (!dispName) {
-			setWrongInput({ state: true, invalidMsg: 'Write at least 1 char' });
+			setWrongInput({ invalidMsg: 'Write at least 1 char', state: true });
 			return;
 		}
 
 		const isValid = validate('displayed_name', dispName);
 		if (!isValid) {
 			return setWrongInput({
-				state: true,
 				invalidMsg: 'trailing whitespaces not allowed',
+				state: true,
 			});
 		}
 
 		setIsSendingDispName(true);
 
 		const { status = null } = await Backend.updateDispName(dispName, () => {
-			setWrongInput({ state: true, invalidMsg: 'something went wrong' });
+			setWrongInput({ invalidMsg: 'something went wrong', state: true });
 			setIsSendingDispName(false);
 		});
 
@@ -162,16 +165,16 @@ function Menu(props) {
 
 function mapStateToProps(state) {
 	return {
-		username: state.profile.username,
 		avatar_path: state.profile.avatar_path,
 		displayed_name: state.profile.displayed_name,
+		username: state.profile.username,
 	};
 }
 
 export default withRouter(connect(mapStateToProps)(Menu));
 
 Menu.propTypes = {
-	username: PropTypes.string,
-	displayed_name: PropTypes.string,
 	avatar_path: PropTypes.string,
+	displayed_name: PropTypes.string,
+	username: PropTypes.string,
 };

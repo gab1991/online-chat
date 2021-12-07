@@ -1,7 +1,8 @@
 import * as React from 'react';
-import sassVars from '../../../Configs/Variables.module.scss';
 
-function SmallPlanet(props) {
+import sassVars from 'Configs/Variables.module.scss';
+
+function _SmallPlanet(props: React.SVGAttributes<SVGElement>) {
 	return (
 		<svg width="100%" height="100%" viewBox="0 0 50 50" fill="none" {...props}>
 			<g filter="url(#prefix__filter0_d3)">
@@ -36,5 +37,4 @@ function SmallPlanet(props) {
 	);
 }
 
-const MemoSmallPlanet = React.memo(SmallPlanet);
-export default MemoSmallPlanet;
+export const SmallPlanet = React.memo(_SmallPlanet);

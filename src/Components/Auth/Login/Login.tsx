@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { observer } from 'mobx-react';
 
 import { LoginValidationSchema } from '../validation';
-import Backdrop from './Backdrop/Backdrop';
+import { Backdrop } from './Backdrop/Backdrop';
 import { authApiService } from 'api/authApi.service';
 import { Checkbox, FadingLinesSpinner, GradientButton, HumanSvg, KeySvg, TransparentInput } from 'shared/ui';
 import { userStore } from 'store/userStroe';

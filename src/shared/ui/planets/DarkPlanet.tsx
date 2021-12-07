@@ -1,7 +1,8 @@
-import * as React from 'react';
-import sassVars from '../../../Configs/Variables.module.scss';
+import React from 'react';
 
-function DarkPlanet(props) {
+import sassVars from 'Configs/Variables.module.scss';
+
+function _DarkPlanet(props: React.SVGAttributes<SVGSVGElement>) {
 	return (
 		<svg width="100%" height="100%" viewBox="0 0 790 785" fill="none" {...props}>
 			<g filter="url(#prefix__filter0_d5)">
@@ -35,5 +36,4 @@ function DarkPlanet(props) {
 	);
 }
 
-const MemoDarkPlanet = React.memo(DarkPlanet);
-export default MemoDarkPlanet;
+export const DarkPlanet = React.memo(_DarkPlanet);

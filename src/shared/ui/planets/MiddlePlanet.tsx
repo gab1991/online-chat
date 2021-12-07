@@ -1,7 +1,8 @@
 import * as React from 'react';
-import sassVars from '../../../Configs/Variables.module.scss';
 
-function MiddlePlanet(props) {
+import sassVars from 'Configs/Variables.module.scss';
+
+function _MiddlePlanet(props: React.SVGAttributes<SVGElement>) {
 	return (
 		<svg width="100%" height="100%" viewBox="0 0 152 152" fill="none" {...props}>
 			<circle cx={76} cy={76} r={76} fill="url(#prefix__paint0_linear)" />
@@ -24,5 +25,4 @@ function MiddlePlanet(props) {
 	);
 }
 
-const MemoMiddlePlanet = React.memo(MiddlePlanet);
-export default MemoMiddlePlanet;
+export const MiddlePlanet = React.memo(_MiddlePlanet);

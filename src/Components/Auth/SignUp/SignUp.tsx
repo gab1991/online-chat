@@ -2,10 +2,17 @@ import { useState } from 'react';
 import { useFormik } from 'formik';
 
 import { SignUpValidationSchema } from '../validation';
-import Backdrop from './Backdrop/Backdrop';
+import { Backdrop } from './Backdrop/Backdrop';
 import { authApiService } from 'api/authApi.service';
-import { EnvelopeSvg, FadingLinesSpinner, GradientButton, HumanSvg, KeySvg, TransparentInput } from 'shared/ui';
-import { ConfirmCheckSvg } from 'shared/ui/svg/ConfirmCheck';
+import {
+	ConfirmCheckSvg,
+	EnvelopeSvg,
+	FadingLinesSpinner,
+	GradientButton,
+	HumanSvg,
+	KeySvg,
+	TransparentInput,
+} from 'shared/ui';
 import { userStore } from 'store/userStroe';
 
 import styles from './SignUp.module.scss';
@@ -16,7 +23,7 @@ interface ISignUpProps {
 
 export function SignUp(props: ISignUpProps) {
 	const { changeActiveScreen } = props;
-	const [isFetching, setIsFetching] = useState(true);
+	const [isFetching, setIsFetching] = useState(false);
 	const [validateOnChange, setValidationOnChange] = useState(false);
 
 	const formik = useFormik({

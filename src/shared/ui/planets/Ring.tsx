@@ -1,7 +1,8 @@
 import * as React from 'react';
-import sassVars from '../../../Configs/Variables.module.scss';
 
-function Ring(props) {
+import sassVars from 'Configs/Variables.module.scss';
+
+function _Ring(props: React.SVGAttributes<SVGElement>) {
 	return (
 		<svg width="100%" height="100%" viewBox="0 0 348 345" fill="none" {...props}>
 			<g filter="url(#prefix__filter0_d2)">
@@ -44,5 +45,4 @@ function Ring(props) {
 	);
 }
 
-const MemoRing = React.memo(Ring);
-export default MemoRing;
+export const Ring = React.memo(_Ring);

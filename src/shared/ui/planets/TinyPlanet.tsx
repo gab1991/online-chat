@@ -1,7 +1,8 @@
 import * as React from 'react';
-import sassVars from '../../../Configs/Variables.module.scss';
 
-function TinyPlanet(props) {
+import sassVars from 'Configs/Variables.module.scss';
+
+function _TinyPlanet(props) {
 	return (
 		<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" {...props}>
 			<g filter="url(#prefix__filter0_d4">
@@ -39,5 +40,4 @@ function TinyPlanet(props) {
 	);
 }
 
-const MemoTinyPlanet = React.memo(TinyPlanet);
-export default MemoTinyPlanet;
+export const TinyPlanet = React.memo(_TinyPlanet);

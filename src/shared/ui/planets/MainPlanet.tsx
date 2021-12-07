@@ -1,7 +1,8 @@
 import * as React from 'react';
-import sassVars from '../../../Configs/Variables.module.scss';
 
-function MainPlanet(props) {
+import sassVars from 'Configs/Variables.module.scss';
+
+function _MainPlanet(props: React.SVGAttributes<SVGSVGElement>) {
 	return (
 		<svg width="100%" height="100%" viewBox="0 0 457 457" fill="none" {...props}>
 			<g filter="url(#prefix__filter0_d)">
@@ -45,5 +46,4 @@ function MainPlanet(props) {
 	);
 }
 
-const MemoMainPlanet = React.memo(MainPlanet);
-export default MemoMainPlanet;
+export const MainPlanet = React.memo(_MainPlanet);
