@@ -20,6 +20,7 @@ $btn-disabled-clr: grey;
 	transition: all 200ms ease-in-out;
 
 	&:hover,
+	&:active,
 	&:focus {
 		background-color: $btn-light-hover-clr2;
 	}

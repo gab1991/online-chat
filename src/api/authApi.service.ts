@@ -3,6 +3,8 @@ import { StatusCodes } from 'http-status-codes';
 import { isAxiosError } from './types';
 import { IUser } from 'types';
 
+import { ISignUpDto } from './dto/signUp.dto';
+
 import { Api, TApiResponse } from './api';
 
 class AuthApiService extends Api {
@@ -20,7 +22,24 @@ class AuthApiService extends Api {
 			return { data };
 		} catch (err) {
 			if (isAxiosError(err) && err.response?.status === StatusCodes.UNAUTHORIZED) {
-				return { data: null, error: 'your credentials are not valid' };
+				return { data: null, error: err.response.data.message };
+			}
+			return { data: null, error: 'something went wrong try again later' };
+		}
+	}
+
+	async signup(signupDto: ISignUpDto): TApiResponse<IUser> {
+		try {
+			const { data } = await this.executeReq<IUser>({
+				data: signupDto,
+				method: 'POST',
+				url: `/api/auth/signup`,
+			});
+
+			return { data };
+		} catch (err) {
+			if (isAxiosError(err) && err.response?.status === StatusCodes.CONFLICT) {
+				return { data: null, error: err.response.data.message };
 			}
 			return { data: null, error: 'something went wrong try again later' };
 		}

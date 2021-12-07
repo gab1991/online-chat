@@ -8,8 +8,8 @@ import LoginTransitions from './Login/Login.module.scss';
 import SignUpTransitions from './SignUp/SignUp.module.scss';
 
 export function Auth() {
-	const [showLogin, setShowLogin] = useState(true);
-	const [showSignUp, setShowSignUp] = useState(false);
+	const [showLogin, setShowLogin] = useState(false);
+	const [showSignUp, setShowSignUp] = useState(true);
 
 	return (
 		<>

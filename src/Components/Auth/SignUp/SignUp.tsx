@@ -1,182 +1,115 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { useFormik } from 'formik';
 
-import Backend from '../../../Backend/Backend';
-import { validate } from '../../../Validation/Validation';
-import Button from '../../UI/Buttons/Button/Button';
-import Input from '../../UI/Inputs/Input/Input';
-import ConfirmCheckIcon from '../../UI/SvgIcons/ConfirmCheck';
-import EnvelopeIcon from '../../UI/SvgIcons/Envelope';
-// import { logIn } from '../../../Store/Actions/actions';
-import FadingLinesSpinner from '../../UI/SvgSpinners/FadingLines';
-import BackDrop from './Backdrop/Backdrop';
-import { HumanSvg, KeySvg } from 'shared/ui';
+import { SignUpValidationSchema } from '../validation';
+import Backdrop from './Backdrop/Backdrop';
+import { authApiService } from 'api/authApi.service';
+import { EnvelopeSvg, FadingLinesSpinner, GradientButton, HumanSvg, KeySvg, TransparentInput } from 'shared/ui';
+import { ConfirmCheckSvg } from 'shared/ui/svg/ConfirmCheck';
+import { userStore } from 'store/userStroe';
 
 import styles from './SignUp.module.scss';
 
-export function SignUp(props) {
-	console.log('in signup');
+interface ISignUpProps {
+	changeActiveScreen: () => void;
+}
 
-	// const dispatch = useDispatch();
-	const [inputs, setInputs] = useState({
-		email: {
-			icon: <EnvelopeIcon />,
-			invalidMessage: 'Invalid email',
-			label: 'Email',
-			placeholder: 'Enter email',
-			type: 'email',
-			valid: false,
-			value: '',
+export function SignUp(props: ISignUpProps) {
+	const { changeActiveScreen } = props;
+	const [isFetching, setIsFetching] = useState(true);
+	const [validateOnChange, setValidationOnChange] = useState(false);
+
+	const formik = useFormik({
+		initialValues: {
+			email: '',
+			passconfirm: '',
+			password: '',
+			username: '',
 		},
-		passConfirm: {
-			icon: <ConfirmCheckIcon />,
-			invalidMessage: 'Passwords must match',
-			label: 'Confirm Password',
-			placeholder: 'Confirm password',
-			type: 'password',
-			valid: false,
-			value: '',
+		onSubmit: async ({ email, password, username }, helpers) => {
+			setIsFetching(true);
+			const { data: user, error } = await authApiService.signup({ email, name: username, password });
+			setIsFetching(false);
+
+			const usernameFieldRegex = /name/i;
+			const emailRegex = /email/i;
+
+			if (error && error.match(usernameFieldRegex)) {
+				helpers.setErrors({ username: error });
+			}
+
+			if (error && error.match(emailRegex)) {
+				helpers.setErrors({ email: error });
+			}
+
+			user && userStore.fillUser(user);
 		},
-		password: {
-			icon: <KeySvg />,
-			invalidMessage: 'Must contain 4 to 15 chars and at least one number',
-			label: 'Password',
-			placeholder: 'Enter  password',
-			type: 'password',
-			valid: false,
-			value: '',
-		},
-		username: {
-			icon: <HumanSvg />,
-			invalidMessage: 'Only numbers and letters allowed',
-			label: 'Username',
-			placeholder: 'Enter Your Username',
-			type: 'text',
-			valid: false,
-			value: '',
-		},
+		validate: () => setValidationOnChange(true),
+		validateOnBlur: true,
+		validateOnChange: validateOnChange,
+		validationSchema: SignUpValidationSchema,
 	});
-	const [sending, setSending] = useState(false);
 
-	const checkValidity = (name, value) => {
-		if (value.length === 0) return false;
-		if (name === 'passConfirm') {
-			if (inputs.password.value !== value) {
-				return false;
-			} else {
-				return true;
-			}
-		}
-		return validate(name, value);
-	};
-
-	const submitHandler = async (e) => {
-		e.preventDefault();
-
-		let isEntireFormValid = true;
-		for (const name in inputs) {
-			if (inputs[name].value.length === 0) {
-				setInputs((prevState) => {
-					const updState = { ...prevState };
-					updState[name].errMessage = 'Please fill this field';
-					return updState;
-				});
-			}
-			if (!inputs[name].valid) isEntireFormValid = false;
-		}
-		if (isEntireFormValid) {
-			const sendObj = {
-				email: inputs.email.value,
-				password: inputs.password.value,
-				username: inputs.username.value,
-			};
-			setSending(true);
-			const res = await Backend.postSignUp({ ...sendObj }, (err) => {
-				setSending(false);
-
-				if (!err.response?.data?.field) {
-					// alert('something went wrong! Try again later');
-				} else {
-					const errMessage = err.response.data.err_message;
-					const errInput = err.response.data.field;
-
-					if (errInput && errMessage) {
-						setInputs((prevState) => {
-							const updState = { ...prevState };
-							updState[errInput].errMessage = errMessage;
-							updState[errInput].valid = false;
-							return updState;
-						});
-					}
-				}
-			});
-
-			setSending(false);
-
-			if (res?.data?.username || !res.headers['auth-token']) return;
-
-			const username = res.data.username;
-			const authToken = res.headers['auth-token'];
-
-			// dispatch(logIn(username, authToken));
-
-			localStorage.setItem('token', authToken);
-			localStorage.setItem('username', username);
-		}
-	};
-
-	const inputChangeHandler = (e) => {
-		const inputName = e.target.getAttribute('data-name');
-		const currentValue = e.target.value;
-		const isValid = checkValidity(inputName, currentValue);
-
-		setInputs((prevState) => {
-			const updState = { ...prevState };
-			updState[inputName].value = currentValue;
-			updState[inputName].errMessage = null;
-			updState[inputName].errMessage = null;
-			isValid ? (updState[inputName].valid = true) : (updState[inputName].valid = false);
-			return updState;
-		});
-	};
+	const inputs = [
+		{
+			Icon: HumanSvg,
+			name: 'username',
+			placeholder: 'Enter Username',
+			type: 'text',
+			value: formik.values.username,
+		},
+		{
+			Icon: EnvelopeSvg,
+			name: 'email',
+			placeholder: 'Enter Email',
+			type: 'text',
+			value: formik.values.email,
+		},
+		{
+			Icon: KeySvg,
+			name: 'password',
+			placeholder: 'Enter Password',
+			type: 'password',
+			value: formik.values.password,
+		},
+		{
+			Icon: ConfirmCheckSvg,
+			name: 'passconfirm',
+			placeholder: 'Confirm Password',
+			type: 'password',
+			value: formik.values.passconfirm,
+		},
+	];
 
 	return (
-		<div className={`${styles.SignUp}`}>
-			<BackDrop />
-			<div className={styles.HeaderSection}>
-				<h1>SignUp</h1>
-				<h3>TO CONTINUE</h3>
-			</div>
-			<form className={styles.SignUpForm} onSubmit={submitHandler}>
-				{Object.keys(inputs).map((name) => {
-					const input = inputs[name];
-					return (
-						<div className={styles.InputContainer} key={name}>
-							<div className={styles.IconContainer}>{input.icon}</div>
-							<Input
-								name={name}
-								type={input.type}
-								placeholder={input.placeholder}
-								value={input.value}
-								className={styles.Input}
-								onChange={inputChangeHandler}
-								inValid={input.errMessage || (!input.valid && input.value.length > 0)}
-								inValidMessage={input.errMessage || input.invalidMessage}
-							/>
-						</div>
-					);
-				})}
-				<div className={styles.ButtonContainer}>
-					{sending ? (
-						<div className={styles.SpinnerContainer}>
-							<FadingLinesSpinner style={{ left: '0', position: 'absolute', top: '0' }} />
-						</div>
-					) : (
-						<Button txtContent={'create account'} className={styles.Button} />
-					)}
-				</div>
+		<div className={styles.signUpPage}>
+			<Backdrop />
+			<h1 className={styles.header}>SignUp</h1>
+			<h3 className={styles.subHeader}>TO CONTINUE</h3>
+			<form className={styles.form} onSubmit={formik.handleSubmit}>
+				{inputs.map((input) => (
+					<label className={styles.label} key={input.name}>
+						<input.Icon className={styles.formIcon} />
+						<TransparentInput
+							className={styles.input}
+							name={input.name}
+							value={input.value}
+							type={input.type}
+							placeholder={input.placeholder}
+							onChange={formik.handleChange}
+						/>
+						{formik.errors[input.name] && <p className={styles.validationError}>{formik.errors[input.name]}</p>}
+					</label>
+				))}
+				{isFetching ? (
+					<FadingLinesSpinner className={styles.spinner} />
+				) : (
+					<GradientButton className={styles.signUpBtn} type="submit">
+						CREATE ACCOUNT
+					</GradientButton>
+				)}
 			</form>
-			<button className={styles.AccountCreation} onClick={() => props.changeActiveScreen.apply()}>
+			<button className={styles.toLoginBtn} onClick={changeActiveScreen}>
 				Already have an account?
 			</button>
 		</div>

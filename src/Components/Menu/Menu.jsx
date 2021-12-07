@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Avatar from '../UI/Avatar/Avatar';
 import Input from '../UI/Inputs/Input/Input';
 import PencilSvg from '../UI/SvgIcons/Pencil';
-import ConfirmTickSvg from '../UI/SvgIcons/ConfirmCheck';
+import ConfirmTickSvg from '../../shared/ui/svg/ConfirmCheck';
 import HumanSvg from '../UI/SvgIcons/Human';
 import CogSvg from '../UI/SvgIcons/Cog';
 import ExitSvg from '../UI/SvgIcons/Exit';

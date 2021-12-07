@@ -16,7 +16,7 @@ interface ILoginProps {
 
 export const Login = observer((props: ILoginProps) => {
 	const { changeActiveScreen } = props;
-	const [isFetching, setIsFetching] = useState(true);
+	const [isFetching, setIsFetching] = useState(false);
 	const [validateOnChange, setValidationOnChange] = useState(false);
 
 	const formik = useFormik({
