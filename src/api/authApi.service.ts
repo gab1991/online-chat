@@ -3,18 +3,16 @@ import { StatusCodes } from 'http-status-codes';
 import { isAxiosError } from './types';
 import { IUser } from 'types';
 
+import { ILoginDto } from './dto/login.dto';
 import { ISignUpDto } from './dto/signUp.dto';
 
 import { Api, TApiResponse } from './api';
 
 class AuthApiService extends Api {
-	async login(nameOrEmail: string, password: string): TApiResponse<IUser> {
+	async login(loginDto: ILoginDto): TApiResponse<IUser> {
 		try {
 			const { data } = await this.executeReq<IUser>({
-				data: {
-					nameOrEmail,
-					password,
-				},
+				data: loginDto,
 				method: 'POST',
 				url: `/api/auth/signin`,
 			});

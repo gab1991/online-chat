@@ -26,7 +26,7 @@ export const Login = observer((props: ILoginProps) => {
 		},
 		onSubmit: async ({ password, usernameEmail }, helpers) => {
 			setIsFetching(true);
-			const { data: user, error } = await authApiService.login(usernameEmail, password);
+			const { data: user, error } = await authApiService.login({ nameOrEmail: usernameEmail, password });
 			setIsFetching(false);
 
 			error && helpers.setErrors({ password: error });
