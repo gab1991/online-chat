@@ -4,7 +4,7 @@ import sassVars from 'Configs/Variables.module.scss';
 
 function _Ring(props: React.SVGAttributes<SVGElement>) {
 	return (
-		<svg width="100%" height="100%" viewBox="0 0 348 345" fill="none" {...props}>
+		<svg viewBox="0 0 348 345" fill="none" {...props}>
 			<g filter="url(#prefix__filter0_d2)">
 				<path
 					d="M341.006 170.494c-1.094 91.935-76.948 165.59-169.447 164.488C79.06 333.881 4.981 258.441 6.076 166.506 7.171 74.571 83.024.916 175.523 2.018c92.5 1.1 166.578 76.541 165.483 168.476z"

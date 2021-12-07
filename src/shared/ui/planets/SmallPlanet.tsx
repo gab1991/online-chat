@@ -4,7 +4,7 @@ import sassVars from 'Configs/Variables.module.scss';
 
 function _SmallPlanet(props: React.SVGAttributes<SVGElement>) {
 	return (
-		<svg width="100%" height="100%" viewBox="0 0 50 50" fill="none" {...props}>
+		<svg viewBox="0 0 50 50" fill="none" {...props}>
 			<g filter="url(#prefix__filter0_d3)">
 				<path
 					d="M25 42c11.598 0 21-9.402 21-21S36.598 0 25 0 4 9.402 4 21s9.402 21 21 21z"

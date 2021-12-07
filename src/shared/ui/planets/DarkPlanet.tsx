@@ -4,7 +4,7 @@ import sassVars from 'Configs/Variables.module.scss';
 
 function _DarkPlanet(props: React.SVGAttributes<SVGSVGElement>) {
 	return (
-		<svg width="100%" height="100%" viewBox="0 0 790 785" fill="none" {...props}>
+		<svg viewBox="0 0 790 785" fill="none" {...props}>
 			<g filter="url(#prefix__filter0_d5)">
 				<ellipse cx={404} cy={392.5} rx={370} ry={367.5} fill="url(#prefix__paint0_linear5)" />
 			</g>

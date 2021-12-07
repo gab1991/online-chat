@@ -4,7 +4,7 @@ import sassVars from 'Configs/Variables.module.scss';
 
 function _MainPlanet(props: React.SVGAttributes<SVGSVGElement>) {
 	return (
-		<svg width="100%" height="100%" viewBox="0 0 457 457" fill="none" {...props}>
+		<svg viewBox="0 0 457 457" fill="none" {...props}>
 			<g filter="url(#prefix__filter0_d)">
 				<path
 					d="M410.899 119.303c60.622 101.266 28.103 232.245-72.633 292.55-100.737 60.304-231.543 27.098-292.165-74.168-60.622-101.267-28.103-232.246 72.633-292.55C219.47-15.17 350.277 18.035 410.899 119.302z"

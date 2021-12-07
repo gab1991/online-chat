@@ -2,21 +2,21 @@
 
 $backgroung-color: theme-color('background');
 
-.Backdrop {
+.backdrop {
 	z-index: -1;
 	position: absolute;
-	min-height: 100vh;
-
-	height: 100%;
-	width: 100%;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
 	overflow: hidden;
 	background-color: $backgroung-color;
 }
 
-.MainPlanetContainer {
+.mainPlaner {
 	position: absolute;
-	width: 130vh;
-	min-width: 1000px;
-	left: 50%;
+	width: 110vh;
+	left: 40%;
 	top: 50%;
+	transform: translateY(-50%) translateX(-50%);
 }
