@@ -1,9 +1,20 @@
 //@ts-ignore
 import { io } from 'socket.io-client';
+
 import { server_adress } from '../Configs/sever.config';
-import { logInIfValid, finishInitialLogIn, logOut, fetchCurrentUserProfile } from '../store/Actions/actions';
-import { addMessage, updateLastSeenMsg, uploadNewConv, swapDummyMsgToDelivered } from '../store/Actions/chatActions';
-import { store, dispatch } from '../store/store';
+import {
+	fetchCurrentUserProfile,
+	finishInitialLogIn,
+	logInIfValid,
+	logOut,
+} from '../shared/model/store/Actions/actions';
+import {
+	addMessage,
+	swapDummyMsgToDelivered,
+	updateLastSeenMsg,
+	uploadNewConv,
+} from '../shared/model/store/Actions/chatActions';
+import { dispatch, store } from '../shared/model/store/store';
 
 // //Inner setup
 const socket = io(server_adress, {
@@ -81,30 +92,30 @@ const sockets = {
 		return store.getState().profile.id;
 	},
 
+	markMsgAsRead: (chatID) => {
+		const userId = sockets.getProfileId();
+		if (!userId) return;
+		socket.emit('markMsgAsRead', {
+			chatID,
+			userId,
+		});
+	},
+
+	sendMessage: (user_id, chatID, message, dummyID) => {
+		socket.emit('sendMessage', {
+			chatID,
+			dummyID,
+			message,
+			user_id,
+		});
+	},
+
 	setIsOnline: (username) => {
 		socket.emit('setIsOnline', username);
 	},
 
 	subscribeToConversations: (conversations = {}) => {
 		socket.emit('subscribeToConversations', conversations);
-	},
-
-	sendMessage: (user_id, chatID, message, dummyID) => {
-		socket.emit('sendMessage', {
-			user_id,
-			chatID,
-			message,
-			dummyID,
-		});
-	},
-
-	markMsgAsRead: (chatID) => {
-		const userId = sockets.getProfileId();
-		if (!userId) return;
-		socket.emit('markMsgAsRead', {
-			userId,
-			chatID,
-		});
 	},
 };
 

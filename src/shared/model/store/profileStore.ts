@@ -1,6 +1,6 @@
 import { autorun, makeAutoObservable } from 'mobx';
 
-import { IChat } from '../types';
+import { IChat } from '../../../types';
 
 type ProfileStoreSetUpProps = Omit<ProfileStore, 'fillProfile'>;
 

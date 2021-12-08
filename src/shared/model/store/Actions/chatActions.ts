@@ -1,7 +1,9 @@
+import { IChat } from '../../../../types';
+
+import Backend from '../../../../Backend/Backend';
+import Socket from '../../../../Backend/Socket';
+
 import { playTrack } from './actions';
-import Socket from '../../Backend/Socket';
-import Backend from '../../Backend/Backend';
-import { IChat } from '../../types';
 
 const FILL_CHATS = 'FILL_CHATS';
 const ADD_MESSAGE = 'ADD_MESSAGE';
@@ -11,34 +13,34 @@ const UPDATE_LAST_SEEN_MSG = 'UPDATE_LAST_SEEN_MSG';
 
 const fillChats = (chats: IChat[]) => {
 	return {
-		type: FILL_CHATS,
 		payload: {
 			...chats,
 		},
+		type: FILL_CHATS,
 	};
 };
 
 const addMessageBase = (message, user_id) => {
 	return {
-		type: ADD_MESSAGE,
 		payload: {
 			message,
 			user_id,
 		},
+		type: ADD_MESSAGE,
 	};
 };
 
 const createDummyMsg = (dummyMsgBody) => {
 	return {
-		type: CREATE_DUMMY_MSG,
 		payload: dummyMsgBody,
+		type: CREATE_DUMMY_MSG,
 	};
 };
 
 const swapDummyMsgToDelivered = ({ newMsg, dummyID }) => {
 	return {
+		payload: { dummyID, newMsg },
 		type: SWAP_DUMMY_MSG_TO_DELIVERED,
-		payload: { newMsg, dummyID },
 	};
 };
 
@@ -59,10 +61,10 @@ const sendMsg = (chatID, messageTxt) => {
 			conversation_id: chatID,
 			created_at: new Date().toString(),
 			id: Date.now(),
+			isDummy: true,
 			message: messageTxt,
 			sender_id: user_id,
 			user_id: user_id,
-			isDummy: true,
 		};
 
 		Socket.sendMessage(user_id, chatID, messageTxt, dummyMsgBody.id);
@@ -73,10 +75,10 @@ const sendMsg = (chatID, messageTxt) => {
 
 const updateLastSeenMsg = (obj) => {
 	return {
-		type: UPDATE_LAST_SEEN_MSG,
 		payload: {
 			...obj,
 		},
+		type: UPDATE_LAST_SEEN_MSG,
 	};
 };
 
@@ -112,13 +114,13 @@ const uploadNewConv = (chatData) => {
 };
 
 export {
-	fillChats,
 	addMessage,
-	updateLastSeenMsg,
 	calculateUnreadMsgs,
-	uploadNewConv,
+	fillChats,
 	sendMsg,
 	swapDummyMsgToDelivered,
+	updateLastSeenMsg,
+	uploadNewConv,
 };
 
-export { ADD_MESSAGE, CREATE_DUMMY_MSG, UPDATE_LAST_SEEN_MSG, FILL_CHATS, SWAP_DUMMY_MSG_TO_DELIVERED };
+export { ADD_MESSAGE, CREATE_DUMMY_MSG, FILL_CHATS, SWAP_DUMMY_MSG_TO_DELIVERED, UPDATE_LAST_SEEN_MSG };

@@ -1,7 +1,10 @@
-import Backend from '../../Backend/Backend';
-import Socket from '../../Backend/Socket';
+import { CurrentUserProfile } from '../../../../types';
+
+import Backend from '../../../../Backend/Backend';
+import Socket from '../../../../Backend/Socket';
+
 import { fillChats } from './chatActions';
-import { CurrentUserProfile } from '../../types';
+
 import { profileStore } from '..';
 
 const LOG_IN = 'LOG_IN';
@@ -14,11 +17,11 @@ const logIn = (username, token) => {
 	return (dispatch) => {
 		Socket.setIsOnline(username);
 		return dispatch({
-			type: LOG_IN,
 			payload: {
-				username,
 				token,
+				username,
 			},
+			type: LOG_IN,
 		});
 	};
 };
@@ -50,8 +53,8 @@ const logOut = () => {
 
 const updateProfile = (profile: Omit<CurrentUserProfile, 'chats'>) => {
 	return {
-		type: UPDATE_PROFILE,
 		payload: profile,
+		type: UPDATE_PROFILE,
 	};
 };
 
@@ -62,9 +65,9 @@ const getProfile = () => {
 
 		const profile = {
 			avatar_path: data?.avatarUrl,
+			displayed_name: data?.displayedName,
 			id: data?.id,
 			username: data?.username,
-			displayed_name: data?.displayedName,
 		};
 
 		profileStore.fillProfile(profile);
@@ -76,8 +79,8 @@ const getProfile = () => {
 
 const playTrack = (trackname) => {
 	return {
-		type: PLAY_TRACK,
 		payload: { trackname },
+		type: PLAY_TRACK,
 	};
 };
 
@@ -93,14 +96,14 @@ const fetchCurrentUserProfile = () => async (dispatch) => {
 };
 
 export {
-	logIn,
-	logOut,
-	updateProfile,
-	playTrack,
-	logInIfValid,
-	getProfile,
-	finishInitialLogIn,
 	fetchCurrentUserProfile,
+	finishInitialLogIn,
+	getProfile,
+	logIn,
+	logInIfValid,
+	logOut,
+	playTrack,
+	updateProfile,
 };
 
-export { LOG_IN, LOG_OUT, UPDATE_PROFILE, FINISH_INITIAL_LOG_IN, PLAY_TRACK };
+export { FINISH_INITIAL_LOG_IN, LOG_IN, LOG_OUT, PLAY_TRACK, UPDATE_PROFILE };

@@ -1,7 +1,9 @@
 import axios_base, { AxiosPromise } from 'axios';
-import { getToken } from '../store/store';
-import { server_adress } from '../Configs/sever.config';
+
 import { CurrentUserProfile, IChat } from '../types';
+
+import { server_adress } from '../Configs/sever.config';
+import { getToken } from '../shared/model/store/store';
 
 export const makeAvatarUrlPath = (url: string) => {
 	return `${server_adress}/avatars/${url}`;
@@ -15,9 +17,7 @@ const axios = axios_base.create({
 
 const axiosExecute = async (options = {}, errCb?: any): Promise<AxiosPromise<any>> => {
 	try {
-		const res = await axios(options);
-
-		return res;
+		return await axios(options);
 	} catch (err) {
 		console.log('ERROR', err);
 
@@ -27,16 +27,57 @@ const axiosExecute = async (options = {}, errCb?: any): Promise<AxiosPromise<any
 };
 
 const Backend = {
-	postSignUp: ({ username, password, email }, errCb) => {
+	checkTokenValidity: (username, token, errCb) => {
 		return axiosExecute(
 			{
-				url: `/api/users/sign_up`,
-				method: 'POST',
 				data: {
 					username,
-					password,
-					email,
 				},
+				headers: {
+					authorization: `Bearer ${token}`,
+				},
+				method: 'POST',
+				url: `/api/users/checkTokenValidity`,
+			},
+			errCb,
+		);
+	},
+
+	conversationEnter: (contactName, errCb): Promise<AxiosPromise<IChat>> => {
+		return axiosExecute(
+			{
+				data: {
+					participantId: contactName,
+				},
+				method: 'POST',
+				url: `/api/chats/enterChat`,
+			},
+			errCb,
+		);
+	},
+	//New methods
+	fetchCurrentUserProfile: () => {
+		return axiosExecute({
+			method: 'GET',
+			url: 'api/profiles/mine',
+		});
+	},
+
+	findProfiles: (searchStr, errCb) => {
+		return axiosExecute(
+			{
+				method: 'GET',
+				url: `/api/profiles?name=${searchStr}`,
+			},
+			errCb,
+		);
+	},
+
+	getProfile: (errCb?: any): Promise<AxiosPromise<CurrentUserProfile>> => {
+		return axiosExecute(
+			{
+				method: 'GET',
+				url: `/api/profiles`,
 			},
 			errCb,
 		);
@@ -45,85 +86,27 @@ const Backend = {
 	postLogin: ({ username_email, password }, errCb) => {
 		return axiosExecute(
 			{
-				url: `/api/auth/signin`,
-				method: 'POST',
 				data: {
 					nameOrEmail: username_email,
 					password: password,
 				},
+				method: 'POST',
+				url: `/api/auth/signin`,
 			},
 			errCb,
 		);
 	},
-	checkTokenValidity: (username, token, errCb) => {
+
+	postSignUp: ({ username, password, email }, errCb) => {
 		return axiosExecute(
 			{
-				url: `/api/users/checkTokenValidity`,
-				method: 'POST',
-				headers: {
-					authorization: `Bearer ${token}`,
-				},
 				data: {
+					email,
+					password,
 					username,
 				},
-			},
-			errCb,
-		);
-	},
-
-	uploadAvatar: (formData, errCb) => {
-		return axiosExecute(
-			{
-				url: `/api/img_upload/avatar`,
-				headers: {
-					'content-type': 'multipart/form-data',
-					authorization: `Bearer ${getToken()}`,
-				},
 				method: 'POST',
-				data: formData,
-			},
-			errCb,
-		);
-	},
-	getProfile: (errCb?: any): Promise<AxiosPromise<CurrentUserProfile>> => {
-		return axiosExecute(
-			{
-				url: `/api/profiles`,
-				method: 'GET',
-			},
-			errCb,
-		);
-	},
-	findProfiles: (searchStr, errCb) => {
-		return axiosExecute(
-			{
-				url: `/api/profiles?name=${searchStr}`,
-				method: 'GET',
-			},
-			errCb,
-		);
-	},
-	conversationEnter: (contactName, errCb): Promise<AxiosPromise<IChat>> => {
-		return axiosExecute(
-			{
-				url: `/api/chats/enterChat`,
-				method: 'POST',
-				data: {
-					participantId: contactName,
-				},
-			},
-			errCb,
-		);
-	},
-
-	uploadNewConv: (user_id, chatID, errCb) => {
-		return axiosExecute(
-			{
-				url: `/api/conversation/uploadNewConv/${user_id}/${chatID}`,
-				method: 'GET',
-				headers: {
-					authorization: `Bearer ${getToken()}`,
-				},
+				url: `/api/users/sign_up`,
 			},
 			errCb,
 		);
@@ -132,26 +115,46 @@ const Backend = {
 	updateDispName: (dispName, errCb) => {
 		return axiosExecute(
 			{
-				url: `/api/profiles/updateDispName`,
-				method: 'POST',
+				data: {
+					dispName: dispName,
+					token: getToken(),
+				},
 				headers: {
 					authorization: `Bearer ${getToken()}`,
 				},
-				data: {
-					token: getToken(),
-					dispName: dispName,
-				},
+				method: 'POST',
+				url: `/api/profiles/updateDispName`,
 			},
 			errCb,
 		);
 	},
 
-	//New methods
-	fetchCurrentUserProfile: () => {
-		return axiosExecute({
-			url: 'api/profiles/mine',
-			method: 'GET',
-		});
+	uploadAvatar: (formData, errCb) => {
+		return axiosExecute(
+			{
+				data: formData,
+				headers: {
+					authorization: `Bearer ${getToken()}`,
+					'content-type': 'multipart/form-data',
+				},
+				method: 'POST',
+				url: `/api/img_upload/avatar`,
+			},
+			errCb,
+		);
+	},
+
+	uploadNewConv: (user_id, chatID, errCb) => {
+		return axiosExecute(
+			{
+				headers: {
+					authorization: `Bearer ${getToken()}`,
+				},
+				method: 'GET',
+				url: `/api/conversation/uploadNewConv/${user_id}/${chatID}`,
+			},
+			errCb,
+		);
 	},
 };
 

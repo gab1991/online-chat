@@ -4,9 +4,9 @@ import { observer } from 'mobx-react';
 
 import { LoginValidationSchema } from '../validation';
 import { Backdrop } from './Backdrop/Backdrop';
-import { authApiService } from 'api/authApi.service';
+import { authApiService } from 'shared/api';
+import { userStore } from 'shared/model/store';
 import { Checkbox, FadingLinesSpinner, GradientButton, HumanSvg, KeySvg, TransparentInput } from 'shared/ui';
-import { userStore } from 'store/userStroe';
 
 import styles from './Login.module.scss';
 

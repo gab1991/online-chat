@@ -3,7 +3,8 @@ import { useFormik } from 'formik';
 
 import { SignUpValidationSchema } from '../validation';
 import { Backdrop } from './Backdrop/Backdrop';
-import { authApiService } from 'api/authApi.service';
+import { authApiService } from 'shared/api/authApi.service';
+import { userStore } from 'shared/model/store';
 import {
 	ConfirmCheckSvg,
 	EnvelopeSvg,
@@ -13,7 +14,6 @@ import {
 	KeySvg,
 	TransparentInput,
 } from 'shared/ui';
-import { userStore } from 'store/userStroe';
 
 import styles from './SignUp.module.scss';
 

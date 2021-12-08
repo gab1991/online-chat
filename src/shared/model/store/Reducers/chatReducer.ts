@@ -1,11 +1,12 @@
-import { IChat } from '../../types';
-import { calculateUnreadMsgs } from '../Actions/chatActions';
+import { IChat } from '../../../../types';
+
 import {
 	ADD_MESSAGE,
+	calculateUnreadMsgs,
 	CREATE_DUMMY_MSG,
+	FILL_CHATS,
 	SWAP_DUMMY_MSG_TO_DELIVERED,
 	UPDATE_LAST_SEEN_MSG,
-	FILL_CHATS,
 } from '../Actions/chatActions';
 
 const chatReducer = (state = [], action) => {

@@ -8,12 +8,11 @@ import PropTypes, { bool, object } from 'prop-types';
 import Socket, { chatSocket } from './Backend/Socket';
 import AudioComponent from './Components/AudioComponent/AudioComponent';
 import Loading from './Components/Loading/Loading';
-import { fetchCurrentUserProfile } from './store/Actions/actions';
+import { profileStore } from './shared/model/store';
+import { fetchCurrentUserProfile } from './shared/model/store/Actions/actions';
 import { isEmptyObj } from './Utils/Utils';
 import { Auth } from 'Components/Auth/Auth';
 import { Messages } from 'Components/Messages/Messages';
-
-import { profileStore } from './store';
 
 import styles from './App.module.scss';
 
