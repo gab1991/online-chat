@@ -11,6 +11,7 @@ import Loading from './Components/Loading/Loading';
 import { fetchCurrentUserProfile } from './store/Actions/actions';
 import { isEmptyObj } from './Utils/Utils';
 import { Auth } from 'Components/Auth/Auth';
+import { Messages } from 'Components/Messages/Messages';
 
 import { profileStore } from './store';
 
@@ -58,6 +59,7 @@ export const App = observer(() => {
 		<div className={styles.mobileRestrainer}>
 			<div className={styles.App}>
 				<Routes>
+					<Route path="" element={<Messages />} />
 					<Route path="auth/*" element={<Auth />} />
 				</Routes>
 				{/* <Suspense fallback={<Loading />}>

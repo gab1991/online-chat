@@ -1,30 +1,30 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
-// import { logOut, updateProfile } from '../../Store/Actions/actions';
-import { withRouter } from 'react-router-dom';
 
+// import { connect, useDispatch } from 'react-redux';
+// import { logOut, updateProfile } from '../../Store/Actions/actions';
+// import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Backend from '../../Backend/Backend';
-import ConfirmTickSvg from '../../shared/ui/icons/ConfirmCheck';
-import validate from '../../Validation/Validation';
+// import validate from '../../Validation/Validation';
 import Avatar from '../UI/Avatar/Avatar';
-import Input from '../UI/Inputs/Input/Input';
+import { Input } from '../UI/Inputs/Input/Input';
 import CogSvg from '../UI/SvgIcons/Cog';
 import ExitSvg from '../UI/SvgIcons/Exit';
-import HumanSvg from '../UI/SvgIcons/Human';
 import PencilSvg from '../UI/SvgIcons/Pencil';
 import CircularSpinner from '../UI/SvgSpinners/Circular';
+import { ConfirmCheckSvg, HumanSvg } from 'shared/ui';
 
 import styles from './Menu.module.scss';
 
-function Menu(props) {
+export function Menu(props: any) {
 	const { username, avatar_path, className, displayed_name, isShowed } = props;
-	const dispatch = useDispatch();
-	const [inputValue, setInputValue] = useState();
-	const inputRef = useRef();
+	// const dispatch = useDispatch();
+	const [inputValue, setInputValue] = useState('');
+	const inputRef = useRef(null);
 	const [showNameInput, setShowNameInput] = useState(false);
 	const [isSendingDispName, setIsSendingDispName] = useState(false);
+
 	const [wrongInput, setWrongInput] = useState({
 		invalidMsg: '',
 		state: false,
@@ -36,6 +36,7 @@ function Menu(props) {
 	}, [isShowed]);
 
 	useEffect(() => {
+		// eslint-disable-next-line @typescript-eslint/no-magic-numbers
 		if (inputValue && inputValue.length > 19) {
 			setWrongInput({ invalidMsg: 'Too long name', state: true });
 		} else {
@@ -45,7 +46,7 @@ function Menu(props) {
 
 	useEffect(() => {
 		if (inputRef.current) {
-			inputRef.current.focus();
+			(inputRef.current as any).focus();
 		}
 	}, [showNameInput]);
 
@@ -73,13 +74,14 @@ function Menu(props) {
 			return;
 		}
 
-		const isValid = validate('displayed_name', dispName);
-		if (!isValid) {
-			return setWrongInput({
-				invalidMsg: 'trailing whitespaces not allowed',
-				state: true,
-			});
-		}
+		// const isValid = validate('displayed_name', dispName);
+		// const isValid = validate('displayed_name', dispName);
+		// if (!isValid) {
+		// 	return setWrongInput({
+		// 		invalidMsg: 'trailing whitespaces not allowed',
+		// 		state: true,
+		// 	});
+		// }
 
 		setIsSendingDispName(true);
 
@@ -124,7 +126,7 @@ function Menu(props) {
 			<div className={styles.PencilTickSvgContainer}>
 				{showNameInput && !isSendingDispName && (
 					<div className={styles.ConfirmTickWrapper} onClick={() => changeDisplayedName(inputValue)}>
-						<ConfirmTickSvg />
+						<ConfirmCheckSvg />
 					</div>
 				)}
 				{showNameInput && isSendingDispName && (
@@ -162,19 +164,3 @@ function Menu(props) {
 		</div>
 	);
 }
-
-function mapStateToProps(state) {
-	return {
-		avatar_path: state.profile.avatar_path,
-		displayed_name: state.profile.displayed_name,
-		username: state.profile.username,
-	};
-}
-
-export default withRouter(connect(mapStateToProps)(Menu));
-
-Menu.propTypes = {
-	avatar_path: PropTypes.string,
-	displayed_name: PropTypes.string,
-	username: PropTypes.string,
-};
