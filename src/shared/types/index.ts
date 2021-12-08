@@ -1,50 +1,50 @@
-export interface CurrentUserProfile {
-	id: number;
+export interface ICurrentUserProfile {
+	avatarUrl: string | null;
+
+	chats: IChat[];
 
 	displayedName: string;
 
-	avatarUrl: string | null;
-
-	username: string;
-
 	email: string;
 
-	chats: IChat[];
+	id: number;
+
+	username: string;
 }
 
 export interface IChat {
+	createdAt: string;
+
+	creatorId: number;
+
 	id: number;
 
 	title: string;
 
 	type: ChatType;
 
-	creatorId: number;
-
-	createdAt: string;
-
 	updatedAt: string;
 }
 
 export enum ChatType {
-	'private' = 'private',
 	'group' = 'group',
+	'private' = 'private',
 }
 
 export interface IContact {
-	id: number;
+	avatarUrl: string | null;
 
 	displayedName: string;
 
-	avatarUrl: string | null;
+	id: number;
 
 	username: string;
 }
 
 export interface IUser {
+	email: string;
+
 	id: number;
 
 	name: string;
-
-	email: string;
 }

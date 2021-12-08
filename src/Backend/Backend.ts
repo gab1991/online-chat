@@ -1,6 +1,6 @@
 import axios_base, { AxiosPromise } from 'axios';
 
-import { CurrentUserProfile, IChat } from '../types';
+import { IChat, ICurrentUserProfile } from 'shared/types';
 
 import { server_adress } from '../Configs/sever.config';
 import { getToken } from '../shared/model/store/store';
@@ -73,7 +73,7 @@ const Backend = {
 		);
 	},
 
-	getProfile: (errCb?: any): Promise<AxiosPromise<CurrentUserProfile>> => {
+	getProfile: (errCb?: any): Promise<AxiosPromise<ICurrentUserProfile>> => {
 		return axiosExecute(
 			{
 				method: 'GET',

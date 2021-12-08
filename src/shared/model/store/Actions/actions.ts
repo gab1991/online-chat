@@ -1,4 +1,4 @@
-import { CurrentUserProfile } from '../../../../types';
+import { ICurrentUserProfile } from 'shared/types';
 
 import Backend from '../../../../Backend/Backend';
 import Socket from '../../../../Backend/Socket';
@@ -51,7 +51,7 @@ const logOut = () => {
 	};
 };
 
-const updateProfile = (profile: Omit<CurrentUserProfile, 'chats'>) => {
+const updateProfile = (profile: Omit<ICurrentUserProfile, 'chats'>) => {
 	return {
 		payload: profile,
 		type: UPDATE_PROFILE,
@@ -85,7 +85,7 @@ const playTrack = (trackname) => {
 };
 
 const fetchCurrentUserProfile = () => async (dispatch) => {
-	const { data }: { data: CurrentUserProfile } = await Backend.fetchCurrentUserProfile();
+	const { data }: { data: ICurrentUserProfile } = await Backend.fetchCurrentUserProfile();
 
 	const { chats, ...profile } = data;
 

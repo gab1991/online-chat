@@ -1,4 +1,4 @@
-import { IChat } from '../../../../types';
+import { IChat } from '../../../types';
 
 import Backend from '../../../../Backend/Backend';
 import Socket from '../../../../Backend/Socket';

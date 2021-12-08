@@ -1,4 +1,4 @@
-import { IChat } from '../../../../types';
+import { IChat } from '../../../types';
 
 import {
 	ADD_MESSAGE,

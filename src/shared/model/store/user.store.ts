@@ -1,6 +1,6 @@
 import { action, makeAutoObservable } from 'mobx';
 
-import { IUser } from 'types';
+import { IUser } from 'shared/types';
 
 class UserStore {
 	id: number | null = null;

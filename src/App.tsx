@@ -1,6 +1,7 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
+import { autorun } from 'mobx';
 import { observer } from 'mobx-react';
 
 import PropTypes, { bool, object } from 'prop-types';
@@ -8,11 +9,12 @@ import PropTypes, { bool, object } from 'prop-types';
 import Socket, { chatSocket } from './Backend/Socket';
 import AudioComponent from './Components/AudioComponent/AudioComponent';
 import Loading from './Components/Loading/Loading';
-import { profileStore } from './shared/model/store';
 import { fetchCurrentUserProfile } from './shared/model/store/Actions/actions';
 import { isEmptyObj } from './Utils/Utils';
 import { Auth } from 'Components/Auth/Auth';
 import { Messages } from 'Components/Messages/Messages';
+import { AuthGuard } from 'processes/authentification';
+import { profileStore, userStore } from 'shared/model/store';
 
 import styles from './App.module.scss';
 
@@ -33,33 +35,22 @@ export const IS_PROD = process.env.NODE_ENV === 'production' ? true : false;
 // export const location = new ReactLocation();
 
 export const App = observer(() => {
-	// const { isLogged, conversations, token, profile } = props;
-	// const dispatch = useDispatch();
-
-	// useEffect(() => {
-	// 	if (isEmptyObj(conversations)) return;
-	// }, [conversations]);
-
-	// useEffect(() => {
-	// 	if (!profile.id) {
-	// 		return;
-	// 	}
-
-	// 	chatSocket.emit('subscribeToChats', profile.id);
-	// 	chatSocket.emit('setIsOnlineToServer', profile.id);
-	// }, [profile.id]);
-
-	// useEffect(() => {
-	// 	// if (!token) return;
-	// 	dispatch(fetchCurrentUserProfile());
-	// }, [token, dispatch]);
+	useEffect(() => {
+		userStore.id && profileStore.fetchCurrentProfile();
+	}, [userStore.id]);
 
 	return (
 		<div className={styles.mobileRestrainer}>
 			<div className={styles.App}>
 				<Routes>
-					<Route path="" element={<Messages />} />
 					<Route path="auth/*" element={<Auth />} />
+					<Route
+						path="*"
+						element={
+							<AuthGuard>
+								<Route path="/" element={<Messages />} />
+							</AuthGuard>
+						}></Route>
 				</Routes>
 				{/* <Suspense fallback={<Loading />}>
 					{!isLogged.status && !isLogged.initialLoading && <Route path="/" component={Auth} />}

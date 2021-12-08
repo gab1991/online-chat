@@ -1,9 +1,12 @@
 import React from 'react';
+
+import { IContact } from '../../shared/types';
 import PropTypes from 'prop-types';
-import Avatar from '../UI/Avatar/Avatar';
-import styles from './Contact.module.scss';
-import { IContact } from '../../types';
+
 import { makeAvatarUrlPath } from '../../Backend/Backend';
+import Avatar from '../UI/Avatar/Avatar';
+
+import styles from './Contact.module.scss';
 
 export function Contact(props: { contact: IContact; onClick: any }) {
 	const { contact, onClick } = props;
@@ -22,8 +25,8 @@ export function Contact(props: { contact: IContact; onClick: any }) {
 }
 
 Contact.propTypes = {
-	username: PropTypes.string,
-	displayedName: PropTypes.string,
 	avatarPath: PropTypes.string,
+	displayedName: PropTypes.string,
 	onLCick: PropTypes.func,
+	username: PropTypes.string,
 };

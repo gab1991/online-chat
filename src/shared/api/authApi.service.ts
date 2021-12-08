@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 
 import { isAxiosError } from './types';
-import { IUser } from 'types';
+import { IUser } from 'shared/types';
 
 import { ILoginDto } from './dto/login.dto';
 import { ISignUpDto } from './dto/signUp.dto';
