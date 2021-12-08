@@ -8,28 +8,33 @@ import { SignUp } from './SignUp/SignUp';
 import LoginTransitions from './Login/Login.module.scss';
 import SignUpTransitions from './SignUp/SignUp.module.scss';
 
+const moduleRoutes = {
+	login: 'login',
+	signup: 'signup',
+};
+
 export function Auth() {
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
 
-	const loginMatch = pathname.match(/login$/i);
-	const signupMatch = pathname.match(/signup$/i);
+	const loginMatch = pathname.match(new RegExp(`${moduleRoutes.login}$`, 'i'));
+	const signupMatch = pathname.match(new RegExp(`${moduleRoutes.signup}$`, 'i'));
 
 	const [inTransition, setInTransition] = useState(false);
 
 	return (
 		<Routes>
 			<Route
-				path="login"
+				path={moduleRoutes.login}
 				element={
 					<CSSTransition
 						timeout={{ appear: 2000, enter: 2000, exit: 700 }}
 						classNames={{ ...LoginTransitions }}
-						in={loginMatch && !inTransition}
+						in={!!loginMatch && !inTransition}
 						unmountOnExit
 						appear
 						onExited={() => {
-							navigate('signup');
+							navigate(moduleRoutes.signup);
 							setInTransition(false);
 						}}>
 						<Login
@@ -40,16 +45,16 @@ export function Auth() {
 					</CSSTransition>
 				}></Route>
 			<Route
-				path="signup"
+				path={moduleRoutes.signup}
 				element={
 					<CSSTransition
 						timeout={{ appear: 2000, enter: 1000, exit: 700 }}
-						in={signupMatch && !inTransition}
+						in={!!signupMatch && !inTransition}
 						classNames={{ ...SignUpTransitions }}
 						unmountOnExit
 						appear
 						onExited={() => {
-							navigate('login');
+							navigate(moduleRoutes.login);
 							setInTransition(false);
 						}}>
 						<SignUp changeActiveScreen={() => setInTransition(true)} />
