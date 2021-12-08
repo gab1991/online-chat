@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { observer } from 'mobx-react';
 
 import PropTypes, { bool, object } from 'prop-types';
@@ -30,6 +30,8 @@ import styles from './App.module.scss';
 
 export const IS_PROD = process.env.NODE_ENV === 'production' ? true : false;
 
+// export const location = new ReactLocation();
+
 export const App = observer(() => {
 	// const { isLogged, conversations, token, profile } = props;
 	// const dispatch = useDispatch();
@@ -55,11 +57,9 @@ export const App = observer(() => {
 	return (
 		<div className={styles.mobileRestrainer}>
 			<div className={styles.App}>
-				<Switch>
-					<Route path="/">
-						<Auth />
-					</Route>
-				</Switch>
+				<Routes>
+					<Route path="auth/*" element={<Auth />} />
+				</Routes>
 				{/* <Suspense fallback={<Loading />}>
 					{!isLogged.status && !isLogged.initialLoading && <Route path="/" component={Auth} />}
 					{!isLogged.status && <Route path="/" component={Auth} />}
