@@ -6,7 +6,7 @@ import { LoginValidationSchema } from '../validation';
 import { Backdrop } from './Backdrop/Backdrop';
 import { useAuthRedirect } from 'processes/authentification/model/hooks';
 import { authApiService } from 'shared/api';
-import { userStore } from 'shared/model/store';
+import { profileStore } from 'shared/model/store';
 import { Checkbox, FadingLinesSpinner, GradientButton, HumanSvg, KeySvg, TransparentInput } from 'shared/ui';
 
 import styles from './Login.module.scss';
@@ -30,11 +30,11 @@ export const Login = observer((props: ILoginProps) => {
 		},
 		onSubmit: async ({ password, usernameEmail }, helpers) => {
 			setIsFetching(true);
-			const { data: user, error } = await authApiService.login({ nameOrEmail: usernameEmail, password });
+			const { data: profile, error } = await authApiService.login({ nameOrEmail: usernameEmail, password });
 			setIsFetching(false);
 
 			error && helpers.setErrors({ password: error });
-			user && userStore.fillUser(user);
+			profile && profileStore.fillProfile(profile);
 		},
 		validate: () => setValidationOnChange(true),
 		validateOnBlur: true,

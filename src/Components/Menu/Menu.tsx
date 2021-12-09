@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // import { connect, useDispatch } from 'react-redux';
 // import { logOut, updateProfile } from '../../Store/Actions/actions';
@@ -13,6 +13,8 @@ import CogSvg from '../UI/SvgIcons/Cog';
 import ExitSvg from '../UI/SvgIcons/Exit';
 import PencilSvg from '../UI/SvgIcons/Pencil';
 import CircularSpinner from '../UI/SvgSpinners/Circular';
+import { authApiService } from 'shared/api';
+import { profileStore } from 'shared/model/store';
 import { ConfirmCheckSvg, HumanSvg } from 'shared/ui';
 
 import styles from './Menu.module.scss';
@@ -51,9 +53,8 @@ export function Menu(props: any) {
 	}, [showNameInput]);
 
 	const sendLogOut = () => {
-		localStorage.clear();
-		// dispatch(logOut());
-		props.history.push('/');
+		profileStore.clearProfile();
+		authApiService.logout();
 	};
 
 	const toContacts = () => {

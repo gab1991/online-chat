@@ -1,6 +1,3 @@
-import { StatusCodes } from 'http-status-codes';
-
-import { isAxiosError } from './types';
 import { ICurrentUserProfile } from 'shared/types';
 
 import { Api, TApiResponse } from './api';

@@ -14,7 +14,7 @@ import { isEmptyObj } from './Utils/Utils';
 import { Auth } from 'Components/Auth/Auth';
 import { Messages } from 'Components/Messages/Messages';
 import { AuthGuard } from 'processes/authentification';
-import { profileStore, userStore } from 'shared/model/store';
+import { profileStore } from 'shared/model/store';
 
 import styles from './App.module.scss';
 

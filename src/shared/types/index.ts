@@ -40,11 +40,3 @@ export interface IContact {
 
 	username: string;
 }
-
-export interface IUser {
-	email: string;
-
-	id: number;
-
-	name: string;
-}

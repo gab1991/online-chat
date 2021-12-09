@@ -27,6 +27,12 @@ class ProfileStore {
 		});
 	}
 
+	clearProfile() {
+		this.id = null;
+		this.displayedName = '';
+		this.avatarUrl = null;
+	}
+
 	async fetchCurrentProfile() {
 		const { data: curProfile } = await this.profileService.getCurrentUserProfile();
 

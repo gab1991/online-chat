@@ -3,8 +3,9 @@ import { useFormik } from 'formik';
 
 import { SignUpValidationSchema } from '../validation';
 import { Backdrop } from './Backdrop/Backdrop';
+import { useAuthRedirect } from 'processes/authentification/model/hooks';
 import { authApiService } from 'shared/api/authApi.service';
-import { userStore } from 'shared/model/store';
+import { profileStore } from 'shared/model/store';
 import {
 	ConfirmCheckSvg,
 	EnvelopeSvg,
@@ -26,6 +27,8 @@ export function SignUp(props: ISignUpProps) {
 	const [isFetching, setIsFetching] = useState(false);
 	const [validateOnChange, setValidationOnChange] = useState(false);
 
+	useAuthRedirect();
+
 	const formik = useFormik({
 		initialValues: {
 			email: '',
@@ -35,7 +38,7 @@ export function SignUp(props: ISignUpProps) {
 		},
 		onSubmit: async ({ email, password, username }, helpers) => {
 			setIsFetching(true);
-			const { data: user, error } = await authApiService.signup({ email, name: username, password });
+			const { data: profile, error } = await authApiService.signup({ email, name: username, password });
 			setIsFetching(false);
 
 			const usernameFieldRegex = /name/i;
@@ -49,7 +52,7 @@ export function SignUp(props: ISignUpProps) {
 				helpers.setErrors({ email: error });
 			}
 
-			user && userStore.fillUser(user);
+			profile && profileStore.fillProfile(profile);
 		},
 		validate: () => setValidationOnChange(true),
 		validateOnBlur: true,
