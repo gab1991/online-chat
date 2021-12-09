@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 
 import { LoginValidationSchema } from '../validation';
 import { Backdrop } from './Backdrop/Backdrop';
+import { useAuthRedirect } from 'processes/authentification/model/hooks';
 import { authApiService } from 'shared/api';
 import { userStore } from 'shared/model/store';
 import { Checkbox, FadingLinesSpinner, GradientButton, HumanSvg, KeySvg, TransparentInput } from 'shared/ui';
@@ -16,8 +17,11 @@ interface ILoginProps {
 
 export const Login = observer((props: ILoginProps) => {
 	const { changeActiveScreen } = props;
+
 	const [isFetching, setIsFetching] = useState(false);
 	const [validateOnChange, setValidationOnChange] = useState(false);
+
+	useAuthRedirect();
 
 	const formik = useFormik({
 		initialValues: {

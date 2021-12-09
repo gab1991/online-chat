@@ -36,8 +36,8 @@ export const IS_PROD = process.env.NODE_ENV === 'production' ? true : false;
 
 export const App = observer(() => {
 	useEffect(() => {
-		userStore.id && profileStore.fetchCurrentProfile();
-	}, [userStore.id]);
+		profileStore.fetchCurrentProfile();
+	}, []);
 
 	return (
 		<div className={styles.mobileRestrainer}>
