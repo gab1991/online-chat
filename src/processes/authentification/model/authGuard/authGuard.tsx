@@ -10,7 +10,7 @@ interface IAuthGuardProps {
 export const AuthGuard = observer((props: IAuthGuardProps): JSX.Element => {
 	const location = useLocation();
 
-	if (!profileStore.id) {
+	if (!profileStore.profile.id) {
 		return <Navigate to="auth/login" state={{ from: location }} />;
 	}
 

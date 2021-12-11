@@ -8,6 +8,6 @@ export function useAuthRedirect(): void {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		profileStore.id && navigate(location.state?.from || '/');
-	}, [profileStore.id]);
+		profileStore.profile.id && navigate(location.state?.from || '/');
+	}, [profileStore.profile.id]);
 }

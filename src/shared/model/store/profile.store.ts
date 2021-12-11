@@ -1,36 +1,39 @@
 import { makeAutoObservable } from 'mobx';
 
-import { IChat, ICurrentUserProfile } from 'shared/types';
+import { IChat } from 'shared/types';
 
 import { ProfileApiService, profileApiService } from 'shared/api';
 
+interface IProfile {
+	avatarUrl: string | null;
+	chats: IChat[];
+	displayedName: string;
+	email: string;
+	id: number | null;
+	username: string;
+}
+
+const profileInitialState: IProfile = {
+	avatarUrl: null,
+	chats: [],
+	displayedName: '',
+	email: '',
+	id: null,
+	username: '',
+};
 class ProfileStore {
-	id: number | null = null;
-
-	displayedName = '';
-
-	avatarUrl: string | null = null;
-
-	username = '';
-
-	email = '';
-
-	chats: IChat[] = [];
+	profile: IProfile = profileInitialState;
 
 	constructor(private profileService: ProfileApiService) {
 		makeAutoObservable(this);
 	}
 
-	fillProfile(props: Partial<ICurrentUserProfile>) {
-		Object.keys(props).forEach((key) => {
-			this[key] = props[key];
-		});
+	fillProfile(updProfile: Partial<IProfile>) {
+		this.profile = { ...this.profile, ...updProfile };
 	}
 
 	clearProfile() {
-		this.id = null;
-		this.displayedName = '';
-		this.avatarUrl = null;
+		this.profile = profileInitialState;
 	}
 
 	async fetchCurrentProfile() {
