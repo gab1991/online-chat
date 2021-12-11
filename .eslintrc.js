@@ -68,6 +68,10 @@ module.exports = {
 		],
 		//@sort-keys-fix
 		'sort-keys-fix/sort-keys-fix': 'warn',
+
+		// REACT
+		'react/prop-types': 'off',
+
 		//@typescript-sort-keys
 		'typescript-sort-keys/interface': 'warn',
 		'typescript-sort-keys/string-enum': 'warn',
