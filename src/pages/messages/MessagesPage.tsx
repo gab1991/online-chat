@@ -1,18 +1,18 @@
-import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react';
-import { connect } from 'react-redux';
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import cn from 'classnames';
 
-import PropTypes from 'prop-types';
-
+import SearchTab from '../../Components/SearchTab/SearchTab';
+import Button from '../../Components/UI/Buttons/Button/Button';
+import HamburgerIcon from '../../Components/UI/SvgIcons/Hamburger';
+import LookUpIcon from '../../Components/UI/SvgIcons/LookUp';
+import FadingLinesSpinner from '../../Components/UI/SvgSpinners/FadingLines';
 import { debounce, isEmptyObj } from '../../Utils/Utils';
-import Chat from '../Chat/Chat';
-import { Menu } from '../Menu/Menu';
-import SearchTab from '../SearchTab/SearchTab';
-import Button from '../UI/Buttons/Button/Button';
-import HamburgerIcon from '../UI/SvgIcons/Hamburger';
-import LookUpIcon from '../UI/SvgIcons/LookUp';
-import FadingLinesSpinner from '../UI/SvgSpinners/FadingLines';
 
-import styles from '../Messages/Messages.module.scss';
+// import { connect } from 'react-redux';
+// import PropTypes from 'prop-types';
+import { Chat, Menu } from './ui';
+
+import styles from './MessagesPage.module.scss';
 
 function sortConvByTime(convObj) {
 	const sortedIds = Object.keys(convObj).sort((chatId1, chatId2) => {
@@ -240,7 +240,7 @@ export function Messages(props: any) {
 						setShowMenu(false);
 					}}></div>
 			)}
-			<Menu isShowed={showMenu} className={showMenu ? styles.ShowMenu : styles.HideMenu} />
+			<Menu className={cn(styles.slidingMenu, { [styles.slidingMenu_show]: showMenu })} />
 		</div>
 	);
 }

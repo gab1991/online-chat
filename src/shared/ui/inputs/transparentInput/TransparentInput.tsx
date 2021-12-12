@@ -1,9 +1,13 @@
-import { HTMLAttributes, InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes } from 'react';
 import cn from 'classnames';
 
 import styles from './TransparentInput.module.scss';
 
-export function TransparentInput(props: InputHTMLAttributes<HTMLInputElement>) {
-	const { className, ...htmlProps } = props;
-	return <input className={cn(styles.transparentInput, className)} {...htmlProps} />;
+interface ITransparentInputProps extends InputHTMLAttributes<HTMLInputElement> {
+	refProp?: React.LegacyRef<HTMLInputElement>;
+}
+
+export function TransparentInput(props: ITransparentInputProps) {
+	const { className, refProp, ...htmlProps } = props;
+	return <input className={cn(styles.transparentInput, className)} ref={refProp} {...htmlProps} />;
 }

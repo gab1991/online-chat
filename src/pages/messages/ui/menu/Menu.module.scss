@@ -1,22 +1,16 @@
-@import '../../Configs/Variables.module.scss';
+@import '../../../../Configs/Variables.module.scss';
 
 $background-top-color: theme-color('gamma');
 $background-middle-color: theme-color('delta');
 $background-bottom-color: theme-color('epsilon');
 
-.Menu {
+.menu {
 	color: $font-color-main;
-	display: grid;
-	grid-template-columns: 50px 1fr 50px;
-	grid-template-rows: min-content min-content 1fr;
-	grid-template-areas:
-		'. name pencil'
-		'. avatar .'
-		'. option .';
-	justify-items: center;
-	position: absolute;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	height: 100%;
 	width: 280px;
-	@include appHeight;
 	background: linear-gradient(
 		180deg,
 		$background-top-color 1.56%,
@@ -42,12 +36,6 @@ $background-bottom-color: theme-color('epsilon');
 		font-size: 1.5rem;
 		font-weight: 600;
 	}
-	.DispNameInput {
-		&::placeholder {
-			color: $font-color-main;
-			opacity: 0.4;
-		}
-	}
 }
 
 .PencilTickSvgContainer {
@@ -63,12 +51,6 @@ $background-bottom-color: theme-color('epsilon');
 		position: absolute;
 		filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5));
 	}
-}
-
-.Avatar {
-	user-select: none;
-	grid-column: 2/3;
-	margin-top: 30px;
 }
 
 .OptionsSection {
@@ -99,4 +81,17 @@ $background-bottom-color: theme-color('epsilon');
 		margin-left: 14px;
 		font-size: 1.4rem;
 	}
+}
+
+//new
+
+.avatar {
+	user-select: none;
+	width: 170px;
+	margin-top: 30px;
+}
+
+.linksList {
+	margin-top: 2rem;
+	width: 50%;
 }

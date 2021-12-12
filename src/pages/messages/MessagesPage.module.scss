@@ -63,16 +63,6 @@ $spinner-color: theme-color('beta');
 	}
 }
 
-.HideMenu {
-	transform: translateX(-100%);
-	transition: all 300ms ease;
-}
-
-.ShowMenu {
-	transform: translateX(0%);
-	transition: all 300ms ease;
-}
-
 .BackDrop {
 	position: absolute;
 	cursor: pointer;
@@ -127,5 +117,16 @@ $spinner-color: theme-color('beta');
 		to {
 			opacity: 1;
 		}
+	}
+}
+
+//new
+.slidingMenu {
+	position: absolute;
+	transform: translateX(-100%);
+	transition: all 300ms ease;
+
+	&_show {
+		transform: translateX(0%);
 	}
 }

@@ -2,15 +2,15 @@ import axios_base, { AxiosPromise } from 'axios';
 
 import { IChat, ICurrentUserProfile } from 'shared/types';
 
-import { server_adress } from '../Configs/sever.config';
+import { SERVER_ADRESS } from '../Configs/sever.config';
 import { getToken } from '../shared/model/store/store';
 
 export const makeAvatarUrlPath = (url: string) => {
-	return `${server_adress}/avatars/${url}`;
+	return `${SERVER_ADRESS}/avatars/${url}`;
 };
 
 const axios = axios_base.create({
-	baseURL: server_adress,
+	baseURL: SERVER_ADRESS,
 	timeout: 4000,
 	withCredentials: true,
 });

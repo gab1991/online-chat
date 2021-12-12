@@ -1,7 +1,7 @@
 //@ts-ignore
 import { io } from 'socket.io-client';
 
-import { server_adress } from '../Configs/sever.config';
+import { SERVER_ADRESS } from '../Configs/sever.config';
 import {
 	fetchCurrentUserProfile,
 	finishInitialLogIn,
@@ -17,12 +17,12 @@ import {
 import { dispatch, store } from '../shared/model/store/store';
 
 // //Inner setup
-const socket = io(server_adress, {
+const socket = io(SERVER_ADRESS, {
 	// reconnectionDelay: 500,
 	reconnectionDelayMax: 1000,
 });
 
-export const chatSocket = io(server_adress + '/chats', {
+export const chatSocket = io(SERVER_ADRESS + '/chats', {
 	// reconnectionDelay: 500,
 	reconnectionDelayMax: 1000,
 });

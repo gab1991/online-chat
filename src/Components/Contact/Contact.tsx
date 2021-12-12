@@ -4,7 +4,7 @@ import { IContact } from '../../shared/types';
 import PropTypes from 'prop-types';
 
 import { makeAvatarUrlPath } from '../../Backend/Backend';
-import Avatar from '../UI/Avatar/Avatar';
+import { Avatar } from 'shared/ui';
 
 import styles from './Contact.module.scss';
 
@@ -15,11 +15,11 @@ export function Contact(props: { contact: IContact; onClick: any }) {
 
 	return (
 		<div className={styles.Contact} onClick={onClick}>
-			<Avatar text={displayedName} size={75} imgSrc={avatarUrl} className={styles.Avatar} />
+			{/* <Avatar text={displayedName} size={75} imgSrc={avatarUrl} className={styles.Avatar} />
 			<div className={styles.NameSection}>
 				<p className={styles.Username}>{`@${username}`}</p>
 				<p className={styles.DisplayedName}>{displayedName}</p>
-			</div>
+			</div> */}
 		</div>
 	);
 }

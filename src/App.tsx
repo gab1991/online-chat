@@ -3,6 +3,7 @@ import { connect, useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import { autorun } from 'mobx';
 import { observer } from 'mobx-react';
+import { Messages } from 'pages';
 
 import PropTypes, { bool, object } from 'prop-types';
 
@@ -12,7 +13,6 @@ import Loading from './Components/Loading/Loading';
 import { fetchCurrentUserProfile } from './shared/model/store/Actions/actions';
 import { isEmptyObj } from './Utils/Utils';
 import { Auth } from 'Components/Auth/Auth';
-import { Messages } from 'Components/Messages/Messages';
 import { AuthGuard } from 'processes/authentification';
 import { profileStore } from 'shared/model/store';
 

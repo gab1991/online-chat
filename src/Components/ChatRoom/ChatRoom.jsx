@@ -1,20 +1,23 @@
-import React, { useState, useEffect, useRef, useCallback, useReducer } from 'react';
-import { connect, useSelector, useDispatch } from 'react-redux';
-import { debounce, throttle, scrollToBottom, clearRouterLocationState } from '../../Utils/Utils';
-import { formatPopUpScroll } from '../../Utils/timeFormatter';
+import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import { connect, useDispatch, useSelector } from 'react-redux';
+
 import PropTypes from 'prop-types';
+
 import Socket from '../../Backend/Socket';
+import Avatar from '../../shared/ui/avatar/Avatar';
+import { formatPopUpScroll } from '../../Utils/timeFormatter';
+import { clearRouterLocationState, debounce, scrollToBottom, throttle } from '../../Utils/Utils';
+import Message from '../Message/Message';
 // import { sendMsg } from '../../Store/Actions/chatActions';
 import SearchTab from '../SearchTab/SearchTab';
+import Input from '../UI/Inputs/Input/Input';
 import DatePopUp from '../UI/PopUps/DatePopUp/DatePopUp';
+import ArrowHeadSvg from '../UI/SvgIcons/ArrowHead';
+import BackArrowIcon from '../UI/SvgIcons/BackArrow';
 import KeyBoardIcon from '../UI/SvgIcons/Keyboard';
 import LookUpIcon from '../UI/SvgIcons/LookUp';
-import ArrowHeadSvg from '../UI/SvgIcons/ArrowHead';
 import SendSvg from '../UI/SvgIcons/Send';
-import Avatar from '../UI/Avatar/Avatar';
-import Message from '../Message/Message';
-import Input from '../UI/Inputs/Input/Input';
-import BackArrowIcon from '../UI/SvgIcons/BackArrow';
+
 import sassVars from '../../Configs/Variables.module.scss';
 import styles from './ChatRoom.module.scss';
 
@@ -27,7 +30,7 @@ function reducer(state, action) {
 			if (!action.payload) return { ...state };
 			const { messages, type } = action.payload;
 			const convPartner = action.payload.participants[0];
-			return { ...state, messages, type, convPartner };
+			return { ...state, convPartner, messages, type };
 		}
 		case 'SEND_MESSAGE': {
 			return { ...state, inputValue: '' };
@@ -107,22 +110,22 @@ function ChatRoom(props) {
 		dispatchLocal,
 	] = useReducer(reducer, {
 		chatID: chatID,
-		userID: user_id,
-		messages: [],
-		type: null,
 		convPartner: null,
+		datePopUp: {
+			content: '',
+			isActive: false,
+		},
 		inputValue: '',
+		isSearching: false,
 		matchedMsgs: [],
+		messages: [],
+		searchInputValue: '',
 		selectedMatchedMsg: {
 			index: 1,
 			msgId: null,
 		},
-		searchInputValue: '',
-		isSearching: false,
-		datePopUp: {
-			isActive: false,
-			content: '',
-		},
+		type: null,
+		userID: user_id,
 	});
 	const dispatchGlobal = useDispatch();
 	const [showSearch, setShowSearch] = useState(false);
@@ -130,8 +133,8 @@ function ChatRoom(props) {
 	const findMessage = (searchStr, messages) => {
 		if (!isMounted.current) return;
 		if (searchStr.length === 0) {
-			dispatchLocal({ type: 'SET_IS_SEARCHING', payload: false });
-			dispatchLocal({ type: 'SET_MATCHED_MSGS', payload: [] });
+			dispatchLocal({ payload: false, type: 'SET_IS_SEARCHING' });
+			dispatchLocal({ payload: [], type: 'SET_MATCHED_MSGS' });
 			scrollToBottom(msgArea.current);
 			return;
 		}
@@ -139,8 +142,8 @@ function ChatRoom(props) {
 		const resullt = messages.filter((message) => {
 			return message.message.toLowerCase().includes(searchStr.toLowerCase());
 		});
-		dispatchLocal({ type: 'SET_MATCHED_MSGS', payload: resullt.reverse() });
-		dispatchLocal({ type: 'SET_IS_SEARCHING', payload: false });
+		dispatchLocal({ payload: resullt.reverse(), type: 'SET_MATCHED_MSGS' });
+		dispatchLocal({ payload: false, type: 'SET_IS_SEARCHING' });
 	};
 
 	const delayedSearch = useCallback(debounce(findMessage, 500), [searchInputValue, messages]);
@@ -152,12 +155,12 @@ function ChatRoom(props) {
 	}, []);
 
 	useEffect(() => {
-		dispatchLocal({ type: 'UPDATE_USER_ID', payload: user_id });
+		dispatchLocal({ payload: user_id, type: 'UPDATE_USER_ID' });
 	}, [user_id]);
 
 	useEffect(() => {
 		if (chatData) {
-			dispatchLocal({ type: 'UPDATE_CHAT_DATA', payload: chatData });
+			dispatchLocal({ payload: chatData, type: 'UPDATE_CHAT_DATA' });
 		}
 	}, [chatData]);
 
@@ -166,8 +169,8 @@ function ChatRoom(props) {
 		if (forwardedInputValue) {
 			setShowSearch(true);
 			dispatchLocal({
-				type: 'SET_SEARCH_INPUT_VALUE',
 				payload: forwardedInputValue,
+				type: 'SET_SEARCH_INPUT_VALUE',
 			});
 
 			clearRouterLocationState(props.history);
@@ -203,19 +206,19 @@ function ChatRoom(props) {
 	useEffect(() => {
 		if (matchedMsgs.length) {
 			dispatchLocal({
-				type: 'SET_SELECTED_MATCHED_MSG',
 				payload: {
 					index: 1,
 					msgId: matchedMsgs[0].id,
 				},
+				type: 'SET_SELECTED_MATCHED_MSG',
 			});
 		} else {
 			dispatchLocal({
-				type: 'SET_SELECTED_MATCHED_MSG',
 				payload: {
 					index: 1,
 					msgId: null,
 				},
+				type: 'SET_SELECTED_MATCHED_MSG',
 			});
 		}
 	}, [matchedMsgs]);
@@ -227,7 +230,7 @@ function ChatRoom(props) {
 
 	useEffect(() => {
 		if (searchInputValue) {
-			dispatchLocal({ type: 'SET_IS_SEARCHING', payload: true });
+			dispatchLocal({ payload: true, type: 'SET_IS_SEARCHING' });
 		}
 		delayedSearch(searchInputValue, messages);
 	}, [searchInputValue, delayedSearch, messages]);
@@ -258,14 +261,14 @@ function ChatRoom(props) {
 	};
 
 	const inputChangeHandler = (e) => {
-		dispatchLocal({ type: 'CHANGE_MSG_INPUT_VALUE', payload: e.target.value });
+		dispatchLocal({ payload: e.target.value, type: 'CHANGE_MSG_INPUT_VALUE' });
 	};
 
 	const submitHandler = (e) => {
 		e.preventDefault();
 
 		if (inputValue) {
-			dispatchLocal({ type: 'SEND_MESSAGE', payload: inputValue });
+			dispatchLocal({ payload: inputValue, type: 'SEND_MESSAGE' });
 			// dispatchGlobal(sendMsg(chatID, inputValue));
 		}
 		msgInputRef.current.focus();
@@ -273,14 +276,14 @@ function ChatRoom(props) {
 
 	const toggleSearchInMsgs = () => {
 		if (!isMounted.current) return;
-		dispatchLocal({ type: 'SET_SEARCH_INPUT_VALUE', payload: '' });
+		dispatchLocal({ payload: '', type: 'SET_SEARCH_INPUT_VALUE' });
 		scrollToBottom(msgArea.current);
 		setShowSearch((prevState) => !prevState);
 	};
 
 	const seacrhinputChangeHandler = (e) => {
 		const searchStr = e.target.value;
-		dispatchLocal({ type: 'SET_SEARCH_INPUT_VALUE', payload: searchStr });
+		dispatchLocal({ payload: searchStr, type: 'SET_SEARCH_INPUT_VALUE' });
 	};
 
 	const focusOnMsg = (id) => {
@@ -315,23 +318,23 @@ function ChatRoom(props) {
 		if (!isMounted.current) return;
 		scrollToBottom(msgArea.current);
 		searchInputRef.current.focus();
-		dispatchLocal({ type: 'SET_SEARCH_INPUT_VALUE', payload: '' });
-		dispatchLocal({ type: 'SET_MATCHED_MSGS', payload: [] });
+		dispatchLocal({ payload: '', type: 'SET_SEARCH_INPUT_VALUE' });
+		dispatchLocal({ payload: [], type: 'SET_MATCHED_MSGS' });
 	};
 
 	const hideSearch = () => {
 		if (isMounted.current) {
 			setShowSearch(false);
 		}
-		dispatchLocal({ type: 'SET_SEARCH_INPUT_VALUE', payload: '' });
-		dispatchLocal({ type: 'SET_MATCHED_MSGS', payload: [] });
+		dispatchLocal({ payload: '', type: 'SET_SEARCH_INPUT_VALUE' });
+		dispatchLocal({ payload: [], type: 'SET_MATCHED_MSGS' });
 	};
 
 	const privateChatAvatarProps = {
-		text: type === 'private' ? convPartner.displayed_name || convPartner.username : '',
-		size: 65,
-		imgSrc: convPartner && convPartner.avatar_path,
 		color: sassVars['palette-background'],
+		imgSrc: convPartner && convPartner.avatar_path,
+		size: 65,
+		text: type === 'private' ? convPartner.displayed_name || convPartner.username : '',
 	};
 
 	const msgAreaScrollHandler = (msgAreaRef, msgsRefs, msgArr) => {
@@ -351,8 +354,8 @@ function ChatRoom(props) {
 		const formattedTime = formatPopUpScroll(lastVisibleMsgDate);
 
 		dispatchLocal({
-			type: 'SET_DATE_POP_UP',
 			payload: { isActive: true, txtContent: formattedTime },
+			type: 'SET_DATE_POP_UP',
 		});
 	};
 

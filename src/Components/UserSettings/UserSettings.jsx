@@ -1,15 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
+
+import PropTypes from 'prop-types';
+
+import Backend from '../../Backend/Backend';
+import Avatar from '../../shared/ui/avatar/Avatar';
 // import { updateProfile } from '../../Store/Actions/actions';
 import validate from '../../Validation/Validation';
-import Avatar from '../UI/Avatar/Avatar';
-import CircularSpinner from '../UI/SvgSpinners/Circular';
-import Input from '../UI/Inputs/Input/Input';
 import Button from '../UI/Buttons/Button/Button';
-import Backend from '../../Backend/Backend';
-import styles from './UserSettings.module.scss';
 import AvatarUploadForm from '../UI/Forms/AvatarUploadForm/AvatarUploadForm';
+import Input from '../UI/Inputs/Input/Input';
+import CircularSpinner from '../UI/SvgSpinners/Circular';
+
+import styles from './UserSettings.module.scss';
 
 function UserSettings(props) {
 	const { avatar_path, username, displayed_name } = props.profile;
@@ -19,8 +22,8 @@ function UserSettings(props) {
 	const [disNameInputValue, setDispNameInputValue] = useState('');
 	const [isSendingDispName, setIsSendingDispName] = useState(false);
 	const [wrongInput, setWrongInput] = useState({
-		status: false,
 		message: '',
+		status: false,
 	});
 	const inputRef = useRef();
 
@@ -41,16 +44,16 @@ function UserSettings(props) {
 	const confirmDispName = (dispName) => {
 		if (!dispName.length) {
 			return setWrongInput({
-				status: true,
 				message: 'you didn`t write anything',
+				status: true,
 			});
 		}
 
 		const isValid = validate('displayed_name', dispName);
 		if (!isValid) {
 			return setWrongInput({
-				status: true,
 				message: 'trailing whitespaces not allowed',
+				status: true,
 			});
 		}
 
@@ -63,14 +66,14 @@ function UserSettings(props) {
 				setIsSendingDispName(false);
 			})
 			.catch((err) => {
-				setWrongInput({ status: true, message: 'something went wrong' });
+				setWrongInput({ message: 'something went wrong', status: true });
 				setIsSendingDispName(false);
 			});
 	};
 
 	const disNameInputHandler = (e) => {
 		setDispNameInputValue(e.target.value);
-		setWrongInput({ status: false, message: '' });
+		setWrongInput({ message: '', status: false });
 	};
 
 	const goBackHandler = () => {
