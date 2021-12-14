@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 
 import Socket from '../../Backend/Socket';
 import Avatar from '../../shared/ui/avatar/Avatar';
+import BackArrowIcon from '../../shared/ui/icons/BackArrow';
+import LookUpIcon from '../../shared/ui/icons/LookUp';
 import { formatPopUpScroll } from '../../Utils/timeFormatter';
 import { clearRouterLocationState, debounce, scrollToBottom, throttle } from '../../Utils/Utils';
 import Message from '../Message/Message';
@@ -13,9 +15,7 @@ import SearchTab from '../SearchTab/SearchTab';
 import Input from '../UI/Inputs/Input/Input';
 import DatePopUp from '../UI/PopUps/DatePopUp/DatePopUp';
 import ArrowHeadSvg from '../UI/SvgIcons/ArrowHead';
-import BackArrowIcon from '../UI/SvgIcons/BackArrow';
 import KeyBoardIcon from '../UI/SvgIcons/Keyboard';
-import LookUpIcon from '../UI/SvgIcons/LookUp';
 import SendSvg from '../UI/SvgIcons/Send';
 
 import sassVars from '../../Configs/Variables.module.scss';

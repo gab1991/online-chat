@@ -1,16 +1,19 @@
-import React, { useCallback, useState, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 // import { getProfile } from '../../Store/Actions/actions';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { Contact } from '../Contact/Contact';
-import { debounce } from '../../Utils/Utils';
+
+import PropTypes from 'prop-types';
+
 import Backend from '../../Backend/Backend';
-import BackArrowIcon from '../UI/SvgIcons/BackArrow';
-import FadingLInesSpinner from '../UI/SvgSpinners/FadingLines';
-import CircularSpinner from '../UI/SvgSpinners/Circular';
+import BackArrowIcon from '../../shared/ui/icons/BackArrow';
+import LookUpIcon from '../../shared/ui/icons/LookUp';
+import { debounce } from '../../Utils/Utils';
+import { Contact } from '../Contact/Contact';
 import Input from '../UI/Inputs/Input/Input';
-import LookUpIcon from '../UI/SvgIcons/LookUp';
+import CircularSpinner from '../UI/SvgSpinners/Circular';
+import FadingLInesSpinner from '../UI/SvgSpinners/FadingLines';
+
 import styles from '../FindContact/FindContact.module.scss';
 
 function FindContact(props) {
@@ -124,12 +127,12 @@ function FindContact(props) {
 }
 
 function mapStateToProps(state) {
-	return { user_id: state.profile.id, token: state.logged.token };
+	return { token: state.logged.token, user_id: state.profile.id };
 }
 
 export default connect(mapStateToProps)(FindContact);
 
 FindContact.propTypes = {
-	username: PropTypes.string,
 	token: PropTypes.string,
+	username: PropTypes.string,
 };

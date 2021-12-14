@@ -1,6 +1,6 @@
+// import BackArrowIcon from '../UI/SvgIcons/BackArrow';
+import EscIcon from '../../shared/ui/icons/Esc';
 import { Input } from '../UI/Inputs/Input/Input';
-import BackArrowIcon from '../UI/SvgIcons/BackArrow';
-import EscIcon from '../UI/SvgIcons/Esc';
 import CircularSpinner from '../UI/SvgSpinners/Circular';
 
 import styles from './SearchTab.module.scss';
@@ -11,7 +11,7 @@ export default function SearchTab(props) {
 	return (
 		<div className={styles.SearchTab}>
 			<div className={styles.BackArrowSvg} onClick={toggleSearchInMsgs}>
-				<BackArrowIcon className={styles.BackArrowSvg} />
+				{/* <BackArrowIcon className={styles.BackArrowSvg} /> */}
 			</div>
 			<Input
 				onChange={seacrhinputChangeHandler}
