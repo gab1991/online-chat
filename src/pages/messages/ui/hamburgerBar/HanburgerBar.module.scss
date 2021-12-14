@@ -1,0 +1,17 @@
+@import '../../../../Configs/Variables.module.scss';
+
+.svgIcon {
+	width: 2rem;
+	height: 2rem;
+	fill: $font-color-main;
+}
+
+.heading {
+	font-weight: 600;
+	font-size: 1.25rem;
+	margin-left: 2.5rem;
+}
+
+.rightBtn {
+	margin-left: auto;
+}

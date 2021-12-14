@@ -9,5 +9,6 @@ interface ITransparentInputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export function TransparentInput(props: ITransparentInputProps) {
 	const { className, refProp, ...htmlProps } = props;
+
 	return <input className={cn(styles.transparentInput, className)} ref={refProp} {...htmlProps} />;
 }
