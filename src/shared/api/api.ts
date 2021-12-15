@@ -19,7 +19,7 @@ export abstract class Api {
 		});
 	}
 
-	async executeReq<T = any, D = any>(config: TExecReqConfig<D> = {}): TApiBaseResponse<T> {
+	protected async executeReq<T = any, D = any>(config: TExecReqConfig<D> = {}): TApiBaseResponse<T> {
 		try {
 			return await this.client(config);
 		} catch (err) {
