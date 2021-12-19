@@ -3,7 +3,7 @@ import { connect, useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import { autorun, configure } from 'mobx';
 import { observer } from 'mobx-react';
-import { Messages } from 'pages';
+import { ChatRoomPage, MessagesPage } from 'pages';
 
 import PropTypes, { bool, object } from 'prop-types';
 
@@ -56,7 +56,8 @@ export const App = observer(() => {
 						path="*"
 						element={
 							<AuthGuard>
-								<Route path="/" element={<Messages />} />
+								<Route path="/" element={<MessagesPage />} />
+								<Route path="/chats/:chatID" element={<ChatRoomPage />} />
 							</AuthGuard>
 						}></Route>
 				</Routes>

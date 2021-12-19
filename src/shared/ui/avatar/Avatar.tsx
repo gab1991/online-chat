@@ -14,7 +14,7 @@ const palette = [
 	sassVars['palette-zeta'],
 ];
 
-interface IAvatarProps extends HTMLAttributes<HTMLDivElement> {
+export interface IAvatarProps extends HTMLAttributes<HTMLDivElement> {
 	color?: string;
 	imgSrc: string | null;
 	text: string;

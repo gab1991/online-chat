@@ -1,10 +1,11 @@
+import { ReactNode } from 'react';
 import { Navigate, Routes, useLocation } from 'react-router-dom';
 import { observer } from 'mobx-react';
 
 import { profileStore } from 'shared/model/store';
 
 interface IAuthGuardProps {
-	children: JSX.Element;
+	children: ReactNode;
 }
 
 export const AuthGuard = observer((props: IAuthGuardProps): JSX.Element => {

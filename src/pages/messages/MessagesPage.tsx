@@ -8,7 +8,7 @@ import { Chats, Menu, MessagesHeader } from './ui';
 
 import styles from './MessagesPage.module.scss';
 
-export const Messages = observer(() => {
+export const MessagesPage = observer(() => {
 	return (
 		<div className={styles.Messages}>
 			<MessagesHeader />

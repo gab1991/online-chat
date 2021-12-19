@@ -1,14 +1,17 @@
 import { useRef, useState } from 'react';
-import { observer } from 'mobx-react';
 
-import { messagePagestore } from 'pages/messages/model/store';
 import { useGrabFocus } from 'shared/lib';
 import { EmptyBtn, EscSvg, TransparentInput } from 'shared/ui';
 import { BackArrowSvg } from 'shared/ui/icons/BackArrow';
 
 import styles from './SearchBar.module.scss';
 
-export const SearchBar = observer(() => {
+interface ISearchBarProps {
+	onBackArrowClick: () => void;
+}
+
+export function SearchBar(props: ISearchBarProps) {
+	const { onBackArrowClick } = props;
 	const [inputValue, setInputValue] = useState('');
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -16,7 +19,6 @@ export const SearchBar = observer(() => {
 
 	const onInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => setInputValue(e.target.value);
 
-	const onBackArrowClick = () => messagePagestore.setShowSearchHeader(false);
 	const onEscArrowClick = () => setInputValue('');
 
 	return (
@@ -36,4 +38,4 @@ export const SearchBar = observer(() => {
 			</EmptyBtn>
 		</>
 	);
-});
+}

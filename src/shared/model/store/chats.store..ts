@@ -19,6 +19,10 @@ class ChatsStore {
 		const { data: chats } = await chatApiService.getChats();
 		chats && this.setChats(chats);
 	}
+
+	getChatById(chatId: number) {
+		return this.chats.find((chat) => chat.id == chatId);
+	}
 }
 
 export const chatsStore = new ChatsStore(chatApiService);

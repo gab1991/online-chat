@@ -20,7 +20,7 @@ export const Chat = observer((props: IChatProps) => {
 	const chatParticipant = chat.participants.find((participant) => participant.id !== profileStore.profile.id);
 
 	return (
-		<Link className={cn(styles.chat, className)} to={`${chat.id}`} {...htmlProps}>
+		<Link className={cn(styles.chat, className)} to={`chats/${chat.id}`} {...htmlProps}>
 			<Avatar text={chat.title} imgSrc={chat.avatarUrl} className={styles.avatar} />
 			<h3 className={styles.dispNameHeader}>{chatParticipant?.displayedName}</h3>
 			<p className={styles.messagePreview}>last message</p>
