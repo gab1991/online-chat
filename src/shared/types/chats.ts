@@ -1,5 +1,7 @@
 import { IStrictProfile } from './profiles';
 
+import { IMessage } from '.';
+
 export interface IChat {
 	avatarUrl: string | null;
 
@@ -8,6 +10,8 @@ export interface IChat {
 	creatorId: number;
 
 	id: number;
+
+	messages: IMessage[];
 
 	participants: IStrictProfile[];
 
