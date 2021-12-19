@@ -8,5 +8,7 @@ export * from './Exit';
 export * from './Hamburger';
 export * from './Human';
 export * from './Key';
+export * from './Keyboard';
 export * from './LookUp';
+export * from './PaperPlane';
 export * from './Pencil';

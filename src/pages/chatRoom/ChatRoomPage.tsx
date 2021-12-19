@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 
 import { chatsStore } from 'shared/model/store/chats.store.';
 
-import { ChatRoomHeader } from './ui';
+import { ChatRoomHeader, TypingFooter } from './ui';
 
 import styles from './ChatRoomPage.module.scss';
 
@@ -18,6 +18,8 @@ export const ChatRoomPage = observer(() => {
 	return (
 		<div className={styles.chatRoomPage}>
 			<ChatRoomHeader chat={chat} />
+			<div className={styles.messageArea}>{chat.messages.map((msg) => console.log(msg))}</div>
+			<TypingFooter />
 		</div>
 	);
 });
