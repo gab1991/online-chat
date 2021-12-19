@@ -1,56 +1,30 @@
-import React from 'react';
+import { AnchorHTMLAttributes } from 'react';
+import { Link } from 'react-router-dom';
+import cn from 'classnames';
+import { observer } from 'mobx-react';
 
-import PropTypes from 'prop-types';
+import { IChat } from 'shared/types';
 
-import { getHoursMinutes } from '../../../../Utils/timeFormatter';
+import { profileStore } from 'shared/model/store';
 import { Avatar } from 'shared/ui';
 
 import styles from './Chat.module.scss';
 
-export function Chat(props) {
-	const { participants, onClick, matchedMsgs, messages, unreadCounter: unreadMsgs } = props;
-	const privateContact = {
-		...participants[0],
-	};
-	const msgPreview = matchedMsgs ? matchedMsgs[0] : messages[messages.length - 1];
-	const [hours, minutes] = msgPreview ? getHoursMinutes(msgPreview.created_at) : [null, null];
-
-	const privateAvatarProps = {
-		imgSrc: privateContact.avatar_path,
-		size: 65,
-		text: privateContact.displayed_name || privateContact.username,
-	};
-
-	return (
-		<div className={styles.Chat} onClick={onClick}>
-			<Avatar {...privateAvatarProps} className={styles.Avatar} />
-			<div className={styles.MessagePreview}>
-				<p className={styles.ContactName}>{privateContact.displayed_name || privateContact.username}</p>
-				<p>{msgPreview && msgPreview.message}</p>
-			</div>
-			<div className={styles.TimeSection}>
-				<p>
-					{hours}:{minutes}
-				</p>
-				{matchedMsgs && (
-					<div className={styles.FoundMsgsNum}>
-						<p>{matchedMsgs.length}</p>
-					</div>
-				)}
-				{!matchedMsgs && !!unreadMsgs && (
-					<div className={styles.UnreadMsgsNum}>
-						<p>{unreadMsgs}</p>
-					</div>
-				)}
-			</div>
-		</div>
-	);
+interface IChatProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+	chat: IChat;
 }
 
-Chat.propTypes = {
-	lastSeenMsgId: PropTypes.number,
-	messages: PropTypes.array,
-	onClick: PropTypes.func,
-	participants: PropTypes.array,
-	type: PropTypes.string,
-};
+export const Chat = observer((props: IChatProps) => {
+	const { chat, className, ...htmlProps } = props;
+
+	const chatParticipant = chat.participants.find((participant) => participant.id !== profileStore.profile.id);
+
+	return (
+		<Link className={cn(styles.chat, className)} to={`${chat.id}`} {...htmlProps}>
+			<Avatar text={chat.title} imgSrc={chat.avatarUrl} className={styles.avatar} />
+			<h3 className={styles.dispNameHeader}>{chatParticipant?.displayedName}</h3>
+			<p className={styles.messagePreview}>last message</p>
+			<p className={styles.time}>15:00</p>
+		</Link>
+	);
+});

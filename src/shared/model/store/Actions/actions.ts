@@ -2,6 +2,7 @@ import { ICurrentUserProfile } from 'shared/types';
 
 import Backend from '../../../../Backend/Backend';
 import Socket from '../../../../Backend/Socket';
+import { ICurrentProfileWithChatsDto } from 'shared/api/dto/profiles/profile.dto';
 
 import { fillChats } from './chatActions';
 
@@ -73,7 +74,7 @@ const getProfile = () => {
 		profileStore.fillProfile(profile);
 
 		dispatch(updateProfile(profile as any));
-		dispatch(fillChats(data.chats));
+		// dispatch(fillChats(data.chats));
 	};
 };
 
@@ -85,7 +86,7 @@ const playTrack = (trackname) => {
 };
 
 const fetchCurrentUserProfile = () => async (dispatch) => {
-	const { data }: { data: ICurrentUserProfile } = await Backend.fetchCurrentUserProfile();
+	const { data }: { data: ICurrentProfileWithChatsDto } = await Backend.fetchCurrentUserProfile();
 
 	const { chats, ...profile } = data;
 

@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
-import { autorun } from 'mobx';
+import { autorun, configure } from 'mobx';
 import { observer } from 'mobx-react';
 import { Messages } from 'pages';
 
@@ -15,6 +15,14 @@ import { isEmptyObj } from './Utils/Utils';
 import { Auth } from 'Components/Auth/Auth';
 import { AuthGuard } from 'processes/authentification';
 import { profileStore } from 'shared/model/store';
+
+configure({
+	// computedRequiresReaction: true,
+	// disableErrorBoundaries: true,
+	enforceActions: 'always',
+	// observableRequiresReaction: true,
+	// reactionRequiresObservable: true,
+});
 
 import styles from './App.module.scss';
 

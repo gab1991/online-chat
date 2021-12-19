@@ -1,71 +1,38 @@
 @import '../../../../Configs/Variables.module.scss';
-$chat-background: whitesmoke;
-$contact-box-shadow-color: theme-color('delta');
-$found-msg-color: theme-color('epsilon');
-$new-msg-color: theme-color('beta');
 
-@mixin roundedNumberPopUp {
-	position: absolute;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	left: 50%;
-	transform: translateX(-50%);
-	color: $font-color-main;
-	min-width: 30px;
-	min-height: 30px;
-	border-radius: 50%;
-}
-
-.Chat {
-	cursor: pointer;
-
+.chat {
 	width: 100%;
-	display: flex;
-	align-items: center;
-	background-color: $chat-background;
-	box-shadow: 0 1px 1px 0 $contact-box-shadow-color;
+	display: grid;
+	grid-template-columns: max-content auto max-content;
+	grid-template-rows: auto;
+	background-color: whitesmoke;
+	height: 6rem;
+	padding: 0.8rem;
+	text-decoration: none;
+	color: $font-color-secondary;
+	border-bottom: 1px solid theme-color('delta');
 }
 
-.Avatar {
-	margin-left: 11px;
+.avatar {
+	width: 4rem;
+	grid-row: span 2;
 }
 
-.MessagePreview {
-	flex: 1;
-	margin-left: 20px;
-	width: 0px;
-
-	p {
-		font-weight: 400;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-
-	.ContactName {
-		font-weight: 600;
-		text-transform: capitalize;
-		font-size: 1.1rem;
-	}
+.dispNameHeader {
+	font-weight: 600;
+	margin-bottom: 0.4rem;
+	align-self: end;
+	margin-left: 1.2rem;
 }
 
-.TimeSection {
-	position: relative;
-	margin-right: 22px;
-	width: 61px;
-	text-align: center;
-	font-size: 0.875rem;
+.messagePreview {
+	grid-column: 2/3;
+	margin-left: 1.2rem;
+}
 
-	.FoundMsgsNum {
-		@include roundedNumberPopUp;
-		bottom: -30px;
-		background-color: $found-msg-color;
-	}
-
-	.UnreadMsgsNum {
-		@include roundedNumberPopUp;
-		bottom: -30px;
-		background-color: $new-msg-color;
-	}
+.time {
+	grid-column: 3/4;
+	grid-row: 1/3;
+	align-self: center;
+	justify-self: center;
 }

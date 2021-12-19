@@ -1,10 +1,12 @@
+import { IChat } from 'shared/types';
+
 import { Api, TApiResponse } from './api';
 
-class ChatApiService extends Api {
-	async getPrivateChatDetailed(chatId: number): TApiResponse<any> {
+export class ChatApiService extends Api {
+	async getChats(): TApiResponse<IChat[]> {
 		return this.executeReq({
 			method: 'GET',
-			url: `/api/chats/${chatId}`,
+			url: `/api/chats`,
 		});
 	}
 }

@@ -1,167 +1,25 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { observer } from 'mobx-react';
 
-function sortConvByTime(convObj) {
-	const sortedIds = Object.keys(convObj).sort((chatId1, chatId2) => {
-		const messageArr1 = convObj[chatId1].matchedMsgs || convObj[chatId1].messages;
-		const messageArr2 = convObj[chatId2].matchedMsgs || convObj[chatId2].messages;
-		const lastMsg1Date = Date.parse(messageArr1[messageArr1.length - 1].created_at);
-		const lastMsg2Date = Date.parse(messageArr2[messageArr2.length - 1].created_at);
+import { Chat } from '../';
+import { chatsStore } from 'shared/model/store/chats.store.';
 
-		if (lastMsg1Date < lastMsg2Date) {
-			return 1;
-		} else if (lastMsg2Date < lastMsg1Date) {
-			return -1;
-		} else {
-			return 0;
-		}
-	});
-
-	const sortedConvArr: any[] = [];
-	sortedIds.forEach((id) => {
-		sortedConvArr.push(convObj[id]);
-	});
-
-	return sortedConvArr;
-}
-
-function removeConvWithoutMsgs(convObj) {
-	const emptyConvsRemoved = {};
-
-	for (const id in convObj) {
-		if (convObj[id]?.messages.length > 0) {
-			emptyConvsRemoved[id] = { ...convObj[id] };
-		}
-	}
-	return emptyConvsRemoved;
-}
-
-function reducer(state, action) {
-	switch (action.type) {
-		case 'FILL_DISPLAYED_CONVS': {
-			const conversations = action.payload;
-			const { matchedConvs, searchInputValue } = state;
-			let displConvs: any[] = [];
-
-			if (!isEmptyObj(matchedConvs) || searchInputValue.length !== 0) {
-				displConvs = sortConvByTime(matchedConvs);
-			} else {
-				const emptyConvsRemoved = removeConvWithoutMsgs(conversations);
-				displConvs = sortConvByTime(emptyConvsRemoved);
-			}
-
-			return { ...state, displConvs, isUpdatingDisplConvs: false };
-		}
-		case 'SET_IS_UPD_DISPL_CONVS': {
-			return { ...state, isUpdatingDisplConvs: action.payload };
-		}
-		case 'CHANGE_INPUT_VALUE': {
-			const value = action.payload;
-			return { ...state, searchInputValue: value };
-		}
-		case 'SET_IS_SEARCHING': {
-			const value = action.payload;
-			return { ...state, isSearching: value };
-		}
-		case 'SET_MATCHED_CONVS': {
-			const matchedConvs = action.payload;
-			return { ...state, matchedConvs };
-		}
-		default:
-			return state;
-	}
-}
+import styles from './Chats.module.scss';
 
 export const Chats = observer(() => {
-	const [{ displConvs, matchedConvs, searchInputValue, isSearching, isUpdatingDisplConvs }, dispatchLocal] = useReducer(
-		reducer,
-		{
-			displConvs: [],
-			isSearching: false,
-			isUpdatingDisplConvs: false,
-			matchedConvs: {},
-			searchInputValue: '',
-		},
-	);
+	const chats = chatsStore.chats;
 
-	const findMessage = (searchStr, conversations) => {
-		const foundConvs = {};
-		if (searchStr.length === 0) {
-			dispatchLocal({ payload: false, type: 'SET_IS_SEARCHING' });
-			dispatchLocal({
-				payload: foundConvs,
-				type: 'SET_MATCHED_CONVS',
-			});
-			return;
-		}
-		for (const id in conversations) {
-			const conversation = { ...conversations[id] };
-			if (!conversation.messages.length) continue;
-			const convResult = conversation.messages.filter((message) => {
-				return message.message.toLowerCase().includes(searchStr.toLowerCase());
-			});
-			if (convResult.length) {
-				foundConvs[conversation.id] = conversation;
-				foundConvs[conversation.id].matchedMsgs = convResult;
-			}
-		}
-		dispatchLocal({ payload: false, type: 'SET_IS_SEARCHING' });
-		dispatchLocal({
-			payload: foundConvs,
-			type: 'SET_MATCHED_CONVS',
-		});
-	};
-
-	const toggleSearchInMsgs = () => {
-		setSearchTab((prev) => !prev);
-		dispatchLocal({ payload: '', type: 'CHANGE_INPUT_VALUE' });
-		dispatchLocal({ payload: {}, type: 'SET_MATCHED_CONVS' });
-	};
-
-	const seacrhinputChangeHandler = (e) => {
-		const searchStr = e.target.value;
-		dispatchLocal({ payload: searchStr, type: 'CHANGE_INPUT_VALUE' });
-	};
-
-	const clearInput = () => {
-		dispatchLocal({ payload: '', type: 'CHANGE_INPUT_VALUE' });
-		(inputRef.current as any).focus();
-	};
-
-	const enterChat = (conversationID) => {
-		// const matchedMsgs = matchedConvs[conversationID] ? matchedConvs[conversationID].matchedMsgs : [];
-		// props.history.push({
-		// 	pathname: `/chats/${conversationID}`,
-		// 	state: { matchedMsgs, searchInputValue },
-		// });
-	};
+	useEffect(() => {
+		chatsStore.fetchChats();
+	}, []);
 
 	return (
-		<div className={styles.ChatsContainer}>
-			{!!displConvs.length &&
-				displConvs.map((conversation) => {
-					return (
-						<Chat
-							key={conversation.id}
-							matchedMsgs={matchedConvs.id}
-							{...conversation}
-							onClick={() => enterChat(conversation.id)}
-						/>
-					);
-				})}
-			{!displConvs.length && !isUpdatingDisplConvs && (
-				<>
-					<p className={styles.NothingFound}>{showSearchTab ? 'No messages found' : 'No chats yet!'}</p>
-					{!showSearchTab && (
-						<Button txtContent={'Go to find a friend'} onClick={goToContactSearch} className={styles.FindFriendBtn} />
-					)}
-				</>
-			)}
-			{!displConvs.length && isUpdatingDisplConvs && (
-				<div className={styles.SpinnerContainer}>
-					<FadingLinesSpinner />
-				</div>
-			)}
-		</div>
+		<ul className={styles.chats}>
+			{chats.map((chat) => (
+				<li key={chat.id}>
+					<Chat chat={chat} className={styles.chat} />
+				</li>
+			))}
+		</ul>
 	);
 });

@@ -1,11 +1,11 @@
 // import BackArrowIcon from '../UI/SvgIcons/BackArrow';
-import EscIcon from '../../shared/ui/icons/Esc';
 import { Input } from '../UI/Inputs/Input/Input';
 import CircularSpinner from '../UI/SvgSpinners/Circular';
+import { EscSvg } from 'shared/ui';
 
 import styles from './SearchTab.module.scss';
 
-export default function SearchTab(props) {
+export function SearchTab(props) {
 	const { inputRef, isSearching, toggleSearchInMsgs, seacrhinputChangeHandler, searchInputValue, clearInput } = props;
 
 	return (
@@ -28,7 +28,7 @@ export default function SearchTab(props) {
 			)}
 			{!isSearching && (
 				<div className={styles.EscIconContainer} onClick={clearInput}>
-					<EscIcon className={styles.EscIconSvg} />
+					<EscSvg className={styles.EscIconSvg} />
 				</div>
 			)}
 		</div>
