@@ -5,5 +5,11 @@
 }
 
 .messageArea {
+	overflow-y: scroll;
+	min-width: 0;
 	flex: 1;
+}
+
+.message {
+	margin: 0 10px 10px;
 }

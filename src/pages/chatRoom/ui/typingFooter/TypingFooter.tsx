@@ -1,21 +1,31 @@
+import { HTMLAttributes } from 'react';
 import { useFormik } from 'formik';
 
+import { eventEmmiter } from 'shared/api/eventEmmiter.service';
 import { EmptyBtn, KeyboardSvg, PaperPlaneSvg, TransparentInput } from 'shared/ui';
 
 import styles from './TypingFooter.module.scss';
 
-export function TypingFooter() {
+interface ITypingFooterProps extends HTMLAttributes<HTMLElement> {
+	chatId: number;
+	profileId: number;
+}
+
+export function TypingFooter(props: ITypingFooterProps) {
+	const { chatId, profileId, ...htmlprops } = props;
+
 	const formik = useFormik({
 		initialValues: {
 			msgInput: '',
 		},
 		onSubmit: async ({ msgInput }, helpers) => {
+			eventEmmiter.sendMsg({ chatId, message: msgInput, senderId: profileId });
 			helpers.setFieldValue('msgInput', '');
 		},
 	});
 
 	return (
-		<footer className={styles.typingFooter}>
+		<footer className={styles.typingFooter} {...htmlprops}>
 			<form onSubmit={formik.handleSubmit}>
 				<label>
 					<TransparentInput
