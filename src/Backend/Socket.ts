@@ -22,23 +22,23 @@ const socket = io(SERVER_ADRESS, {
 	reconnectionDelayMax: 1000,
 });
 
-export const chatSocket = io(SERVER_ADRESS + '/chats', {
-	// reconnectionDelay: 500,
-	reconnectionDelayMax: 1000,
-});
+// export const chatSocket = io(SERVER_ADRESS + '/chats', {
+// 	// reconnectionDelay: 500,
+// 	reconnectionDelayMax: 1000,
+// });
 
-chatSocket.on('connect', () => {
-	console.log('client side connected');
-});
+// chatSocket.on('connect', () => {
+// 	console.log('client side connected');
+// });
 
-chatSocket.io.on('reconnect', () => {
-	console.log('recconected');
-	dispatch(fetchCurrentUserProfile());
-});
+// chatSocket.io.on('reconnect', () => {
+// 	console.log('recconected');
+// 	dispatch(fetchCurrentUserProfile());
+// });
 
-chatSocket.on('setIsOnlineToClient', (id) => {
-	console.log(id, 'is online now');
-});
+// chatSocket.on('setIsOnlineToClient', (id) => {
+// 	console.log(id, 'is online now');
+// });
 
 // socket.on('connect', () => {
 // 	// console.log('client side connected');

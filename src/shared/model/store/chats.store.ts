@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 
-import { IChat } from 'shared/types';
+import { IChat, IMessage } from 'shared/types';
 
 import { ChatApiService, chatApiService } from 'shared/api';
 
@@ -22,6 +22,12 @@ class ChatsStore {
 
 	getChatById(chatId: number) {
 		return this.chats.find((chat) => chat.id == chatId);
+	}
+
+	addMessage(message: IMessage) {
+		const chat = this.chats.find((chat) => chat.id === message.chatId);
+
+		chat?.messages.push(message);
 	}
 }
 

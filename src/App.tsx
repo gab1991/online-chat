@@ -7,7 +7,6 @@ import { ChatRoomPage, MessagesPage } from 'pages';
 
 import PropTypes, { bool, object } from 'prop-types';
 
-import Socket, { chatSocket } from './Backend/Socket';
 import AudioComponent from './Components/AudioComponent/AudioComponent';
 import Loading from './Components/Loading/Loading';
 import { fetchCurrentUserProfile } from './shared/model/store/Actions/actions';
