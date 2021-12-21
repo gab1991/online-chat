@@ -1,6 +1,9 @@
+import { useRef } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
+import cn from 'classnames';
 import { observer } from 'mobx-react';
 
+import { useScrollToBottom } from 'shared/lib';
 import { profileStore } from 'shared/model/store';
 import { chatsStore } from 'shared/model/store/chats.store';
 
@@ -11,7 +14,10 @@ import styles from './ChatRoomPage.module.scss';
 export const ChatRoomPage = observer(() => {
 	const { chatID } = useParams();
 	const chat = chatsStore.getChatById(Number(chatID) || 0);
+	const msgAreaRef = useRef<HTMLDivElement>(null);
 	const profileId = profileStore.profile.id;
+
+	useScrollToBottom(msgAreaRef, [chat?.messages.length]);
 
 	if (!chat || !profileId) {
 		return <Navigate to={'/'} />;
@@ -20,10 +26,18 @@ export const ChatRoomPage = observer(() => {
 	return (
 		<div className={styles.chatRoomPage}>
 			<ChatRoomHeader chat={chat} />
-			<div className={styles.messageArea}>
-				{chat.messages.map((msg) => (
-					<Message key={msg.id} message={msg} className={styles.message} />
-				))}
+			<div className={styles.messageArea} ref={msgAreaRef}>
+				{chat.messages.map((msg) => {
+					const isCurrentUserMsg = msg.senderId === profileId;
+					return (
+						<Message
+							key={msg.id}
+							message={msg}
+							className={cn(styles.message, { [styles.message_leftCornered]: !isCurrentUserMsg })}
+							leftCornered={!isCurrentUserMsg}
+						/>
+					);
+				})}
 			</div>
 			<TypingFooter chatId={chat.id} profileId={profileId} />
 		</div>

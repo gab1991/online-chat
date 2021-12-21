@@ -12,7 +12,17 @@
 	width: fit-content;
 	border-radius: 15px 15px 0 15px;
 	min-width: 60px;
-	max-width: 50%;
+	max-width: 80%;
+
+	&_leftCornered {
+		border-radius: 15px 15px 15px 0;
+		background-color: theme-color('background');
+		color: $font-color-secondary;
+
+		.time {
+			right: 10px;
+		}
+	}
 }
 
 .time {
