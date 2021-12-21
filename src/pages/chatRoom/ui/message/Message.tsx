@@ -18,7 +18,7 @@ export function Message(props: IMessageProps) {
 	return (
 		<p className={cn(styles.message, { [styles.message_leftCornered]: leftCornered }, className)} {...htmlProps}>
 			{message.message}
-			<span className={styles.time}>{getHHMMtime()}</span>
+			<span className={styles.time}>{getHHMMtime(message.createdAt)}</span>
 		</p>
 	);
 }
