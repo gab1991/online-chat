@@ -1,4 +1,5 @@
 export enum ServerEvents {
+	'joinChats' = 'joinChats',
 	'sendMessageToServer' = 'sendMessageToServer',
 }
 

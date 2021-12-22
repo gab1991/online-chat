@@ -23,9 +23,14 @@ const profileInitialState: IProfile = {
 };
 class ProfileStore {
 	profile: IProfile = profileInitialState;
+	isConnected = false;
 
 	constructor(private profileService: ProfileApiService) {
 		makeAutoObservable(this);
+	}
+
+	setProfileConnectionStatus(isConnected: boolean) {
+		this.isConnected = isConnected;
 	}
 
 	fillProfile(updProfile: Partial<IProfile>) {

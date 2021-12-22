@@ -13,7 +13,7 @@ import { fetchCurrentUserProfile } from './shared/model/store/Actions/actions';
 import { isEmptyObj } from './Utils/Utils';
 import { Auth } from 'Components/Auth/Auth';
 import { AuthGuard } from 'processes/authentification';
-import { profileStore } from 'shared/model/store';
+import { chatsStore, profileStore } from 'shared/model/store';
 
 configure({
 	// computedRequiresReaction: true,
@@ -22,6 +22,10 @@ configure({
 	// observableRequiresReaction: true,
 	// reactionRequiresObservable: true,
 });
+
+import { profile } from 'console';
+
+import { eventEmmiter } from 'shared/api';
 
 import styles from './App.module.scss';
 
@@ -45,6 +49,25 @@ export const App = observer(() => {
 	useEffect(() => {
 		profileStore.fetchCurrentProfile();
 	}, []);
+
+	const profileId = profileStore.profile.id;
+
+	useEffect(() => {
+		if (profileId && chatsStore.chats.length && profileStore.isConnected) {
+			eventEmmiter.joinChats({ chatIds: chatsStore.chats.map((chat) => chat.id), profileId });
+		}
+	}, [chatsStore.chats, profileId, profileStore.isConnected]);
+
+	useEffect(() => {
+		console.log('profile ' + profileStore.isConnected);
+	}, [profileStore.isConnected]);
+
+	useEffect(() => {
+		//refetch chats on recconect
+		if (profileStore.isConnected && profileStore.profile.id) {
+			chatsStore.fetchChats();
+		}
+	}, [profileStore.isConnected, profileStore.profile.id]);
 
 	return (
 		<div className={styles.mobileRestrainer}>

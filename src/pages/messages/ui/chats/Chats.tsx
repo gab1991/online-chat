@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { observer } from 'mobx-react';
 
 import { Chat } from '../';
@@ -8,10 +7,6 @@ import styles from './Chats.module.scss';
 
 export const Chats = observer(() => {
 	const chats = chatsStore.chats;
-
-	useEffect(() => {
-		chatsStore.fetchChats();
-	}, []);
 
 	return (
 		<ul className={styles.chats}>

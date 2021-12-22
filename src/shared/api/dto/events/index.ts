@@ -3,3 +3,8 @@ export interface ISendMessageEventDto {
 	message: string;
 	senderId: number;
 }
+
+export interface IJoinChatsDto {
+	chatIds: number[];
+	profileId: number;
+}

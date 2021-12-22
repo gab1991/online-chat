@@ -2,9 +2,9 @@ import { io, ManagerOptions, Socket, SocketOptions } from 'socket.io-client';
 
 import { IMessage } from 'shared/types';
 
-import { ISendMessageEventDto } from './dto/events';
+import { IJoinChatsDto, ISendMessageEventDto } from './dto/events';
 import { SERVER_ADRESS } from 'Configs/sever.config';
-import { chatsStore } from 'shared/model/store';
+import { chatsStore, profileStore } from 'shared/model/store';
 
 import { ClientEvents, ServerEvents } from './eventTypes';
 
@@ -21,6 +21,10 @@ class EventEmmiter {
 		this.socket.emit(ServerEvents.sendMessageToServer, sendMessageDto);
 	}
 
+	joinChats(joinChatsDto: IJoinChatsDto) {
+		this.socket.emit(ServerEvents.joinChats, joinChatsDto);
+	}
+
 	get instance() {
 		return this.socket;
 	}
@@ -35,6 +39,18 @@ const settings: TSocketOptions = {
 };
 
 export const eventEmmiter = new EventEmmiter(SERVER_ADRESS, settings);
+
+eventEmmiter.instance.on('disconnect', () => {
+	profileStore.setProfileConnectionStatus(false);
+});
+
+eventEmmiter.instance.on('connect', () => {
+	profileStore.setProfileConnectionStatus(true);
+});
+
+eventEmmiter.instance.io.on('reconnect', () => {
+	profileStore.setProfileConnectionStatus(true);
+});
 
 eventEmmiter.subscribeTo(ClientEvents.sendMessageToClient, (message: IMessage) => {
 	chatsStore.addMessage(message);
