@@ -1,9 +1,9 @@
-import { useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import cn from 'classnames';
 import { observer } from 'mobx-react';
 
-import { useScrollToBottom } from 'shared/lib';
+import { useScroll } from 'shared/lib';
 import { profileStore } from 'shared/model/store';
 import { chatsStore } from 'shared/model/store/chats.store';
 
@@ -16,8 +16,19 @@ export const ChatRoomPage = observer(() => {
 	const chat = chatsStore.getChatById(Number(chatID) || 0);
 	const msgAreaRef = useRef<HTMLDivElement>(null);
 	const profileId = profileStore.profile.id;
+	const isLastMsgMine = chat?.messages[chat.messages.length - 1].senderId === profileId;
 
-	useScrollToBottom(msgAreaRef);
+	const { scrollToBottom } = useScroll(msgAreaRef);
+
+	useEffect(() => {
+		if (isLastMsgMine) {
+			scrollToBottom('smooth');
+		}
+	}, [isLastMsgMine, scrollToBottom, chat?.messages.length]);
+
+	useLayoutEffect(() => {
+		scrollToBottom();
+	}, [scrollToBottom]);
 
 	if (!chat || !profileId) {
 		return <Navigate to={'/'} />;
