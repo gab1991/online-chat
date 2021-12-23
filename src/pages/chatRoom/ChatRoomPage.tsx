@@ -17,7 +17,7 @@ export const ChatRoomPage = observer(() => {
 	const msgAreaRef = useRef<HTMLDivElement>(null);
 	const profileId = profileStore.profile.id;
 
-	useScrollToBottom(msgAreaRef, [chat?.messages.length]);
+	useScrollToBottom(msgAreaRef);
 
 	if (!chat || !profileId) {
 		return <Navigate to={'/'} />;
