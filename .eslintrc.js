@@ -76,6 +76,7 @@ module.exports = {
 		'typescript-sort-keys/interface': 'warn',
 		'typescript-sort-keys/string-enum': 'warn',
 		// TYPESCRIPT
+		'@typescript-eslint/explicit-function-return-type': 'warn',
 		'@typescript-eslint/naming-convention': [
 			'error',
 			{
