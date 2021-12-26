@@ -6,9 +6,9 @@ import { ICurrentUserProfile } from 'shared/types';
 import { ILoginDto } from './dto/login.dto';
 import { ISignUpDto } from './dto/signUp.dto';
 
-import { Api, TApiResponse } from './api';
+import { Api, TApiResponse } from './abstractApi';
 
-class AuthApiService extends Api {
+export class AuthApiService extends Api {
 	async login(loginDto: ILoginDto): TApiResponse<ICurrentUserProfile> {
 		try {
 			const { data } = await this.executeReq<ICurrentUserProfile>({

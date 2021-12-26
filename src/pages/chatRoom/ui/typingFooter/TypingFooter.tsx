@@ -8,11 +8,12 @@ import styles from './TypingFooter.module.scss';
 
 interface ITypingFooterProps extends HTMLAttributes<HTMLElement> {
 	chatId: number;
+	onMsgSubmit?: () => void;
 	profileId: number;
 }
 
-export function TypingFooter(props: ITypingFooterProps) {
-	const { chatId, profileId, ...htmlprops } = props;
+export function TypingFooter(props: ITypingFooterProps): JSX.Element {
+	const { chatId, profileId, onMsgSubmit, ...htmlprops } = props;
 
 	const formik = useFormik({
 		initialValues: {
@@ -21,6 +22,8 @@ export function TypingFooter(props: ITypingFooterProps) {
 		onSubmit: async ({ msgInput }, helpers) => {
 			eventEmmiter.sendMsg({ chatId, message: msgInput, senderId: profileId });
 			helpers.setFieldValue('msgInput', '');
+
+			onMsgSubmit && onMsgSubmit();
 		},
 	});
 

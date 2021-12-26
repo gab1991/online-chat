@@ -3,6 +3,7 @@ import { Navigate, useParams } from 'react-router-dom';
 import cn from 'classnames';
 import { observer } from 'mobx-react';
 
+import { ChatsContextProvider } from './model/context';
 import { useScroll } from 'shared/lib';
 import { profileStore } from 'shared/model/store';
 import { chatsStore } from 'shared/model/store/chats.store';
@@ -21,9 +22,7 @@ export const ChatRoomPage = observer(() => {
 	const { scrollToBottom } = useScroll(msgAreaRef);
 
 	useEffect(() => {
-		if (isLastMsgMine) {
-			scrollToBottom('smooth');
-		}
+		isLastMsgMine && scrollToBottom('smooth');
 	}, [isLastMsgMine, scrollToBottom, chat?.messages.length]);
 
 	useLayoutEffect(() => {
@@ -38,17 +37,20 @@ export const ChatRoomPage = observer(() => {
 		<div className={styles.chatRoomPage}>
 			<ChatRoomHeader chat={chat} />
 			<div className={styles.messageArea} ref={msgAreaRef}>
-				{chat.messages.map((msg) => {
-					const isCurrentUserMsg = msg.senderId === profileId;
-					return (
-						<Message
-							key={msg.id}
-							message={msg}
-							className={cn(styles.message, { [styles.message_leftCornered]: !isCurrentUserMsg })}
-							leftCornered={!isCurrentUserMsg}
-						/>
-					);
-				})}
+				<ChatsContextProvider chatId={chat.id}>
+					{chat.messages.map((msg) => {
+						const isCurrentUserMsg = msg.senderId === profileId;
+						return (
+							<Message
+								key={msg.id}
+								message={msg}
+								className={cn(styles.message, { [styles.message_leftCornered]: !isCurrentUserMsg })}
+								leftCornered={!isCurrentUserMsg}
+								msgsContainerRef={msgAreaRef}
+							/>
+						);
+					})}
+				</ChatsContextProvider>
 			</div>
 			<TypingFooter chatId={chat.id} profileId={profileId} />
 		</div>

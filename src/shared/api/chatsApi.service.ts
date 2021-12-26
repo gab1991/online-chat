@@ -1,6 +1,6 @@
 import { IChat } from 'shared/types';
 
-import { Api, TApiResponse } from './api';
+import { Api, TApiResponse } from './abstractApi';
 
 export class ChatApiService extends Api {
 	async getChats(): TApiResponse<IChat[]> {

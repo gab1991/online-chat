@@ -7,7 +7,7 @@ interface IUseIntersectionObserverProps {
 	ref: React.MutableRefObject<HTMLElement | null>;
 }
 
-export function useIntersectionObserver(props: IUseIntersectionObserverProps) {
+export function useIntersectionObserver(props: IUseIntersectionObserverProps): { isVisible: boolean } {
 	const { ref, options, parentRef } = props;
 
 	const [isVisible, setisVisible] = useState(false);
@@ -26,7 +26,7 @@ export function useIntersectionObserver(props: IUseIntersectionObserverProps) {
 
 		ref.current && innterSectionObserver.observe(ref.current);
 
-		return () => {
+		return (): void => {
 			cleanUpRef && innterSectionObserver.unobserve(cleanUpRef);
 		};
 	}, [parentRef, ref, options]);

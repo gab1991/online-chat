@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 
 import { IChat } from 'shared/types';
 
-import { ProfileApiService, profileApiService } from 'shared/api';
+import { api, ProfileApiService } from 'shared/api';
 
 interface IProfile {
 	avatarUrl: string | null;
@@ -50,4 +50,4 @@ class ProfileStore {
 	}
 }
 
-export const profileStore = new ProfileStore(profileApiService);
+export const profileStore = new ProfileStore(api.profileApiService);

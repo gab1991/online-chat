@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import cn from 'classnames';
 import { observer } from 'mobx-react';
 
-import { authApiService } from 'shared/api';
+import { api } from 'shared/api';
 import { profileStore } from 'shared/model/store';
 import { CogSvg, EmptyBtn, ExitSvg, HumanSvg } from 'shared/ui';
 
@@ -14,7 +14,7 @@ export const NavPanel = observer((props: HTMLAttributes<HTMLUListElement>) => {
 
 	const sendLogOut = () => {
 		profileStore.clearProfile();
-		authApiService.logout();
+		api.authApiService.logout();
 	};
 
 	const navElelemts = [

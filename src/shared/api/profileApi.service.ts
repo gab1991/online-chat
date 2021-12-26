@@ -2,7 +2,7 @@ import { ICurrentUserProfile } from 'shared/types';
 
 import { IUpdDispNameDto } from './dto/updDispName.dto';
 
-import { Api, TApiResponse } from './api';
+import { Api, TApiResponse } from './abstractApi';
 
 export class ProfileApiService extends Api {
 	async getCurrentUserProfile(): TApiResponse<ICurrentUserProfile> {

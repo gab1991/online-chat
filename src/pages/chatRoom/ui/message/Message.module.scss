@@ -16,12 +16,16 @@
 
 	&_leftCornered {
 		border-radius: 15px 15px 15px 0;
-		background-color: theme-color('background');
+		background-color: darken(theme-color('background'), $amount: 10);
 		color: $font-color-secondary;
 
 		.time {
 			right: 10px;
 		}
+	}
+
+	&_isSeen {
+		background-color: theme-color('background');
 	}
 }
 
