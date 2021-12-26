@@ -60,6 +60,7 @@ export const App = observer(() => {
 
 	useEffect(() => {
 		console.log('profile ' + profileStore.isConnected);
+		chatsStore.fetchLastSeenMsgs();
 	}, [profileStore.isConnected]);
 
 	useEffect(() => {
