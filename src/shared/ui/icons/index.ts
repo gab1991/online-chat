@@ -1,3 +1,4 @@
+export * from './Arrow';
 export * from './BackArrow';
 export * from './Cog';
 export * from './ConfirmCheck';
