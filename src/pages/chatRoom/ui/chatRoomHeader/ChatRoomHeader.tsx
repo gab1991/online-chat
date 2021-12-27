@@ -16,18 +16,24 @@ interface IChatRoomHeader {
 
 export const ChatRoomHeader = observer((props: IChatRoomHeader) => {
 	const { chat } = props;
+	const [inputValue, setInputValue] = useState('');
 
 	const [showSearchBar, setShowSearchBar] = useState(false);
 
 	const chatParticipant = chat.participants.find((participant) => participant.id !== profileStore.profile.id);
 
-	const onLookUpBtnClick = () => setShowSearchBar(true);
-	const onSearchBarBackArrowClick = () => setShowSearchBar(false);
+	const onLookUpBtnClick = (): void => setShowSearchBar(true);
+	const onSearchBarBackArrowClick = (): void => setShowSearchBar(false);
 
 	return (
 		<header className={styles.header}>
 			{showSearchBar ? (
-				<SearchBar onBackArrowClick={onSearchBarBackArrowClick} />
+				<SearchBar
+					onBackArrowClick={onSearchBarBackArrowClick}
+					placeholder="Search messages"
+					value={inputValue}
+					onValueChange={setInputValue}
+				/>
 			) : (
 				chatParticipant && <AvatarName chatParticipant={chatParticipant} onLookUpBtnClick={onLookUpBtnClick} />
 			)}

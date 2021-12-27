@@ -1,4 +1,4 @@
-import { ICurrentUserProfile } from 'shared/types';
+import { ICurrentUserProfile, IProfile } from 'shared/types';
 
 import { IUpdDispNameDto } from './dto/updDispName.dto';
 
@@ -10,6 +10,19 @@ export class ProfileApiService extends Api {
 			const { data } = await this.executeReq<ICurrentUserProfile>({
 				method: 'GET',
 				url: `api/profiles/mine`,
+			});
+
+			return { data };
+		} catch (err) {
+			return { data: null, error: 'something went wrong try again later' };
+		}
+	}
+
+	async getProfiles(name: string): TApiResponse<IProfile[]> {
+		try {
+			const { data } = await this.executeReq<IProfile[]>({
+				method: 'GET',
+				url: `api/profiles?name=${name}`,
 			});
 
 			return { data };

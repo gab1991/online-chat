@@ -5,7 +5,7 @@ import { ILastSeenMsg } from 'shared/types/lastSeenMsg';
 
 import { api, ChatApiService, LastSeenMsgApiService } from 'shared/api';
 
-class ChatsStore1 {
+class ChatsStore {
 	chats: IChat[] = [];
 	lastSeenMsgs: ILastSeenMsg[] = [];
 
@@ -15,6 +15,16 @@ class ChatsStore1 {
 
 	setChats(chats: IChat[]): void {
 		this.chats = chats;
+	}
+
+	mergeChats(updChat: IChat): void {
+		const existingIndex = this.chats.findIndex((chat) => chat.id === updChat.id);
+
+		if (existingIndex < 0) {
+			this.chats.push(updChat);
+		} else {
+			this.chats[existingIndex] = updChat;
+		}
 	}
 
 	async fetchChats(): Promise<void> {
@@ -79,4 +89,4 @@ class ChatsStore1 {
 	}
 }
 
-export const chatsStore = new ChatsStore1(api.chatApiService, api.lastSeenMsgApiService);
+export const chatsStore = new ChatsStore(api.chatApiService, api.lastSeenMsgApiService);

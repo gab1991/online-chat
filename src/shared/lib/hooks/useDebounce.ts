@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 
-type CallBack = (...args: any[]) => void;
+import { useEffectCallback } from '.';
 
-export function useDebounce(cb: CallBack, wait?: number): CallBack {
+type CallBack = (...args: any[]) => any;
+
+export function useDebounce<T extends CallBack>(cb: T, wait?: number): T {
 	const [timer, setTimer] = useState<null | number>(null);
 
 	useEffect(() => {
@@ -12,7 +15,8 @@ export function useDebounce(cb: CallBack, wait?: number): CallBack {
 		};
 	}, [timer]);
 
-	return (...args): void => {
+	//@ts-ignore
+	return useEffectCallback((...args: Parameters<T>): ReturnType<T> => {
 		if (timer) {
 			window.clearTimeout(timer);
 		}
@@ -22,5 +26,5 @@ export function useDebounce(cb: CallBack, wait?: number): CallBack {
 		}, wait);
 
 		setTimer(newTimer);
-	};
+	});
 }

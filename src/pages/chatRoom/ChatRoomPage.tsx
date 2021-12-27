@@ -17,14 +17,16 @@ export const ChatRoomPage = observer(() => {
 	const chat = chatsStore.getChatById(Number(chatID) || 0);
 	const msgAreaRef = useRef<HTMLDivElement>(null);
 	const profileId = profileStore.profile.id;
-	const isLastMsgMine = chat?.messages[chat.messages.length - 1].senderId === profileId;
+	const messagesLength = chat?.messages.length || 0;
+	const lastMsg = chat?.messages[messagesLength - 1];
+	const isLastMsgMine = lastMsg?.senderId === profileId;
 	const unseenCount = chatsStore.getUnseenMsgCount(chat?.id);
 
 	const { scrollToBottom } = useScroll(msgAreaRef);
 
 	useEffect(() => {
 		isLastMsgMine && scrollToBottom('smooth');
-	}, [isLastMsgMine, scrollToBottom, chat?.messages.length]);
+	}, [isLastMsgMine, scrollToBottom, messagesLength]);
 
 	useLayoutEffect(() => {
 		scrollToBottom();

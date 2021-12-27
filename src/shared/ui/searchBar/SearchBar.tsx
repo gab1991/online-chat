@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import { useGrabFocus } from 'shared/lib';
 import { EmptyBtn, EscSvg, TransparentInput } from 'shared/ui';
@@ -8,18 +8,21 @@ import styles from './SearchBar.module.scss';
 
 interface ISearchBarProps {
 	onBackArrowClick: () => void;
+	onValueChange: (value: string) => void;
+	placeholder?: string;
+	value: string;
 }
 
-export function SearchBar(props: ISearchBarProps) {
-	const { onBackArrowClick } = props;
-	const [inputValue, setInputValue] = useState('');
+export function SearchBar(props: ISearchBarProps): JSX.Element {
+	const { onBackArrowClick, placeholder, value, onValueChange } = props;
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	useGrabFocus(inputRef);
 
-	const onInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => setInputValue(e.target.value);
+	const onInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) =>
+		onValueChange && onValueChange(e.target.value);
 
-	const onEscArrowClick = () => setInputValue('');
+	const onEscArrowClick = (): void => onValueChange && onValueChange('');
 
 	return (
 		<>
@@ -28,8 +31,8 @@ export function SearchBar(props: ISearchBarProps) {
 			</EmptyBtn>
 			<TransparentInput
 				className={styles.input}
-				placeholder="Search message"
-				value={inputValue}
+				placeholder={placeholder}
+				value={value}
 				onChange={onInputChange}
 				refProp={inputRef}
 			/>

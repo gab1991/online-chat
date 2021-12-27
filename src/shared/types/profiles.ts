@@ -6,6 +6,10 @@ export interface IStrictProfile {
 	id: number;
 }
 
+export interface IProfile extends IStrictProfile {
+	username: string;
+}
+
 export interface ICurrentUserProfile {
 	avatarUrl: string | null;
 
