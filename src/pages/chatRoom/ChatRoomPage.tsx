@@ -5,8 +5,8 @@ import { observer } from 'mobx-react';
 
 import { ChatsContextProvider } from './model/context';
 import { useScroll } from 'shared/lib';
-import { profileStore } from 'shared/model/store';
-import { chatsStore } from 'shared/model/store/chats.store';
+import { chatsStore, profileStore } from 'shared/model/store';
+import { ArrowSvg, GradientButton, PopUp } from 'shared/ui';
 
 import { ChatRoomHeader, Message, TypingFooter } from './ui';
 
@@ -18,6 +18,7 @@ export const ChatRoomPage = observer(() => {
 	const msgAreaRef = useRef<HTMLDivElement>(null);
 	const profileId = profileStore.profile.id;
 	const isLastMsgMine = chat?.messages[chat.messages.length - 1].senderId === profileId;
+	const unseenCount = chatsStore.getUnseenMsgCount(chat?.id);
 
 	const { scrollToBottom } = useScroll(msgAreaRef);
 
@@ -32,6 +33,9 @@ export const ChatRoomPage = observer(() => {
 	if (!chat || !profileId) {
 		return <Navigate to={'/'} />;
 	}
+
+	const onNewMessagesClick = (): void => scrollToBottom('smooth');
+	const isDisplayingNewMsgBtn = !!unseenCount && !isLastMsgMine;
 
 	return (
 		<div className={styles.chatRoomPage}>
@@ -51,6 +55,11 @@ export const ChatRoomPage = observer(() => {
 						);
 					})}
 				</ChatsContextProvider>
+				{isDisplayingNewMsgBtn && (
+					<GradientButton className={styles.newMessagePopUp} onClick={onNewMessagesClick}>
+						New Messages <ArrowSvg className={styles.arrowSvg} />
+					</GradientButton>
+				)}
 			</div>
 			<TypingFooter chatId={chat.id} profileId={profileId} />
 		</div>

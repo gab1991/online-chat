@@ -13,6 +13,7 @@
 	border-radius: 15px 15px 0 15px;
 	min-width: 60px;
 	max-width: 80%;
+	transition: all 200ms ease;
 
 	&_leftCornered {
 		border-radius: 15px 15px 15px 0;
