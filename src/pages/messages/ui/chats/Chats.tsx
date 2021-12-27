@@ -12,7 +12,13 @@ export const Chats = observer(() => {
 	return (
 		<ul className={styles.chats}>
 			{chats.map((chat) => (
-				<CSSTransition key={chat.id} timeout={500} classNames={{ ...styles }} in={true} unmountOnExit appear>
+				<CSSTransition
+					key={chat.id}
+					timeout={500}
+					classNames={{ ...styles }}
+					in={!!chat.messages.length}
+					unmountOnExit
+					appear>
 					<li>
 						<Chat chat={chat} className={styles.chat} />
 					</li>
