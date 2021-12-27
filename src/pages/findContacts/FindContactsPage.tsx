@@ -8,7 +8,7 @@ export const FindContactsPage = observer(() => {
 	return (
 		<div className={styles.findContactsPage}>
 			<FindContactsHeader />
-			<ProfileList />
+			<ProfileList className={styles.profileList} />
 		</div>
 	);
 });
