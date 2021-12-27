@@ -1,3 +1,4 @@
+import { CSSTransition } from 'react-transition-group';
 import { observer } from 'mobx-react';
 
 import { Chat } from '../';
@@ -11,9 +12,11 @@ export const Chats = observer(() => {
 	return (
 		<ul className={styles.chats}>
 			{chats.map((chat) => (
-				<li key={chat.id}>
-					<Chat chat={chat} className={styles.chat} />
-				</li>
+				<CSSTransition key={chat.id} timeout={500} classNames={{ ...styles }} in={true} unmountOnExit appear>
+					<li>
+						<Chat chat={chat} className={styles.chat} />
+					</li>
+				</CSSTransition>
 			))}
 		</ul>
 	);
