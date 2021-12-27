@@ -11,6 +11,10 @@ button {
 	cursor: pointer;
 }
 
+input::placeholder {
+	opacity: 0.7;
+}
+
 $main-background-clr: theme-color('background');
 
 .App {
