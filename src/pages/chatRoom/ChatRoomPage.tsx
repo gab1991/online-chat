@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 import { ChatsContextProvider } from './model/context';
 import { useScroll } from 'shared/lib';
 import { chatsStore, profileStore } from 'shared/model/store';
-import { ArrowSvg, GradientButton, PopUp } from 'shared/ui';
+import { ArrowSvg, GradientButton } from 'shared/ui';
 
 import { ChatRoomHeader, Message, TypingFooter } from './ui';
 
