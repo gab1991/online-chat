@@ -29,6 +29,23 @@ import { eventEmmiter } from 'shared/api';
 
 import styles from './App.module.scss';
 
+autorun(() => {
+	if (profileStore.profile.id && chatsStore.chats.length) {
+		console.log(
+			'joining chats',
+			chatsStore.chats.map((chat) => chat.id),
+		);
+		eventEmmiter.joinChats({ chatIds: chatsStore.chats.map((chat) => chat.id), profileId: profileStore.profile.id });
+	}
+});
+
+autorun(() => {
+	if (profileStore.profile.id && profileStore.isConnected) {
+		console.log('set is online');
+		eventEmmiter.setIsOnline({ profileId: profileStore.profile.id });
+	}
+});
+
 // const ReactLazyPreload = (importStatement: any) => {
 // 	const Component: any = lazy(importStatement);
 // 	Component.preload = importStatement;
@@ -49,14 +66,6 @@ export const App = observer(() => {
 	useEffect(() => {
 		profileStore.fetchCurrentProfile();
 	}, []);
-
-	const profileId = profileStore.profile.id;
-
-	useEffect(() => {
-		if (profileId && chatsStore.chats.length && profileStore.isConnected) {
-			eventEmmiter.joinChats({ chatIds: chatsStore.chats.map((chat) => chat.id), profileId });
-		}
-	}, [chatsStore.chats, profileId, profileStore.isConnected]);
 
 	useEffect(() => {
 		console.log('profile ' + profileStore.isConnected);

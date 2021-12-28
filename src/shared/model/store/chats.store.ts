@@ -63,12 +63,11 @@ class ChatsStore {
 
 	getUnseenMsgCount(chatId?: number): number {
 		const lastSeenChatMsgs = this.lastSeenMsgs.find((lastSeenMsg) => lastSeenMsg.chatId === chatId);
+		const searchedChat = this.chats.find((chat) => chat.id == chatId);
 
 		if (!lastSeenChatMsgs) {
-			return 0;
+			return searchedChat?.messages.length || 0;
 		}
-
-		const searchedChat = this.chats.find((chat) => chat.id == chatId);
 
 		if (!searchedChat) {
 			return 0;

@@ -8,3 +8,7 @@ export interface IJoinChatsDto {
 	chatIds: number[];
 	profileId: number;
 }
+
+export interface ISetIsOnlineDto {
+	profileId: number;
+}
