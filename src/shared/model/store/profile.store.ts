@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 
 import { IChat } from 'shared/types';
 
-import { api, ProfileApiService } from 'shared/api';
+import { api, ProfileApiService } from 'shared/api/rest';
 
 interface IProfile {
 	avatarUrl: string | null;

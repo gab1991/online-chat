@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import { observer } from 'mobx-react';
 
 import { DispNameValidationSchema } from 'pages/messages/model/validation';
-import { api } from 'shared/api';
+import { api } from 'shared/api/rest';
 import { useClickOutside, useGrabFocus } from 'shared/lib';
 import { profileStore } from 'shared/model/store';
 import { CircularSpinner, ConfirmCheckSvg, EmptyBtn, PencilSvg, TransparentInput } from 'shared/ui';

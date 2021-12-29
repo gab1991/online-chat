@@ -1,7 +1,7 @@
 import { HTMLAttributes } from 'react';
 import { useFormik } from 'formik';
 
-import { eventEmmiter } from 'shared/api/eventEmmiter.service';
+import { eventEmmiter } from 'shared/api/events/eventEmmiter.service';
 import { EmptyBtn, KeyboardSvg, PaperPlaneSvg, TransparentInput } from 'shared/ui';
 
 import styles from './TypingFooter.module.scss';

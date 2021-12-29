@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import cn from 'classnames';
 import { observer } from 'mobx-react';
 
-import { api } from 'shared/api';
+import { api } from 'shared/api/rest';
 import { profileStore } from 'shared/model/store';
 import { CogSvg, EmptyBtn, ExitSvg, HumanSvg } from 'shared/ui';
 

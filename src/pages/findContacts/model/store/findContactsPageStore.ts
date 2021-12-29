@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 
 import { IProfile } from 'shared/types';
 
-import { api, ProfileApiService } from 'shared/api';
+import { api, ProfileApiService } from 'shared/api/rest';
 
 class FindContactsPageStore {
 	profiles: IProfile[] = [];

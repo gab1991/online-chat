@@ -1,6 +1,6 @@
 import { ICurrentUserProfile, IProfile } from 'shared/types';
 
-import { IUpdDispNameDto } from './dto/updDispName.dto';
+import { IUpdDispNameDto } from './dto/profiles/updDispName.dto';
 
 import { Api, TApiResponse } from './abstractApi';
 

@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 
 import { IProfile } from 'shared/types';
 
-import { api } from 'shared/api';
+import { api } from 'shared/api/rest';
 import { chatsStore } from 'shared/model/store';
 import { Avatar, EmptyBtn } from 'shared/ui';
 

@@ -2,7 +2,7 @@ import { ICurrentUserProfile } from 'shared/types';
 
 import Backend from '../../../../Backend/Backend';
 import Socket from '../../../../Backend/Socket';
-import { ICurrentProfileWithChatsDto } from 'shared/api/dto/profiles/profile.dto';
+import { ICurrentProfileWithChatsDto } from 'shared/api/rest/dto/profiles/profile.dto';
 
 import { fillChats } from './chatActions';
 

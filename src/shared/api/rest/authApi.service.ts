@@ -3,8 +3,8 @@ import { StatusCodes } from 'http-status-codes';
 import { isAxiosError } from './types';
 import { ICurrentUserProfile } from 'shared/types';
 
-import { ILoginDto } from './dto/login.dto';
-import { ISignUpDto } from './dto/signUp.dto';
+import { ILoginDto } from './dto/auth/login.dto';
+import { ISignUpDto } from './dto/auth/signUp.dto';
 
 import { Api, TApiResponse } from './abstractApi';
 

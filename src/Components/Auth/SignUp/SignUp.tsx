@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import { SignUpValidationSchema } from '../validation';
 import { Backdrop } from './Backdrop/Backdrop';
 import { useAuthRedirect } from 'processes/authentification/model/hooks';
-import { authApiService } from 'shared/api/authApi.service';
+import { api } from 'shared/api';
 import { profileStore } from 'shared/model/store';
 import {
 	ConfirmCheckSvg,
@@ -22,7 +22,7 @@ interface ISignUpProps {
 	changeActiveScreen: () => void;
 }
 
-export function SignUp(props: ISignUpProps) {
+export function SignUp(props: ISignUpProps): JSX.Element {
 	const { changeActiveScreen } = props;
 	const [isFetching, setIsFetching] = useState(false);
 	const [validateOnChange, setValidationOnChange] = useState(false);
@@ -38,7 +38,11 @@ export function SignUp(props: ISignUpProps) {
 		},
 		onSubmit: async ({ email, password, username }, helpers) => {
 			setIsFetching(true);
-			const { data: profile, error } = await authApiService.signup({ email, name: username, password });
+			const { data: profile, error } = await api.authApiService.signup({
+				email,
+				name: username,
+				password,
+			});
 			setIsFetching(false);
 
 			const usernameFieldRegex = /name/i;

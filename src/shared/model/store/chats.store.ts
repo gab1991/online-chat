@@ -3,7 +3,7 @@ import { makeAutoObservable } from 'mobx';
 import { IChat, IMessage } from 'shared/types';
 import { ILastSeenMsg } from 'shared/types/lastSeenMsg';
 
-import { api, ChatApiService, LastSeenMsgApiService } from 'shared/api';
+import { api, ChatApiService, LastSeenMsgApiService } from 'shared/api/rest';
 
 class ChatsStore {
 	chats: IChat[] = [];

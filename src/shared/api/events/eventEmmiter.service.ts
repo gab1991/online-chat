@@ -1,14 +1,17 @@
 import { io, ManagerOptions, Socket, SocketOptions } from 'socket.io-client';
 
-import { IMessage } from 'shared/types';
+import { ClientEvents, ServerEvents } from './types';
 
-import { IJoinChatsDto, ISendMessageEventDto, ISetIsOnlineDto } from './dto/events';
 import { SERVER_ADRESS } from 'Configs/sever.config';
-import { chatsStore, profileStore } from 'shared/model/store';
 
-import { ClientEvents, ServerEvents } from './eventTypes';
+import { IJoinChatsDto, ISendMessageEventDto, ISetIsOnlineDto } from './dto';
 
 type TSocketOptions = Partial<ManagerOptions & SocketOptions>;
+
+const settings: TSocketOptions = {
+	reconnectionDelay: 1000,
+	withCredentials: true,
+};
 
 class EventEmmiter {
 	private socket: Socket;
@@ -38,33 +41,4 @@ class EventEmmiter {
 	}
 }
 
-const settings: TSocketOptions = {
-	reconnectionDelay: 1000,
-	withCredentials: true,
-};
-
 export const eventEmmiter = new EventEmmiter(SERVER_ADRESS, settings);
-
-eventEmmiter.instance.on('disconnect', () => {
-	profileStore.setProfileConnectionStatus(false);
-});
-
-eventEmmiter.instance.on('connect', () => {
-	profileStore.setProfileConnectionStatus(true);
-});
-
-eventEmmiter.instance.io.on('reconnect', () => {
-	profileStore.setProfileConnectionStatus(true);
-});
-
-eventEmmiter.subscribeTo(ClientEvents.sendMessageToClient, (message: IMessage) => {
-	const isNewChat = !chatsStore.chats.find((chat) => chat.id === message.chatId);
-
-	console.log(isNewChat, 'isNewChat');
-
-	if (isNewChat) {
-		return chatsStore.fetchChats();
-	}
-
-	chatsStore.addMessage(message);
-});

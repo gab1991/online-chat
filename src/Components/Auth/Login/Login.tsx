@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import { LoginValidationSchema } from '../validation';
 import { Backdrop } from './Backdrop/Backdrop';
 import { useAuthRedirect } from 'processes/authentification/model/hooks';
-import { api } from 'shared/api';
+import { api } from 'shared/api/rest';
 import { profileStore } from 'shared/model/store';
 import { Checkbox, FadingLinesSpinner, GradientButton, HumanSvg, KeySvg, TransparentInput } from 'shared/ui';
 
