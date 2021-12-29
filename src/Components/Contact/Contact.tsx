@@ -3,7 +3,7 @@ import React from 'react';
 // import { IContact } from '../../shared/types';
 import PropTypes from 'prop-types';
 
-import { makeAvatarUrlPath } from '../../Backend/Backend';
+// import { makeAvatarUrlPath } from '../../Backend/Backend';
 import { Avatar } from 'shared/ui';
 
 import styles from './Contact.module.scss';
