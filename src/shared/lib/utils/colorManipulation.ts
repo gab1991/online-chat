@@ -6,7 +6,7 @@ type TColorMap = {
 	r: string | number;
 };
 
-function hexToRGB(h: string, delta = 0) {
+function hexToRGB(h: string, delta = 0): string {
 	const color: TColorMap = { b: 0, g: 0, r: 0 };
 
 	if (h.length === 4) {
@@ -20,7 +20,7 @@ function hexToRGB(h: string, delta = 0) {
 	}
 
 	if (delta) {
-		const randomizer = (multiplier: number) => {
+		const randomizer = (multiplier: number): number => {
 			const sign = Math.random() < 0.5 ? -1 : 1;
 			return sign * Math.round(Math.random() * multiplier);
 		};
@@ -39,9 +39,7 @@ function hexToRGB(h: string, delta = 0) {
 	return `rgb(${+color.r}, ${+color.g}, ${+color.b})`;
 }
 
-function randomizePalette(palette: string[], delta: number) {
+export function randomizePalette(palette: string[], delta: number): string {
 	const randEl = Math.floor(Math.random() * palette.length);
 	return hexToRGB(palette[randEl], delta);
 }
-
-export { randomizePalette };
