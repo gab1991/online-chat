@@ -1,5 +1,7 @@
 import { useRef } from 'react';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
+import { CircularSpinner } from '../spinners';
 import { useGrabFocus } from 'shared/lib';
 import { EmptyBtn, EscSvg, TransparentInput } from 'shared/ui';
 import { BackArrowSvg } from 'shared/ui/icons/BackArrow';
@@ -10,11 +12,12 @@ interface ISearchBarProps {
 	onBackArrowClick: () => void;
 	onValueChange: (value: string) => void;
 	placeholder?: string;
+	showSpinner?: boolean;
 	value: string;
 }
 
 export function SearchBar(props: ISearchBarProps): JSX.Element {
-	const { onBackArrowClick, placeholder, value, onValueChange } = props;
+	const { onBackArrowClick, placeholder, value, onValueChange, showSpinner } = props;
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	useGrabFocus(inputRef);
@@ -37,7 +40,20 @@ export function SearchBar(props: ISearchBarProps): JSX.Element {
 				refProp={inputRef}
 			/>
 			<EmptyBtn>
-				<EscSvg className={styles.svgIcon} onClick={onEscArrowClick} />
+				<SwitchTransition>
+					<CSSTransition
+						key={showSpinner ? 'spinner' : 'esc'}
+						addEndListener={(node, done): void => {
+							node.addEventListener('transitionend', done, false);
+						}}
+						classNames={{ ...styles }}>
+						{showSpinner ? (
+							<CircularSpinner className={styles.svgIcon} />
+						) : (
+							<EscSvg className={styles.svgIcon} onClick={onEscArrowClick} />
+						)}
+					</CSSTransition>
+				</SwitchTransition>
 			</EmptyBtn>
 		</>
 	);

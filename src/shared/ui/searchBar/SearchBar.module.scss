@@ -17,3 +17,25 @@
 		color: inherit;
 	}
 }
+
+/*Transitions */
+
+.appear,
+.enter {
+	opacity: 0;
+}
+
+.appearActive,
+.enterActive {
+	opacity: 1;
+	transition: opacity 300ms;
+}
+
+.exitActive {
+	opacity: 0;
+	transition: opacity 300ms;
+}
+
+.exitDone {
+	opacity: 0;
+}
