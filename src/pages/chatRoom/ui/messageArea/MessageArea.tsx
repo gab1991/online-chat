@@ -6,11 +6,12 @@ import { observer } from 'mobx-react';
 import { IChat } from 'shared/types';
 
 import { Message } from '../';
+import { FoundMsgsFloater } from '../foundMsgsFloater';
 import { ChatsContextProvider } from 'pages/chatRoom/model/context';
 import { useTraverseFoundMsgs } from 'pages/chatRoom/model/hooks';
 import { useScroll } from 'shared/lib';
 import { chatsStore, profileStore } from 'shared/model/store';
-import { ArrowSvg, EmptyBtn, GradientBlock, GradientButton } from 'shared/ui';
+import { ArrowSvg, GradientButton } from 'shared/ui';
 
 import styles from './MessageArea.module.scss';
 
@@ -73,15 +74,10 @@ export const MessageArea = observer((props: IMessageAreaProps) => {
 					</GradientButton>
 				)}
 				{showMsgSearch && (
-					<GradientBlock className={styles.foundSelector}>
-						<EmptyBtn className={styles.arrowBtn} onClick={selectNext}>
-							<ArrowSvg className={styles.arrowSvg} />
-						</EmptyBtn>
-						{`${stats.current} of ${stats.total}`}
-						<EmptyBtn className={styles.arrowBtn} onClick={selectPrev}>
-							<ArrowSvg className={cn(styles.arrowSvg, styles.arrowSvg_reverted)} />
-						</EmptyBtn>
-					</GradientBlock>
+					<FoundMsgsFloater
+						className={styles.foundSelector}
+						onLeftArrowClick={selectPrev}
+						onRightArrowClick={selectNext}>{`${stats.current} of ${stats.total}`}</FoundMsgsFloater>
 				)}
 			</div>
 		</CSSTransition>
