@@ -27,6 +27,7 @@ export function useSearchMessages(): IUseSearchMessages {
 		setIsSearching(true);
 		setSearchValue(value);
 		debouncedSearch(value);
+		chatsStore.fillFoundMessages([]);
 	};
 
 	return { isSearching, onChange, searchValue };
