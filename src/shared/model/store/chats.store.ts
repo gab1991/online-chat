@@ -10,6 +10,7 @@ class ChatsStore {
 	chats: IChat[] = [];
 	lastSeenMsgs: ILastSeenMsg[] = [];
 	chatMessageMap: ChatMessagesMap = {};
+	searchMsgStr = '';
 
 	constructor(private chatApiService: ChatApiService, private lastSeenMsgService: LastSeenMsgApiService) {
 		makeAutoObservable(this);
@@ -101,6 +102,16 @@ class ChatsStore {
 		}
 
 		return exitingMessages.length;
+	}
+
+	getFoundMsgsInChat(chatId: number): IMessage[] {
+		const exitingMessages: IMessage[] | undefined = this.chatMessageMap[chatId];
+
+		return exitingMessages || [];
+	}
+
+	setSearchMsgStr(value: string): void {
+		this.searchMsgStr = value;
 	}
 }
 

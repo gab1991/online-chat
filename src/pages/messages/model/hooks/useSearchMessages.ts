@@ -19,6 +19,7 @@ export function useSearchMessages(): IUseSearchMessages {
 		setIsSearching(false);
 
 		chatsStore.fillFoundMessages(foundMessages || []);
+		chatsStore.setSearchMsgStr(searchStr);
 	};
 
 	const debouncedSearch = useDebounce(search, 500);

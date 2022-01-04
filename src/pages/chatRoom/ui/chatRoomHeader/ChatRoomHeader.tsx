@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 
 import { IChat } from 'shared/types';
 
-import { profileStore } from 'shared/model/store';
+import { chatsStore, profileStore } from 'shared/model/store';
 import { SearchBar } from 'shared/ui';
 
 import styles from './ChatRoomHeader.module.scss';
@@ -16,9 +16,9 @@ interface IChatRoomHeader {
 
 export const ChatRoomHeader = observer((props: IChatRoomHeader) => {
 	const { chat } = props;
-	const [inputValue, setInputValue] = useState('');
+	const [inputValue, setInputValue] = useState(chatsStore.searchMsgStr);
 
-	const [showSearchBar, setShowSearchBar] = useState(false);
+	const [showSearchBar, setShowSearchBar] = useState(!!chatsStore.searchMsgStr);
 
 	const chatParticipant = chat.participants.find((participant) => participant.id !== profileStore.profile.id);
 

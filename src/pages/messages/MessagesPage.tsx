@@ -11,7 +11,10 @@ import styles from './MessagesPage.module.scss';
 
 export const MessagesPage = observer(() => {
 	useEffect(() => {
-		return (): void => messagePagestore.setShowMenu(false);
+		return (): void => {
+			messagePagestore.setShowMenu(false);
+			messagePagestore.setShowSearchHeader(false);
+		};
 	}, []);
 
 	return (

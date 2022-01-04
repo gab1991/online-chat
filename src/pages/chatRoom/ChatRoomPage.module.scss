@@ -1,3 +1,5 @@
+@import '../../Configs/Variables.module.scss';
+
 .chatRoomPage {
 	height: 100vh;
 	display: flex;
@@ -20,27 +22,56 @@
 	&_leftCornered {
 		align-self: flex-start;
 	}
+
+	&_selected {
+		color: $font-color-main;
+		background-color: gray;
+	}
 }
 
-.newMessagePopUp {
+.middleBottomFloater {
 	position: absolute;
 	white-space: nowrap;
 	bottom: 100px;
 	left: 50%;
+	transform: translate(-50%);
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.newMessagePopUp {
+	@extend .middleBottomFloater;
 	animation: pulse 1s infinite alternate;
+	svg {
+		margin: 0.5rem;
+	}
+}
+
+.foundSelector {
+	@extend .middleBottomFloater;
+
+	button {
+		display: flex;
+		align-items: center;
+	}
 }
 
 .arrowSvg {
 	height: 1rem;
 	width: 1rem;
-	margin-left: 0.5rem;
 
 	path {
 		fill: currentColor;
 	}
+
+	&_reverted {
+		transform: rotate(180deg);
+	}
+}
+
+.arrowBtn {
+	margin: 0.5rem;
 }
 
 @keyframes pulse {
