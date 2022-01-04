@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
+import { CSSTransition } from 'react-transition-group';
 import cn from 'classnames';
 import { observer } from 'mobx-react';
 
@@ -42,27 +43,29 @@ export const ChatRoomPage = observer(() => {
 	return (
 		<div className={styles.chatRoomPage}>
 			<ChatRoomHeader chat={chat} />
-			<div className={styles.messageArea} ref={msgAreaRef}>
-				<ChatsContextProvider chatId={chat.id}>
-					{chat.messages.map((msg) => {
-						const isCurrentUserMsg = msg.senderId === profileId;
-						return (
-							<Message
-								key={msg.id}
-								message={msg}
-								className={cn(styles.message, { [styles.message_leftCornered]: !isCurrentUserMsg })}
-								leftCornered={!isCurrentUserMsg}
-								msgsContainerRef={msgAreaRef}
-							/>
-						);
-					})}
-				</ChatsContextProvider>
-				{isDisplayingNewMsgBtn && (
-					<GradientButton className={styles.newMessagePopUp} onClick={onNewMessagesClick}>
-						New Messages <ArrowSvg className={styles.arrowSvg} />
-					</GradientButton>
-				)}
-			</div>
+			<CSSTransition timeout={500} classNames={{ ...styles }} in={true} unmountOnExit appear>
+				<div className={styles.messageArea} ref={msgAreaRef}>
+					<ChatsContextProvider chatId={chat.id}>
+						{chat.messages.map((msg) => {
+							const isCurrentUserMsg = msg.senderId === profileId;
+							return (
+								<Message
+									key={msg.id}
+									message={msg}
+									className={cn(styles.message, { [styles.message_leftCornered]: !isCurrentUserMsg })}
+									leftCornered={!isCurrentUserMsg}
+									msgsContainerRef={msgAreaRef}
+								/>
+							);
+						})}
+					</ChatsContextProvider>
+					{isDisplayingNewMsgBtn && (
+						<GradientButton className={styles.newMessagePopUp} onClick={onNewMessagesClick}>
+							New Messages <ArrowSvg className={styles.arrowSvg} />
+						</GradientButton>
+					)}
+				</div>
+			</CSSTransition>
 			<TypingFooter chatId={chat.id} profileId={profileId} />
 		</div>
 	);
