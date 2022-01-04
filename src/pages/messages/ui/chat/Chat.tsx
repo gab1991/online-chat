@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 
 import { IChat, IMessage } from 'shared/types';
 
+import { messagePagestore } from 'pages/messages/model/store';
 import { getHHMMtime } from 'shared/lib';
 import { chatsStore, profileStore } from 'shared/model/store';
 import { Avatar } from 'shared/ui';
@@ -20,7 +21,14 @@ export const Chat = observer((props: IChatProps) => {
 
 	const chatParticipant = chat.participants.find((participant) => participant.id !== profileStore.profile.id);
 	const lastMsg: IMessage | undefined = chat.messages[chat.messages.length - 1];
+
 	const unseenCount = chatsStore.getUnseenMsgCount(chat.id);
+	const foundCount = chatsStore.getFoundMsgCountInChat(chat.id);
+	const isSearchMode = messagePagestore.isSearchMode;
+
+	if (isSearchMode && foundCount === null) {
+		return null;
+	}
 
 	return (
 		<Link className={cn(styles.chat, className)} to={`chats/${chat.id}`} {...htmlProps}>
@@ -31,6 +39,7 @@ export const Chat = observer((props: IChatProps) => {
 				<p className={styles.time}>
 					{getHHMMtime(lastMsg.createdAt)}
 					{!!unseenCount && <span className={styles.unseenCounter}>{unseenCount}</span>}
+					{!!foundCount && isSearchMode && <span className={styles.foundCounter}>{foundCount}</span>}
 				</p>
 			)}
 		</Link>

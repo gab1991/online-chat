@@ -52,3 +52,8 @@
 	border-radius: 50%;
 	transform: translate(-50%, 5px);
 }
+
+.foundCounter {
+	@extend .unseenCounter;
+	background-color: gray;
+}

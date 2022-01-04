@@ -9,3 +9,5 @@ export interface IMessage {
 
 	senderId: number;
 }
+
+export type ChatMessagesMap = Record<string, IMessage[]>;

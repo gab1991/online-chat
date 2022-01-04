@@ -1,13 +1,15 @@
 import { makeAutoObservable } from 'mobx';
 
-import { IChat, IMessage } from 'shared/types';
+import { ChatMessagesMap, IChat, IMessage } from 'shared/types';
 import { ILastSeenMsg } from 'shared/types/lastSeenMsg';
 
+import { createChatMessageMap } from '../helpers';
 import { api, ChatApiService, LastSeenMsgApiService } from 'shared/api/rest';
 
 class ChatsStore {
 	chats: IChat[] = [];
 	lastSeenMsgs: ILastSeenMsg[] = [];
+	chatMessageMap: ChatMessagesMap = {};
 
 	constructor(private chatApiService: ChatApiService, private lastSeenMsgService: LastSeenMsgApiService) {
 		makeAutoObservable(this);
@@ -85,6 +87,20 @@ class ChatsStore {
 	getLastSeenMsgIdInChat(chatId: number): number | null {
 		const lastSeenChatMsgs = this.lastSeenMsgs.find((lastSeenMsg) => lastSeenMsg.chatId === chatId);
 		return lastSeenChatMsgs?.msgId || null;
+	}
+
+	fillFoundMessages(messages: IMessage[]): void {
+		this.chatMessageMap = createChatMessageMap(messages);
+	}
+
+	getFoundMsgCountInChat(chatId: number): number | null {
+		const exitingMessages: IMessage[] | undefined = this.chatMessageMap[chatId];
+
+		if (!exitingMessages) {
+			return null;
+		}
+
+		return exitingMessages.length;
 	}
 }
 
