@@ -35,9 +35,12 @@
 
 .newMessagePopUp {
 	@extend .middleBottomFloater;
+
+	padding: 1rem;
 	animation: pulse 1s infinite alternate;
+
 	svg {
-		margin: 0.5rem;
+		margin-left: 0.5rem;
 	}
 }
 
