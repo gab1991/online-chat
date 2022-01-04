@@ -22,6 +22,10 @@ export function useTraverseFoundMsgs(ids: number[]): IUseTraverseFoundMsgs {
 	};
 
 	useEffect(() => {
+		setSelected(lastElm);
+	}, [lastElm]);
+
+	useEffect(() => {
 		selected && scrollSelected(selected);
 	}, [selected]);
 

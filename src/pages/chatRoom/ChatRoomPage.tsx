@@ -35,6 +35,7 @@ export const ChatRoomPage = observer(() => {
 	}, [scrollToBottom]);
 
 	const foundMsgs = chatsStore.getFoundMsgsInChat(chat?.id || 0);
+	const showMsgSearch = !!chatsStore.searchMsgStr;
 
 	const { selected, selectPrev, selectNext, stats } = useTraverseFoundMsgs(foundMsgs.map((ms) => ms.id));
 
@@ -60,7 +61,7 @@ export const ChatRoomPage = observer(() => {
 									message={msg}
 									className={cn(styles.message, {
 										[styles.message_leftCornered]: !isCurrentUserMsg,
-										[styles.message_selected]: selected === msg.id,
+										[styles.message_selected]: showMsgSearch && selected === msg.id,
 									})}
 									leftCornered={!isCurrentUserMsg}
 									msgsContainerRef={msgAreaRef}
@@ -73,15 +74,17 @@ export const ChatRoomPage = observer(() => {
 							New Messages <ArrowSvg className={styles.arrowSvg} />
 						</GradientButton>
 					)}
-					<GradientBlock className={styles.foundSelector}>
-						<EmptyBtn className={styles.arrowBtn} onClick={selectNext}>
-							<ArrowSvg className={styles.arrowSvg} />
-						</EmptyBtn>
-						{`${stats.current} of ${stats.total}`}
-						<EmptyBtn className={styles.arrowBtn} onClick={selectPrev}>
-							<ArrowSvg className={cn(styles.arrowSvg, styles.arrowSvg_reverted)} />
-						</EmptyBtn>
-					</GradientBlock>
+					{showMsgSearch && (
+						<GradientBlock className={styles.foundSelector}>
+							<EmptyBtn className={styles.arrowBtn} onClick={selectNext}>
+								<ArrowSvg className={styles.arrowSvg} />
+							</EmptyBtn>
+							{`${stats.current} of ${stats.total}`}
+							<EmptyBtn className={styles.arrowBtn} onClick={selectPrev}>
+								<ArrowSvg className={cn(styles.arrowSvg, styles.arrowSvg_reverted)} />
+							</EmptyBtn>
+						</GradientBlock>
+					)}
 				</div>
 			</CSSTransition>
 			<TypingFooter chatId={chat.id} profileId={profileId} />
