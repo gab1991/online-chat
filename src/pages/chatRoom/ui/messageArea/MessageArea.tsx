@@ -68,7 +68,11 @@ export const MessageArea = observer((props: IMessageAreaProps) => {
 
 	return (
 		<CSSTransition timeout={500} classNames={{ ...styles }} in={true} unmountOnExit appear>
-			<div className={styles.messageArea} ref={msgAreaRef} onWheel={onMessageAreaWheel}>
+			<div
+				className={styles.messageArea}
+				ref={msgAreaRef}
+				onWheel={onMessageAreaWheel}
+				onTouchStart={onMessageAreaWheel}>
 				{chat.messages.map((msg) => {
 					const isCurrentUserMsg = msg.senderId === profileId;
 					return (
