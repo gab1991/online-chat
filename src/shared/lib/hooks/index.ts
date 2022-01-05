@@ -4,3 +4,4 @@ export * from './useEffectCallback';
 export * from './useGrabFocus';
 export * from './useIntersectionObserver';
 export * from './useScroll';
+export * from './useTimeout';
