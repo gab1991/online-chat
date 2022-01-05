@@ -76,8 +76,6 @@ export const App = observer(() => {
 	useEffect(() => {
 		//refetch chats on recconect
 		if (profileStore.isConnected && profileStore.profile.id) {
-			throw new Error('sdfds');
-
 			chatsStore.fetchChats();
 		}
 	}, [profileStore.isConnected, profileStore.profile.id]);
