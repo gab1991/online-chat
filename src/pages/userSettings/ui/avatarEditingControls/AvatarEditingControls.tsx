@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 
 import { profileStore } from 'shared/model/store';
+import { GradientButton } from 'shared/ui';
 
 import styles from './AvatarEditingControls.module.scss';
 
@@ -12,11 +13,9 @@ export function AvatarEditingControls(): JSX.Element {
 
 	const submitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
-
 		if (!avatarRef.current) {
 			return;
 		}
-
 		//get the cropped img
 		const canvasScaled = avatarRef.current.getImageScaledToCanvas();
 
@@ -38,10 +37,7 @@ export function AvatarEditingControls(): JSX.Element {
 	};
 
 	return (
-		<form onSubmit={submitHandler}>
-			<input id="file" type="file" name="avatar" onChange={onChangeHandler} />
-			<label htmlFor="file">Pick a file</label>
-			<button type="submit">Upload</button>
+		<div className={styles.avatarEditingControls}>
 			<AvatarEditor
 				ref={avatarRef}
 				image={file || ''}
@@ -55,6 +51,17 @@ export function AvatarEditingControls(): JSX.Element {
 				scale={1.2}
 				rotate={0}
 			/>
-		</form>
+			<form onSubmit={submitHandler} className={styles.form}>
+				<GradientButton light className={styles.btn}>
+					<label>
+						Pick a file
+						<input type="file" onChange={onChangeHandler} />
+					</label>
+				</GradientButton>
+				<GradientButton light type="submit" className={styles.btn} disabled={!file}>
+					Upload
+				</GradientButton>
+			</form>
+		</div>
 	);
 }
