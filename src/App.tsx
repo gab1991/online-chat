@@ -7,8 +7,8 @@ import { ChatRoomPage, FindContactsPage, MessagesPage } from 'pages';
 
 import PropTypes, { bool, object } from 'prop-types';
 
-import AudioComponent from './Components/AudioComponent/AudioComponent';
-import Loading from './Components/Loading/Loading';
+// import AudioComponent from './Components/AudioComponent/AudioComponent';
+// import Loading from './Components/Loading/Loading';
 // import { fetchCurrentUserProfile } from './shared/model/store/Actions/actions';
 import { isEmptyObj } from './Utils/Utils';
 import { Auth } from 'Components/Auth/Auth';
@@ -26,6 +26,7 @@ configure({
 import { profile } from 'console';
 
 import { eventEmmiter } from 'shared/api';
+import { ErrorBoundary } from 'shared/ui';
 
 import styles from './App.module.scss';
 
@@ -75,26 +76,27 @@ export const App = observer(() => {
 	useEffect(() => {
 		//refetch chats on recconect
 		if (profileStore.isConnected && profileStore.profile.id) {
+			throw new Error('sdfds');
+
 			chatsStore.fetchChats();
 		}
 	}, [profileStore.isConnected, profileStore.profile.id]);
 
 	return (
-		<div className={styles.mobileRestrainer}>
-			<div className={styles.App}>
-				<Routes>
-					<Route path="auth/*" element={<Auth />} />
-					<Route
-						path="*"
-						element={
-							<AuthGuard>
-								<Route path="/" element={<MessagesPage />} />
-								<Route path="/chats/:chatID" element={<ChatRoomPage />} />
-								<Route path="/findContact" element={<FindContactsPage />} />
-							</AuthGuard>
-						}></Route>
-				</Routes>
-				{/* <Suspense fallback={<Loading />}>
+		<div className={styles.App}>
+			<Routes>
+				<Route path="auth/*" element={<Auth />} />
+				<Route
+					path="*"
+					element={
+						<AuthGuard>
+							<Route path="/" element={<MessagesPage />} />
+							<Route path="/chats/:chatID" element={<ChatRoomPage />} />
+							<Route path="/findContact" element={<FindContactsPage />} />
+						</AuthGuard>
+					}></Route>
+			</Routes>
+			{/* <Suspense fallback={<Loading />}>
 					{!isLogged.status && !isLogged.initialLoading && <Route path="/" component={Auth} />}
 					{!isLogged.status && <Route path="/" component={Auth} />}
 					{isLogged.status && (
@@ -107,7 +109,6 @@ export const App = observer(() => {
 					)} 
 				</Suspense>
 				<AudioComponent /> */}
-			</div>
 		</div>
 	);
 });
