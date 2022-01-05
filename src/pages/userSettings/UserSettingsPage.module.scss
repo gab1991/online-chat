@@ -60,3 +60,16 @@ $header-color-bottom: theme-color('epsilon');
 	padding: 2rem;
 	padding-top: 3rem;
 }
+
+.nameInput {
+	color: $font-color-secondary;
+	margin-top: 2rem;
+	font-size: 1.2rem;
+	border-bottom: 1px solid rgba(100, 95, 116, 0.5);
+	width: 90%;
+	align-self: center;
+}
+
+.saveBtn {
+	color: $font-color-main;
+}

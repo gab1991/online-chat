@@ -1,9 +1,10 @@
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react';
 
 import { AvatarEditingControls } from './ui/avatarEditingControls';
 import { profileStore } from 'shared/model/store';
-import { Avatar } from 'shared/ui';
+import { Avatar, EmptyBtn, TransparentInput } from 'shared/ui';
 
 import { EditAccordion } from './ui';
 
@@ -11,6 +12,17 @@ import styles from './UserSettingsPage.module.scss';
 
 export const UserSettingsPage = observer(() => {
 	const { displayedName, avatarUrl } = profileStore.profile;
+	const [editedDispName, setEditedDispName] = useState(displayedName);
+
+	const onDispNameChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+		setEditedDispName(e.target.value);
+	};
+
+	const showSaveBtn = displayedName !== editedDispName;
+
+	const onSaveBtnClick = (): void => {
+		profileStore.updateDispname(editedDispName);
+	};
 
 	return (
 		<div className={styles.userSettingsPage}>
@@ -18,10 +30,15 @@ export const UserSettingsPage = observer(() => {
 				<nav className={styles.nav}>
 					<div className={styles.cancelContainer}>
 						<NavLink to="/" className={styles.cancel}>
-							Cancel
+							Back
 						</NavLink>
 					</div>
 					<h2 className={styles.editProfile}>Edit Profile</h2>
+					{showSaveBtn && (
+						<EmptyBtn className={styles.saveBtn} onClick={onSaveBtnClick}>
+							Save
+						</EmptyBtn>
+					)}
 				</nav>
 				<Avatar text={displayedName} imgSrc={avatarUrl} className={styles.avatar} />
 			</section>
@@ -44,7 +61,9 @@ export const UserSettingsPage = observer(() => {
 							{(open): JSX.Element => (
 								<>
 									<EditAccordion.Clickable isOpen={open}>Edit Displayed Name</EditAccordion.Clickable>
-									<EditAccordion.Foldable>disp name editing</EditAccordion.Foldable>
+									<EditAccordion.Foldable>
+										<TransparentInput value={editedDispName} className={styles.nameInput} onChange={onDispNameChange} />
+									</EditAccordion.Foldable>
 								</>
 							)}
 						</EditAccordion>

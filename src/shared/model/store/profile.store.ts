@@ -56,6 +56,14 @@ class ProfileStore {
 			this.fillProfile(curProfile);
 		}
 	}
+
+	async updateDispname(dispName: string): Promise<void> {
+		const { data: curProfile } = await this.profileService.updateDisplayedName(this.profile.id || 0, dispName);
+
+		if (curProfile) {
+			this.fillProfile(curProfile);
+		}
+	}
 }
 
 export const profileStore = new ProfileStore(api.profileApiService);

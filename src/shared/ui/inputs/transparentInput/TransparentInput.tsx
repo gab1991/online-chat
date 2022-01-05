@@ -7,7 +7,7 @@ interface ITransparentInputProps extends InputHTMLAttributes<HTMLInputElement> {
 	refProp?: React.LegacyRef<HTMLInputElement>;
 }
 
-export function TransparentInput(props: ITransparentInputProps) {
+export function TransparentInput(props: ITransparentInputProps): JSX.Element {
 	const { className, refProp, ...htmlProps } = props;
 
 	return <input className={cn(styles.transparentInput, className)} ref={refProp} {...htmlProps} />;

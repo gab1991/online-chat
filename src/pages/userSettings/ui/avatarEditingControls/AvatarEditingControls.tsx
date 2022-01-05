@@ -55,10 +55,11 @@ export const AvatarEditingControls = observer((): JSX.Element => {
 			<form onSubmit={submitHandler} className={styles.form}>
 				<GradientButton light className={styles.btn} type="button">
 					<label>
-						Pick a file
 						<input type="file" onChange={onChangeHandler} />
 					</label>
+					Pick a file
 				</GradientButton>
+
 				<GradientButton light type="submit" className={styles.btn} disabled={!file}>
 					Upload
 				</GradientButton>
