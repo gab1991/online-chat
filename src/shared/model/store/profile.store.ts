@@ -29,20 +29,28 @@ class ProfileStore {
 		makeAutoObservable(this);
 	}
 
-	setProfileConnectionStatus(isConnected: boolean) {
+	setProfileConnectionStatus(isConnected: boolean): void {
 		this.isConnected = isConnected;
 	}
 
-	fillProfile(updProfile: Partial<IProfile>) {
+	fillProfile(updProfile: Partial<IProfile>): void {
 		this.profile = { ...this.profile, ...updProfile };
 	}
 
-	clearProfile() {
+	clearProfile(): void {
 		this.profile = profileInitialState;
 	}
 
-	async fetchCurrentProfile() {
+	async fetchCurrentProfile(): Promise<void> {
 		const { data: curProfile } = await this.profileService.getCurrentUserProfile();
+
+		if (curProfile) {
+			this.fillProfile(curProfile);
+		}
+	}
+
+	async uploadAvatar(formData: FormData): Promise<void> {
+		const { data: curProfile } = await this.profileService.uploadAvatar(formData, this.profile.id || 0);
 
 		if (curProfile) {
 			this.fillProfile(curProfile);

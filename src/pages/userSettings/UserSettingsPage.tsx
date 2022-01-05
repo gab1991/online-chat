@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react';
 
+import { AvatarEditingControls } from './ui/avatarEditingControls';
 import { profileStore } from 'shared/model/store';
 import { Avatar } from 'shared/ui';
 
@@ -31,7 +32,9 @@ export const UserSettingsPage = observer(() => {
 							{(open): JSX.Element => (
 								<>
 									<EditAccordion.Clickable isOpen={open}>Edit Avatar</EditAccordion.Clickable>
-									<EditAccordion.Foldable>avatar editing</EditAccordion.Foldable>
+									<EditAccordion.Foldable>
+										<AvatarEditingControls />
+									</EditAccordion.Foldable>
 								</>
 							)}
 						</EditAccordion>

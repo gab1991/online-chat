@@ -44,6 +44,20 @@ export class ProfileApiService extends Api {
 			return { data: null, error: 'something went wrong try again later' };
 		}
 	}
+
+	async uploadAvatar(fileContainigForm: FormData, id: number): TApiResponse<ICurrentUserProfile> {
+		try {
+			const { data } = await this.executeReq<ICurrentUserProfile, FormData>({
+				data: fileContainigForm,
+				method: 'POST',
+				url: `api/profiles/${id}/uploadAvatar`,
+			});
+
+			return { data };
+		} catch (err) {
+			return { data: null, error: 'something went wrong try again later' };
+		}
+	}
 }
 
 export const profileApiService = new ProfileApiService();
