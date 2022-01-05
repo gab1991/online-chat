@@ -1,12 +1,13 @@
 import { useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
+import { observer } from 'mobx-react';
 
 import { profileStore } from 'shared/model/store';
 import { GradientButton } from 'shared/ui';
 
 import styles from './AvatarEditingControls.module.scss';
 
-export function AvatarEditingControls(): JSX.Element {
+export const AvatarEditingControls = observer((): JSX.Element => {
 	const avatarRef = useRef<AvatarEditor>(null);
 	const avatarCanvasSide = 150;
 	const [file, setFile] = useState<File>();
@@ -52,7 +53,7 @@ export function AvatarEditingControls(): JSX.Element {
 				rotate={0}
 			/>
 			<form onSubmit={submitHandler} className={styles.form}>
-				<GradientButton light className={styles.btn}>
+				<GradientButton light className={styles.btn} type="button">
 					<label>
 						Pick a file
 						<input type="file" onChange={onChangeHandler} />
@@ -64,4 +65,4 @@ export function AvatarEditingControls(): JSX.Element {
 			</form>
 		</div>
 	);
-}
+});
