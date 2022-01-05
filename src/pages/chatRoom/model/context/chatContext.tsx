@@ -13,7 +13,8 @@ interface IChatsContextProviderProps {
 
 interface IChatsContext {
 	lastSeenMsgId: number | null;
-	setMessageAsSeen(messageId: number): void;
+	oldestVisible: number;
+	setVisibility(messageId: number, isVisible: boolean): void;
 }
 
 const DEFAULT_DELAY_MS = 500;
@@ -22,6 +23,8 @@ export const ChatsContextProvider = observer((props: IChatsContextProviderProps)
 	const { chatId, children } = props;
 
 	const [lastestSeenMsgId, setLatestSeenMsgId] = useState(0);
+	const [currentlyVisible, setCurrentlyVisible] = useState<number[]>([]);
+	const [oldestVisible, setOldestVisibile] = useState(0);
 	const lastSeenMsgId = chatsStore.getLastSeenMsgIdInChat(chatId);
 
 	const setMessageAsSeen = (messageId: number): void => {
@@ -42,7 +45,24 @@ export const ChatsContextProvider = observer((props: IChatsContextProviderProps)
 		}
 	}, [lastestSeenMsgId, lastSeenMsgId, setLastSeenMsgDebouncedMemo]);
 
-	return <ChatsContext.Provider value={{ lastSeenMsgId, setMessageAsSeen }}>{children}</ChatsContext.Provider>;
+	useEffect(() => {
+		const sorted = currentlyVisible.sort((a, b) => a - b);
+		const newOldetVisible = sorted[0];
+		newOldetVisible && setOldestVisibile(newOldetVisible);
+	}, [currentlyVisible]);
+
+	const setVisibility = (messageId: number, isVisible: boolean): void => {
+		if (isVisible) {
+			setCurrentlyVisible((prev) => [...prev, messageId]);
+			setMessageAsSeen(messageId);
+		} else {
+			setCurrentlyVisible((prev) => prev.filter((visibleMessage) => messageId !== visibleMessage));
+		}
+	};
+
+	return (
+		<ChatsContext.Provider value={{ lastSeenMsgId, oldestVisible, setVisibility }}>{children}</ChatsContext.Provider>
+	);
 });
 
 export function useChatsContext(): IChatsContext {

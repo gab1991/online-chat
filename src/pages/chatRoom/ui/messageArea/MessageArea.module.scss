@@ -53,6 +53,12 @@
 	}
 }
 
+.dateFloater {
+	@extend .middleBottomFloater;
+	bottom: auto;
+	padding: 0.5rem;
+}
+
 .arrowSvg {
 	height: 1rem;
 	width: 1rem;

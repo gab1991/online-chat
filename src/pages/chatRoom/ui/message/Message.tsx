@@ -16,18 +16,18 @@ interface IMessageProps extends HTMLAttributes<HTMLDivElement> {
 
 export function Message(props: IMessageProps): JSX.Element {
 	const { message, className, leftCornered, msgsContainerRef, ...htmlProps } = props;
-	const { setMessageAsSeen, lastSeenMsgId } = useChatsContext();
+	const { setVisibility, lastSeenMsgId } = useChatsContext();
 	const isConvPartnerMsgSeen = lastSeenMsgId && leftCornered && lastSeenMsgId >= message.id;
 
 	const msgRef = useRef<HTMLParagraphElement>(null);
 
 	const { isVisible } = useIntersectionObserver({ parentRef: msgsContainerRef, ref: msgRef });
 
-	const setMessageAsSeenMemo = useEffectCallback(setMessageAsSeen);
+	const setVisibilityMemo = useEffectCallback(setVisibility);
 
 	useEffect(() => {
-		isVisible && setMessageAsSeenMemo(message.id);
-	}, [isVisible, setMessageAsSeenMemo, message.id]);
+		setVisibilityMemo(message.id, isVisible);
+	}, [isVisible, setVisibilityMemo, message.id]);
 
 	return (
 		<p
