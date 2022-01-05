@@ -3,7 +3,7 @@ import { connect, useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import { autorun, configure } from 'mobx';
 import { observer } from 'mobx-react';
-import { ChatRoomPage, FindContactsPage, MessagesPage } from 'pages';
+import { Auth, ChatRoomPage, FindContactsPage, MessagesPage } from 'pages';
 
 import PropTypes, { bool, object } from 'prop-types';
 
@@ -11,7 +11,7 @@ import PropTypes, { bool, object } from 'prop-types';
 // import Loading from './Components/Loading/Loading';
 // import { fetchCurrentUserProfile } from './shared/model/store/Actions/actions';
 // import { isEmptyObj } from './Utils/Utils';
-import { Auth } from 'Components/Auth/Auth';
+// import { Auth } from 'Components/Auth/Auth';
 import { AuthGuard } from 'processes/authentification';
 import { chatsStore, profileStore } from 'shared/model/store';
 
