@@ -10,7 +10,7 @@ import PropTypes, { bool, object } from 'prop-types';
 // import AudioComponent from './Components/AudioComponent/AudioComponent';
 // import Loading from './Components/Loading/Loading';
 // import { fetchCurrentUserProfile } from './shared/model/store/Actions/actions';
-import { isEmptyObj } from './Utils/Utils';
+// import { isEmptyObj } from './Utils/Utils';
 import { Auth } from 'Components/Auth/Auth';
 import { AuthGuard } from 'processes/authentification';
 import { chatsStore, profileStore } from 'shared/model/store';

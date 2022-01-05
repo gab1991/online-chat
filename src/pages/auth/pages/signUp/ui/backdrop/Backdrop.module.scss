@@ -1,0 +1,80 @@
+@import '../../../../Configs/Variables.module.scss';
+
+$backgroung-color: theme-color('background');
+
+.backdrop {
+	z-index: -1;
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	overflow: hidden;
+	background-color: $backgroung-color;
+}
+
+.mainPlaner {
+	position: absolute;
+	width: 100%;
+	left: -10%;
+	top: -13%;
+	animation: MainPlanetMove 6s infinite alternate;
+}
+
+.middlePlanet {
+	position: absolute;
+	width: 30%;
+	left: -3%;
+	top: -3%;
+}
+
+.ringPlanet {
+	position: absolute;
+	width: 90%;
+	top: -6%;
+	left: 1%;
+	transform-origin: center;
+	animation: RingSpinning 30s infinite alternate;
+}
+
+.smallPlanet {
+	position: absolute;
+	width: 17%;
+	top: 30%;
+	left: 5%;
+	animation: SmallPlanetMove 15s infinite alternate;
+}
+
+.tinyPlanet {
+	position: absolute;
+	width: 5%;
+	left: 75%;
+	top: 10%;
+}
+
+@keyframes MainPlanetMove {
+	from {
+		transform: translateY(0) translateX(0);
+	}
+	to {
+		transform: translateY(5%) translateX(1%);
+	}
+}
+
+@keyframes RingSpinning {
+	from {
+		transform: rotate(0) translateX(0);
+	}
+	to {
+		transform: rotate(360deg) translateX(5%);
+	}
+}
+
+@keyframes SmallPlanetMove {
+	from {
+		transform: translateY(0) translateX(0);
+	}
+	to {
+		transform: translateY(30%) translateX(100%);
+	}
+}
