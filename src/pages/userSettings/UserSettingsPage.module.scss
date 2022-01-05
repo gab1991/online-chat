@@ -1,0 +1,62 @@
+@import '../../Configs/Variables.module.scss';
+
+$header-color-top: theme-color('gamma');
+$header-color-middle: theme-color('delta');
+$header-color-bottom: theme-color('epsilon');
+
+.userSettingsPage {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+
+.avatarSection {
+	height: 30%;
+	min-height: 300px;
+	background: linear-gradient(
+		180deg,
+		rgba($header-color-top, 0.9) 41.67%,
+		rgba($header-color-middle, 0.897348) 72.92%,
+		rgba($header-color-bottom, 0.891) 100%
+	);
+}
+
+.nav {
+	margin-top: 2.5rem;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	white-space: nowrap;
+}
+
+.cancelContainer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.cancel {
+	text-decoration: none;
+
+	color: $font-color-main;
+}
+
+.editProfile {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: normal;
+	font-size: 1.6rem;
+	color: $font-color-main;
+}
+
+.avatar {
+	margin: auto;
+	margin-top: 3rem;
+	width: 9rem;
+}
+
+.settings {
+	padding: 2rem;
+	padding-top: 3rem;
+}

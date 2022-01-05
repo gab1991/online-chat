@@ -26,7 +26,7 @@ export const NavPanel = observer((props: HTMLAttributes<HTMLUListElement>) => {
 		{
 			icon: CogSvg,
 			text: 'Settings',
-			to: '/userSettings',
+			to: '/settings',
 		},
 		{
 			icon: ExitSvg,
