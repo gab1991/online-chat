@@ -64,7 +64,7 @@ export const Login = observer((props: ILoginProps) => {
 		<div className={styles.loginPage}>
 			<Backdrop />
 			<h1 className={styles.header}>Log In</h1>
-			<h3 className={styles.subHeader}>TO CONTINUE</h3>
+			<h2 className={styles.subHeader}>TO CONTINUE</h2>
 			<form className={styles.form} onSubmit={formik.handleSubmit}>
 				{inputs.map((input) => (
 					<label className={styles.label} key={input.name}>

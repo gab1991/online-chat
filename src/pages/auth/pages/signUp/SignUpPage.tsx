@@ -100,7 +100,7 @@ export function SignUp(props: ISignUpProps): JSX.Element {
 		<div className={styles.signUpPage}>
 			<Backdrop />
 			<h1 className={styles.header}>SignUp</h1>
-			<h3 className={styles.subHeader}>TO CONTINUE</h3>
+			<h2 className={styles.subHeader}>TO CONTINUE</h2>
 			<form className={styles.form} onSubmit={formik.handleSubmit}>
 				{inputs.map((input) => (
 					<label className={styles.label} key={input.name}>
