@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { Auth, ChatRoomPage, FindContactsPage, MessagesPage, UserSettingsPage } from 'pages';
 
 import 'shared/model/store/reactions';
-import 'Configs/mobx.config';
+import 'configs/mobx.config';
 import { AuthGuard } from 'processes/authentification';
 import { profileStore } from 'shared/model/store';
 

@@ -22,7 +22,7 @@ export interface IAvatarProps extends HTMLAttributes<HTMLDivElement> {
 
 const paletteRandomizeGrain = 10;
 
-export function _Avatar(props: IAvatarProps) {
+export function _Avatar(props: IAvatarProps): JSX.Element {
 	const { text, imgSrc, className, color, ...htmlProps } = props;
 
 	const name = text.slice(0, 2);

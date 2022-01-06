@@ -2,7 +2,7 @@ import { io, ManagerOptions, Socket, SocketOptions } from 'socket.io-client';
 
 import { ClientEvents, ServerEvents } from './types';
 
-import { SERVER_ADRESS } from 'Configs/sever.config';
+import { SERVER_ADRESS } from 'configs/sever.config';
 
 import { IJoinChatsDto, ISendMessageEventDto, ISetIsOnlineDto } from './dto';
 
