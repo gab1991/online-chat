@@ -6,6 +6,10 @@ import { resolve } from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+	build: {
+		outDir: 'dist',
+		emptyOutDir: true,
+	},
 	resolve: {
 		alias: { '@': resolve(__dirname, 'src') },
 	},
@@ -30,5 +34,6 @@ export default defineConfig({
 			},
 		},
 	},
+
 	plugins: [tsconfigPaths(), reactPlugin(), TsChecker({ typescript: true, enableBuild: true })],
 });
