@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import sassVars from 'Configs/Variables.module.scss';
+import sassVars from 'vars.module.scss';
 
 function _TinyPlanet(props) {
 	return (

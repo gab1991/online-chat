@@ -5,7 +5,7 @@ import { makeAvatarUrlPath, randomizePalette } from 'shared/lib';
 import { Elipse } from 'shared/ui';
 
 import styles from './Avatar.module.scss';
-import sassVars from 'Configs/Variables.module.scss';
+import sassVars from 'vars.module.scss';
 
 const palette = [
 	sassVars['palette-gamma'],
