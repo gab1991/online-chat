@@ -7,6 +7,8 @@ import { App } from './App';
 
 import styles from './App.module.scss';
 
+export const IS_PROD = process.env.NODE_ENV === 'production' ? true : false;
+
 ReactDOM.render(
 	<div className={styles.mobileRestrainer}>
 		<ErrorBoundary>
