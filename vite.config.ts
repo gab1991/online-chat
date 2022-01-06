@@ -26,8 +26,9 @@ export default defineConfig({
 					// prepend new line import plus original content
 					return `@import "@/vars.module.scss";${source}`;
 				},
+				charset: false,
 			},
 		},
 	},
-	plugins: [tsconfigPaths(), reactPlugin(), TsChecker({ typescript: true })],
+	plugins: [tsconfigPaths(), reactPlugin(), TsChecker({ typescript: true, enableBuild: true })],
 });
