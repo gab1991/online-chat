@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  meteora-client:
+    container_name: meteora-client
+    image: meteora-client
+    restart: always
+    build:
+      context: .
