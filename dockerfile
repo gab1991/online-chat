@@ -1,10 +1,11 @@
 # Stage 1, build the project
-FROM node:14.5.0-alpine as build
+FROM node:16.11-alpine as build
 WORKDIR /app
-COPY package.json /app/package.json
-RUN npm install
-COPY . /app
-RUN npm build
+RUN npm i -g pnpm
+COPY package.json .
+RUN pnpm install
+COPY . .
+RUN pnpm build
 
 # Stage 2, serve the project through nginx
 FROM nginx:1.16.0-alpine
