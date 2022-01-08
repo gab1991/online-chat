@@ -6,7 +6,7 @@ type TExecReqConfig<D> = AxiosRequestConfig<D>;
 export type TApiResponse<T> = Promise<{ data: T | null; error?: string }>;
 export type TApiBaseResponse<T> = Promise<AxiosResponse<T>>;
 
-const backendUrl = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8000';
+const backendUrl = process.env.NODE_ENV === 'production' ? '/' : 'http://localhost:8000';
 
 export abstract class Api {
 	private readonly client: TApiClient;
