@@ -1,0 +1,7 @@
+.gradiendBlock {
+	min-height: 40px;
+	min-width: 150px;
+	border-radius: 20px;
+	background: linear-gradient(180deg, theme-color('epsilon') 20%, theme-color('zeta'));
+	color: $font-color-main;
+}

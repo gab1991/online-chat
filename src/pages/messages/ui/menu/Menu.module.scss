@@ -1,0 +1,30 @@
+$background-top-color: theme-color('gamma');
+$background-middle-color: theme-color('delta');
+$background-bottom-color: theme-color('epsilon');
+
+.menu {
+	color: $font-color-main;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	height: 100%;
+	width: 280px;
+	background: linear-gradient(
+		180deg,
+		$background-top-color 1.56%,
+		$background-middle-color 39.06%,
+		$background-bottom-color 100%
+	);
+	border-radius: 0px 20px 20px 0px;
+}
+
+.avatar {
+	user-select: none;
+	width: 170px;
+	margin-top: 30px;
+}
+
+.linksList {
+	margin-top: 2rem;
+	width: 50%;
+}

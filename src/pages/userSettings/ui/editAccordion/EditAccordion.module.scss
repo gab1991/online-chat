@@ -1,0 +1,29 @@
+.accordion {
+	display: flex;
+	flex-direction: column;
+}
+
+.clickable {
+	border: none;
+	background-color: transparent;
+	font-size: 1.6rem;
+	text-align: left;
+	height: 5rem;
+	color: #645f74;
+	border-bottom: 1px solid rgba(100, 95, 116, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 10px;
+}
+
+.arrowsvg {
+	width: 1rem;
+	fill: #645f74;
+	transition: all 200ms ease-in-out;
+	transform: rotate(-90deg);
+
+	&_open {
+		transform: rotate(0);
+	}
+}

@@ -1,0 +1,30 @@
+.profilePlank {
+	width: 100%;
+	display: grid;
+	grid-template-columns: max-content auto max-content;
+	grid-template-rows: auto;
+	background-color: whitesmoke;
+	height: 6rem;
+	padding: 0.8rem;
+	text-decoration: none;
+	color: $font-color-secondary;
+	border-bottom: 1px solid theme-color('delta');
+	text-align: left;
+}
+
+.avatar {
+	width: 4rem;
+	grid-row: span 2;
+}
+
+.dispNameHeader {
+	font-weight: 600;
+	margin-bottom: 0.4rem;
+	align-self: end;
+	margin-left: 1.2rem;
+}
+
+.userName {
+	grid-column: 2/3;
+	margin-left: 1.2rem;
+}

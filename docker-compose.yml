@@ -1,0 +1,15 @@
+version: "3.8"
+
+# network meteora-network should be created beforehand with backend docker running in it
+networks:
+  default:
+    external: true
+    name: meteora-network
+
+services:
+  meteora_client:
+    restart: always
+    build: .
+    ports:
+      - "8899:80"
+

@@ -1,0 +1,120 @@
+$background-color: whitesmoke;
+$header-color-top: theme-color('gamma');
+$header-color-middle: theme-color('delta');
+$header-color-bottom: theme-color('epsilon');
+$chat-section-background: theme-color('delta');
+$header-context-margin: 24px;
+$svg-arrow-side: 1.5rem;
+$svg-rect-side: 2rem;
+$spinner-color: theme-color('beta');
+
+@mixin chat-container-font {
+	color: theme-color('gamma');
+	font-weight: 600;
+}
+
+.Messages {
+	@include appHeight;
+	display: flex;
+	flex-direction: column;
+	background: $background-color;
+	position: relative;
+}
+
+.Header {
+	background: linear-gradient(
+		180deg,
+		rgba($header-color-top, 0.9) 41.67%,
+		rgba($header-color-middle, 0.897348) 72.92%,
+		rgba($header-color-bottom, 0.891) 100%
+	);
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+	height: 100px;
+	display: flex;
+	align-items: center;
+}
+
+.HeaderContent {
+	color: $font-color-main;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	margin: 0 $header-context-margin;
+
+	.HamburgerSvg {
+		cursor: pointer;
+		height: $svg-rect-side;
+		width: $svg-rect-side;
+	}
+	.LookUpSvg {
+		cursor: pointer;
+		margin-left: auto;
+		height: $svg-rect-side;
+		width: $svg-rect-side;
+	}
+
+	h3 {
+		display: inline-block;
+		margin-left: 2.5rem;
+		font-weight: 600;
+		font-size: 1.25rem;
+	}
+}
+
+.ChatsContainer {
+	overflow: auto;
+	flex: 1;
+	@include customScrollBar(6px);
+	@include chat-container-font;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-auto-rows: 100px;
+	row-gap: 2px;
+	opacity: 0;
+	animation: appear 200ms ease-in forwards;
+
+	.NothingFound {
+		font-size: 1.4rem;
+		text-align: center;
+		margin: auto;
+	}
+
+	.FindFriendBtn {
+		font-size: 1.2rem;
+		font-weight: 600;
+		font-family: $ff-main;
+		width: minmax(250px, 50%);
+		margin: auto;
+		height: 60px;
+	}
+
+	.SpinnerContainer {
+		margin: 30px auto;
+		height: 80px;
+		width: 80px;
+		svg {
+			path {
+				fill: $spinner-color;
+			}
+		}
+	}
+	@keyframes appear {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+}
+
+//new
+.slidingMenu {
+	position: absolute;
+	transform: translateX(-100%);
+	transition: all 300ms ease;
+
+	&_show {
+		transform: translateX(0%);
+	}
+}

@@ -1,0 +1,17 @@
+.transparentInput {
+	background-color: transparent;
+	border: none;
+	color: $font-color-main;
+	font-size: 1.2rem;
+	position: relative;
+
+	&:focus {
+		outline: none;
+	}
+	&:autofill {
+		background: linear-gradient(90deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+	}
+	&::placeholder {
+		color: inherit;
+	}
+}

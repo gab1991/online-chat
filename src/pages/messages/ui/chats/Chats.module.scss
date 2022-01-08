@@ -1,0 +1,26 @@
+.chats {
+	display: flex;
+	flex-direction: column;
+}
+
+/*Transitions */
+
+.appear,
+.enter {
+	opacity: 0;
+}
+
+.appearActive,
+.enterActive {
+	opacity: 1;
+	transition: opacity 1s;
+}
+
+.exitActive {
+	opacity: 0;
+	transition: opacity 1s;
+}
+
+.exitDone {
+	opacity: 0;
+}
