@@ -16,7 +16,7 @@ export const UserSettingsPage = observer(() => {
 
 	const formik = useFormik({
 		initialValues: {
-			displayedNameInput: '',
+			displayedNameInput: displayedName,
 		},
 		onSubmit: async ({ displayedNameInput }) => {
 			profileStore.updateDispname(displayedNameInput);
@@ -24,8 +24,6 @@ export const UserSettingsPage = observer(() => {
 		validateOnChange: true,
 		validationSchema: SettingsFormSchema,
 	});
-
-	console.log(formik.errors);
 
 	const showSaveBtn = displayedName !== formik.values.displayedNameInput;
 
