@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { observer } from 'mobx-react';
 
+import { SettingsFormSchema } from './model/validation';
 import { AvatarEditingControls } from './ui/avatarEditingControls';
 import { profileStore } from 'shared/model/store';
 import { Avatar, EmptyBtn, TransparentInput } from 'shared/ui';
@@ -20,7 +21,11 @@ export const UserSettingsPage = observer(() => {
 		onSubmit: async ({ displayedNameInput }) => {
 			profileStore.updateDispname(displayedNameInput);
 		},
+		validateOnChange: true,
+		validationSchema: SettingsFormSchema,
 	});
+
+	console.log(formik.errors);
 
 	const showSaveBtn = displayedName !== formik.values.displayedNameInput;
 
@@ -43,6 +48,7 @@ export const UserSettingsPage = observer(() => {
 					)}
 				</nav>
 				<Avatar text={displayedName} imgSrc={avatarUrl} className={styles.avatar} />
+				<h2 className={styles.displayedName}>{displayedName}</h2>
 			</section>
 			<section className={styles.settings}>
 				<ul>
@@ -71,6 +77,9 @@ export const UserSettingsPage = observer(() => {
 												onChange={formik.handleChange}
 												value={formik.values.displayedNameInput}
 											/>
+											{formik.errors.displayedNameInput && (
+												<p className={styles.validationError}>{formik.errors.displayedNameInput}</p>
+											)}
 										</form>
 									</EditAccordion.Foldable>
 								</>

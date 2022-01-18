@@ -1,6 +1,8 @@
 $header-color-top: theme-color('gamma');
 $header-color-middle: theme-color('delta');
 $header-color-bottom: theme-color('epsilon');
+$wrong-inpuit-background-color: theme-color('epsilon');
+$wrong-input-color: theme-color('alpha');
 
 .userSettingsPage {
 	height: 100%;
@@ -21,6 +23,8 @@ $header-color-bottom: theme-color('epsilon');
 }
 
 .form {
+	position: relative;
+
 	display: flex;
 	justify-content: center;
 	width: 100%;
@@ -76,4 +80,27 @@ $header-color-bottom: theme-color('epsilon');
 
 .saveBtn {
 	color: $font-color-main;
+}
+
+.displayedName {
+	color: $font-color-main;
+	text-align: center;
+}
+
+.validationError {
+	position: absolute;
+	background-color: $wrong-inpuit-background-color;
+	border-radius: 7px;
+	color: $wrong-input-color;
+	font-weight: 700;
+	left: 50%;
+	bottom: 0;
+	transform: translateY(125%) translateX(-50%);
+	word-wrap: break-word;
+	max-width: 100%;
+	width: max-content;
+	padding: 0.5rem;
+	font-size: 0.9rem;
+	text-align: center;
+	z-index: 2;
 }
