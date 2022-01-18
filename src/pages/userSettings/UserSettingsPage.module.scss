@@ -20,6 +20,12 @@ $header-color-bottom: theme-color('epsilon');
 	);
 }
 
+.form {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
 .nav {
 	margin-top: 2.5rem;
 	display: grid;

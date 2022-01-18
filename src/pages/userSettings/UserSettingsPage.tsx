@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useFormik } from 'formik';
 import { observer } from 'mobx-react';
 
 import { AvatarEditingControls } from './ui/avatarEditingControls';
@@ -12,17 +12,19 @@ import styles from './UserSettingsPage.module.scss';
 
 export const UserSettingsPage = observer(() => {
 	const { displayedName, avatarUrl } = profileStore.profile;
-	const [editedDispName, setEditedDispName] = useState(displayedName);
 
-	const onDispNameChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-		setEditedDispName(e.target.value);
-	};
+	const formik = useFormik({
+		initialValues: {
+			displayedNameInput: '',
+		},
+		onSubmit: async ({ displayedNameInput }) => {
+			profileStore.updateDispname(displayedNameInput);
+		},
+	});
 
-	const showSaveBtn = displayedName !== editedDispName;
+	const showSaveBtn = displayedName !== formik.values.displayedNameInput;
 
-	const onSaveBtnClick = (): void => {
-		profileStore.updateDispname(editedDispName);
-	};
+	const onSaveBtnClick = (): Promise<void> => formik.submitForm();
 
 	return (
 		<div className={styles.userSettingsPage}>
@@ -62,7 +64,14 @@ export const UserSettingsPage = observer(() => {
 								<>
 									<EditAccordion.Clickable isOpen={open}>Edit Displayed Name</EditAccordion.Clickable>
 									<EditAccordion.Foldable>
-										<TransparentInput value={editedDispName} className={styles.nameInput} onChange={onDispNameChange} />
+										<form onSubmit={formik.handleSubmit} className={styles.form}>
+											<TransparentInput
+												name="displayedNameInput"
+												className={styles.nameInput}
+												onChange={formik.handleChange}
+												value={formik.values.displayedNameInput}
+											/>
+										</form>
 									</EditAccordion.Foldable>
 								</>
 							)}
