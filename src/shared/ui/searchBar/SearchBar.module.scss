@@ -1,3 +1,10 @@
+.searchBar {
+	display: flex;
+	width: 100%;
+	justify-content: space-around;
+	align-items: center;
+}
+
 .svgIcon {
 	width: 2rem;
 	height: 2rem;
@@ -5,7 +12,7 @@
 }
 
 .input {
-	flex: 1;
+	width: 100%;
 	margin: 0 1.5rem;
 	padding: 0.375rem 0.75rem;
 	border-bottom: 2px solid #ddd;

@@ -28,7 +28,7 @@ export function SearchBar(props: ISearchBarProps): JSX.Element {
 	const onEscArrowClick = (): void => onValueChange && onValueChange('');
 
 	return (
-		<>
+		<div className={styles.searchBar}>
 			<EmptyBtn>
 				<BackArrowSvg className={styles.svgIcon} onClick={onBackArrowClick} />
 			</EmptyBtn>
@@ -55,6 +55,6 @@ export function SearchBar(props: ISearchBarProps): JSX.Element {
 					</CSSTransition>
 				</SwitchTransition>
 			</EmptyBtn>
-		</>
+		</div>
 	);
 }
