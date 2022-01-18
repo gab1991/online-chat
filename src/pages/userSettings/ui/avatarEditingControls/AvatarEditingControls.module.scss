@@ -5,7 +5,7 @@
 
 .form {
 	margin-left: 2rem;
-	width: 100%;
+	flex: 1;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
@@ -18,6 +18,7 @@
 
 .btn {
 	width: 50%;
+	min-width: max-content;
 	position: relative;
 
 	label {

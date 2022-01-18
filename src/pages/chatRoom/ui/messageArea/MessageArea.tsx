@@ -63,7 +63,7 @@ export const MessageArea = observer((props: IMessageAreaProps) => {
 	const showMsgSearch = !!chatsStore.searchMsgStr;
 
 	const onMessageAreaWheel = (): void => {
-		setShowDateFloater(true);
+		chat.messages.length && setShowDateFloater(true);
 	};
 
 	return (

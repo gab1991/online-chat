@@ -3,7 +3,7 @@ $header-color-middle: theme-color('delta');
 $header-color-bottom: theme-color('epsilon');
 
 .userSettingsPage {
-	height: 100vh;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	position: relative;
