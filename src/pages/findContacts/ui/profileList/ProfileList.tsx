@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, useEffect } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import cn from 'classnames';
 import { observer } from 'mobx-react';
@@ -10,6 +10,12 @@ import styles from './ProfileList.module.scss';
 
 export const ProfileList = observer((props: HTMLAttributes<HTMLUListElement>): JSX.Element => {
 	const { className, ...htmlProps } = props;
+
+	useEffect(() => {
+		return (): void => {
+			findContactsPageStore.setProfiles([]);
+		};
+	}, []);
 
 	return (
 		<ul className={cn(styles.profileList, className)} {...htmlProps}>
