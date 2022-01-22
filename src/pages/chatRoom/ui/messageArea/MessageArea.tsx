@@ -60,7 +60,7 @@ export const MessageArea = observer((props: IMessageAreaProps) => {
 
 	const { selected, selectPrev, selectNext, stats } = useTraverseFoundMsgs(msgIds);
 
-	const showMsgSearch = !!chatsStore.searchMsgStr;
+	const showMsgSearch = !!chatsStore.getFoundMsgsInChat(chat.id).length;
 
 	const onMessageAreaWheel = (): void => {
 		chat.messages.length && setShowDateFloater(true);
