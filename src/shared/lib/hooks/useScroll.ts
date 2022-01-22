@@ -1,10 +1,13 @@
 import React, { useCallback } from 'react';
 
 interface IUseScroll {
+	hasScroll: boolean;
 	scrollToBottom: (behavior?: ScrollBehavior) => void;
 }
 
 export function useScroll(ref: React.MutableRefObject<HTMLElement | null>): IUseScroll {
+	const hasScroll = !!ref.current && ref.current.scrollHeight > ref.current.clientHeight;
+
 	const scrollToBottom = useCallback(
 		(behavior: ScrollBehavior = 'auto'): void => {
 			if (ref.current) {
@@ -16,5 +19,5 @@ export function useScroll(ref: React.MutableRefObject<HTMLElement | null>): IUse
 		[ref],
 	);
 
-	return { scrollToBottom };
+	return { hasScroll, scrollToBottom };
 }

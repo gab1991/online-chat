@@ -31,7 +31,7 @@ export const MessageArea = observer((props: IMessageAreaProps) => {
 	const [showDateFloater, setShowDateFloater] = useState(false);
 	const { setTimeout, clearTimeout } = useTimeout();
 
-	const { scrollToBottom } = useScroll(msgAreaRef);
+	const { scrollToBottom, hasScroll } = useScroll(msgAreaRef);
 
 	useEffect(() => {
 		isLastMsgMine && scrollToBottom('smooth');
@@ -53,7 +53,7 @@ export const MessageArea = observer((props: IMessageAreaProps) => {
 	}, [setTimeout, showDateFloater, clearTimeout]);
 
 	const onNewMessagesClick = (): void => scrollToBottom('smooth');
-	const isDisplayingNewMsgBtn = !!unseenCount && !isLastMsgMine;
+	const isDisplayingNewMsgBtn = hasScroll && !!unseenCount && !isLastMsgMine;
 
 	const foundMsgs = chatsStore.getFoundMsgsInChat(chat.id || 0);
 	const msgIds = foundMsgs.map((ms) => ms.id);
