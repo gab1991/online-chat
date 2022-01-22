@@ -12,6 +12,7 @@ $backgroung-color: theme-color('background');
 }
 
 .mainPlaner {
+	will-change: transform;
 	position: absolute;
 	width: 200%;
 	left: 40%;
