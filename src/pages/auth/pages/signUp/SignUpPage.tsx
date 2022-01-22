@@ -26,7 +26,7 @@ interface ISignUpProps {
 export function SignUp(props: ISignUpProps): JSX.Element {
 	const { changeActiveScreen } = props;
 	const [isFetching, setIsFetching] = useState(false);
-	const [validateOnChange, setValidationOnChange] = useState(false);
+	const [hasBeenValidated, setHasBeenValidated] = useState(false);
 
 	useAuthRedirect();
 
@@ -59,9 +59,8 @@ export function SignUp(props: ISignUpProps): JSX.Element {
 
 			profile && profileStore.fillProfile(profile);
 		},
-		validate: () => setValidationOnChange(true),
-		validateOnBlur: true,
-		validateOnChange: validateOnChange,
+		validate: () => setHasBeenValidated(true),
+		validateOnChange: false,
 		validationSchema: SignUpValidationSchema,
 	});
 
@@ -96,12 +95,16 @@ export function SignUp(props: ISignUpProps): JSX.Element {
 		},
 	];
 
+	const onFormChange = (): void => {
+		hasBeenValidated && formik.setErrors({});
+	};
+
 	return (
 		<div className={styles.signUpPage}>
 			<Backdrop />
 			<h1 className={styles.header}>SignUp</h1>
 			<h2 className={styles.subHeader}>TO CONTINUE</h2>
-			<form className={styles.form} onSubmit={formik.handleSubmit}>
+			<form className={styles.form} onSubmit={formik.handleSubmit} onChange={onFormChange}>
 				{inputs.map((input) => (
 					<label className={styles.label} key={input.name}>
 						<input.Icon className={styles.formIcon} />
